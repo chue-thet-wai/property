@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/properties/img-delete', [PropertyController::class,'destory_img'])->name('property.img_delete');    
     Route::get('/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    
     Route::get('/owners-detail/{owner}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');    
+    Route::get('/profile', [UserController::class,'show'])->name('profile.index');    
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
 });

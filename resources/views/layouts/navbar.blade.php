@@ -40,7 +40,7 @@
             <a class="nav-link mx-2 {{ request()->routeIs('banners.*') ? 'active' : '' }}" href="{{ route('banners.index' )}}">Banners</a>     
           </li> -->
           <li class="nav-item">
-            <a class="nav-link mx-2 {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="#">Profile</a>     
+            <a class="nav-link mx-2 {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{route('profile.index')}}">Profile</a>     
           </li>
           <li class="nav-item">
               <a class="nav-link mx-2" href="{{ route('logout') }}"

@@ -17,8 +17,7 @@
         'enquirytypes' => [
             CBUY => 'BUY',
             CRENT => 'RENT'
-        ], 
-        
+        ],       
     ];
 ?>
 

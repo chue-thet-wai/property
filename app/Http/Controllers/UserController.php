@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
+use Auth;
     
 class UserController extends Controller
 {
@@ -66,10 +67,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        $user = User::find($id);
-        return view('users.show',compact('user'));
+        $user = Auth::user();
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+        return view('users.show',compact('user','roles','userRole'));
     }
     
     /**
