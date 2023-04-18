@@ -36,6 +36,7 @@ class TblProperty extends Model
         'builtyear',
         'created_by',
         'updated_by',
+        'owner_id',
     ];
 
 }

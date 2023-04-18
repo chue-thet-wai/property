@@ -36,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
             $view->with('categories',config('constants.categories'));
             $view->with('protypes',config('constants.protypes'));
             $view->with('features',config('constants.features'));
+            $view->with('enquirytypes',config('constants.enquirytypes'));
+        });
+        
+        view()->composer('customers.*',function($view){
+            $view->with('enquirytypes',config('constants.enquirytypes'));
         });
 
     }

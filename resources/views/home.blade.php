@@ -4,5 +4,5 @@
     Dashboard
 @endsection
 @section('cardbody')
-    {{ __('You are logged in!') }}
+    {{ __('WELCOME!') }}
 @endsection

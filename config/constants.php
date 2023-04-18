@@ -14,6 +14,10 @@
             CONERUNIT => 'Corner Unit',
             HIGHFLOOR => 'High Floor'
         ], 
+        'enquirytypes' => [
+            CBUY => 'BUY',
+            CRENT => 'RENT'
+        ], 
         
     ];
 ?>

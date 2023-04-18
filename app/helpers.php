@@ -13,4 +13,8 @@
     define('CONERUNIT', 'CU');
     define('HIGHFLOOR', 'HF');
 
+    //customer enquiry type
+    define('CBUY', 'B');
+    define('CRENT', 'R');
+
 ?>		

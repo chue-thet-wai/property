@@ -11,10 +11,15 @@
         <ul class="navbar-nav ms-auto ">
           <!-- <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('home') ? 'active' : '' }}"  aria-current="page" href="{{route('home')}}">Home</a>
-          </li> -->
-          
+          </li> -->          
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('properties.*') ? 'active' : '' }}" href="{{route('properties.index')}}">Properties</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mx-2 {{ request()->routeIs('customers.*') ? 'active' : '' }}" href="{{route('customers.index')}}">Customers Enquiry</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mx-2 {{ request()->routeIs('owners.*') ? 'active' : '' }}" href="{{route('owners.index')}}">Owners</a>
           </li>
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a>
@@ -22,23 +27,30 @@
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index')}}">Roles & Permissions</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('posts.*') ? 'active' : '' }}" href="#">Post</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-2 {{ request()->routeIs('customers.*') ? 'active' : '' }}" href="#">Customer Enquiry</a>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('sales.*') ? 'active' : '' }}" href="#">Sale ( Sell / Rent )</a>            
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('systemlogs.*') ? 'active' : '' }}" href="#">System Log (staff performance log)</a>            
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('banners.*') ? 'active' : '' }}" href="{{ route('banners.index' )}}">Banners</a>     
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="#">Profile</a>     
+          </li>
+          <li class="nav-item">
+              <a class="nav-link mx-2" href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+            </a>     
           </li>
         </ul>
       </div>

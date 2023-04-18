@@ -33,13 +33,11 @@
       @endif
     </td>
     <td>
-       <a href="{{ route('users.show',$user->id) }}"><i class="fa-regular fa-eye"></i> Show</a>
-       <a class="px-3" href="{{ route('users.edit',$user->id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-<!--        
-       <i class="fa-regular fa-trash-can"></i>
+       <a class="px-3 btn btn-primary" href="{{ route('users.edit',$user->id) }}"> Edit</a>    
+       
        {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-            {!! Form::submit('Delete', ['class' => 'border-0']) !!}
-        {!! Form::close() !!} -->
+            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+        {!! Form::close() !!}
     </td>
   </tr>
  @endforeach

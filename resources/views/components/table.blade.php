@@ -3,10 +3,10 @@
         <div class="table-responsive">
             <table class="table align-middle table-row-bordered table-row-dashed" id="kt_table_widget_1">
                 <tbody>
-                    <tr class="text-start text-gray-400 fw-boldest text-uppercase text-primary">
+                    <tr class="text-start text-gray-200 fw-boldest text-uppercase text-dark">
                         @foreach ($headers as $key => $value)
                             @if($value == "actions")
-                                <th width="280px">{{ $value }}</th>
+                                <th width="300px">{{ $value }}</th>
                             @else
                                 <th class="min-w-125px">{{ $value }}</th>
                             @endif
@@ -23,12 +23,11 @@
                                             $delete_route = $routename .'.destroy'; 
                                         ?>
                                         <td>
-                                            <a href="{{ route($show_route,$value) }}"><i class="fa-regular fa-eye"></i> View</a>
-                                            <a class="px-3" href="{{ route($edit_route,$value) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                                                
-                                            <!-- {!! Form::open(['method' => 'DELETE','route' => [$delete_route, $value],'style'=>'display:inline']) !!}
-                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!} -->
+                                            <a href="{{ route($show_route,$value) }}" class="btn btn-primary">View</a>
+                                            <a class="px-3 btn btn-primary"  href="{{ route($edit_route,$value) }}">Edit</a>                                                
+                                            {!! Form::open(['method' => 'DELETE','route' => [$delete_route, $value],'style'=>'display:inline']) !!}
+                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger text-white']) !!}
+                                            {!! Form::close() !!}
                                         </td>
                                         @break
                                     @case('category')
@@ -41,9 +40,9 @@
                                             <span class="text-gray-800 fw-boldest">{{ $protypes[$value] }}</span>
                                         </td>
                                         @break
-                                    @case('leave_category')
+                                    @case('enquiry_type')
                                         <td>
-                                            <span class="text-gray-800 fw-boldest">{{ $leavecategories[$value] }}</span>
+                                            <span class="text-gray-800 fw-boldest">{{ $enquirytypes[$value] }}</span>
                                         </td>
                                         @break
                                     @case('leavestatus')

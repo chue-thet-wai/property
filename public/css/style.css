@@ -447,7 +447,7 @@ a{
 }
 
 a:hover{
-    color:#17589f; 
+    color:#515151; 
     text-decoration: none;  
 }
 img{
@@ -500,4 +500,37 @@ img{
 .autocomplete-active {
     background-color: DodgerBlue !important;
     color: #ffffff;
+}
+
+.imagePreview {
+    display: flex;
+    position:relative;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.imagePreview img {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+}
+.detail-imagePreview {
+    display: flex;
+    position:relative;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 300px;
+}
+.detail-imagePreview img {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 5px;
+}
+.img-delete{
+    position:absolute;
+    top: 0px;
+    right: 0px;
 }

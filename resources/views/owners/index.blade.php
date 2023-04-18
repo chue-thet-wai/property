@@ -5,8 +5,8 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    <x-create-btn label="Create New Customer" route="customers"/>
-    <x-table :body="$response['customers']" :headers="$response['headers']" routename="customers" title="customers"/>
+    <x-create-btn label="Create New Owner" route="owners"/>
+    <x-table :body="$response['owners']" :headers="$response['headers']" routename="owners" title="Owners"/>
     {!! $response['data']->render() !!}
 @endsection
 
