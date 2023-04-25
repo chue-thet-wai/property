@@ -11,32 +11,36 @@
         <p>{{ $message }}</p>
     </div>
 @endif
-
-<table class="table table-bordered">
-  <tr>
-     <th>No</th>
-     <th>Name</th>
-     <th width="280px">Action</th>
-  </tr>
-    @foreach ($roles as $key => $role)
-    <tr>
-        <td>{{ ++$i }}</td>
-        <td>{{ $role->name }}</td>
-        <td>
-            
-            @can('role-edit')
-                <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Edit</a>
-            @endcan
-            @can('role-delete')
-                {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                {!! Form::close() !!}
-            @endcan
-        </td>
-    </tr>
-    @endforeach
-</table>
-
+<div class="card card-xxl-stretch">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="kt_table_widget_1">
+            <tbody>
+                <tr class="text-start bg-primary text-white text-uppercase">
+                    <th>No</th>
+                    <th>Name</th>
+                    <th width="280px">Action</th>
+                </tr>
+                @foreach ($roles as $key => $role)
+                <tr>
+                    <td>{{ ++$i }}</td>
+                    <td>{{ $role->name }}</td>
+                    <td>
+                        
+                        @can('role-edit')
+                            <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Edit</a>
+                        @endcan
+                        @can('role-delete')
+                            {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
+                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                            {!! Form::close() !!}
+                        @endcan
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {!! $roles->render() !!}
 @endsection

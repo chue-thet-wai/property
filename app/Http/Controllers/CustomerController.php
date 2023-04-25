@@ -35,7 +35,23 @@ class CustomerController extends Controller
             'from_month',
             'to_month',
             'enquiry_amount'
-        )->orderBy('id','DESC')->paginate(10);
+        );
+        if(session()->get(CUST_IDFILTER)){
+            $data = $data->where('tbl_customers.id',session()->get(CUST_IDFILTER));
+        }
+        if(session()->get(CUST_NAMEFILTER)){
+            $data = $data->where('tbl_customers.name','like','%'.session()->get(CUST_NAMEFILTER).'%');
+        }
+        if(session()->get(CUST_PHONEFILTER)){
+            $data = $data->where('tbl_customers.phonenumber',session()->get(CUST_PHONEFILTER));
+        }
+        if(session()->get(CUST_ENQUIRYTYPEFILTER)){
+            $data = $data->where('tbl_customers.enquiry_type',session()->get(CUST_ENQUIRYTYPEFILTER));
+        }
+        if(session()->get(CUST_ENQUIRYPROPERTYFILTER)){
+            $data = $data->where('tbl_customers.enquiry_property',session()->get(CUST_ENQUIRYPROPERTYFILTER));
+        }
+        $data = $data->orderBy('id','DESC')->paginate(10);
         if($data){
             foreach($data as $row){
                 $list = array();
@@ -119,5 +135,27 @@ class CustomerController extends Controller
         TblCustomer::find($id)->delete();
         return redirect()->route('customers.index')
                         ->with('success','Customer '.$id.' deleted successfully');
+    }
+
+    public function search(Request $request){
+        session()->start();
+        session()->put(CUST_IDFILTER, trim($request->id));
+        session()->put(CUST_NAMEFILTER, trim($request->name));
+        session()->put(CUST_PHONEFILTER, trim($request->phonenumber));
+        session()->put(CUST_ENQUIRYTYPEFILTER, trim($request->type));
+        session()->put(CUST_ENQUIRYPROPERTYFILTER, trim($request->property));
+        
+        return redirect()->route('customers.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            CUST_IDFILTER,
+            CUST_NAMEFILTER,
+            CUST_PHONEFILTER,
+            CUST_ENQUIRYTYPEFILTER,
+            CUST_ENQUIRYPROPERTYFILTER,
+        ]);
+        return redirect()->route('customers.index');
     }
 }

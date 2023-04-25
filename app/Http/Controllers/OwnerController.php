@@ -27,7 +27,14 @@ class OwnerController extends Controller
             'phonenumber',
             'email',
             'address'
-        )->orderBy('id','DESC')->paginate(10);
+        );
+        if(session()->get(OWNER_PHONEFILTER)){
+            $data = $data->where('tbl_owners.phonenumber',session()->get(OWNER_PHONEFILTER));
+        }
+        if(session()->get(OWNER_NAMEFILTER)){
+            $data = $data->where('tbl_owners.name','like','%'.session()->get(OWNER_NAMEFILTER).'%');
+        }
+        $data = $data->orderBy('id','DESC')->paginate(10);
         if($data){
             foreach($data as $row){
                 $list = array();
@@ -176,5 +183,20 @@ class OwnerController extends Controller
     public function get_owner_details($owner){
         $owner = TblOwner::where('name',$owner)->first();
         return $owner;
+    }
+
+    public function search(Request $request){
+        session()->start();
+        session()->put(OWNER_NAMEFILTER, trim($request->name));
+        session()->put(OWNER_PHONEFILTER, trim($request->phonenumber));
+        return redirect()->route('owners.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            OWNER_NAMEFILTER,
+            OWNER_PHONEFILTER,
+        ]);
+        return redirect()->route('owners.index');
     }
 }

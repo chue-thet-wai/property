@@ -43,7 +43,29 @@ class PropertyController extends Controller
         'story',
         'bedroom',
         'bathroom',
-        'name')->join('tbl_owners','tbl_owners.id','=','tbl_properties.owner_id')->orderBy('id','DESC')->paginate(10);
+        'name')->join('tbl_owners','tbl_owners.id','=','tbl_properties.owner_id');
+        if(session()->get(PROPERTY_IDFILTER)){
+            $data = $data->where('tbl_properties.id',trim(session()->get(PROPERTY_IDFILTER)));
+        }
+        if(session()->get(PROPERTY_NAMEFILTER)){
+            $data = $data->where('tbl_properties.title','like','%'.trim(session()->get(PROPERTY_NAMEFILTER)).'%');
+        }
+        if(session()->get(PROPERTY_CATEGORYFILTER)){
+            $data = $data->where('tbl_properties.category',trim(session()->get(PROPERTY_CATEGORYFILTER)));
+        }
+        if(session()->get(PROPERTY_LOCATIONFILTER)){
+            $data = $data->where('tbl_properties.location',trim(session()->get(PROPERTY_LOCATIONFILTER)));
+        }
+        if(session()->get(PROPERTY_BUILDYEARFILTER)){
+            $data = $data->where('tbl_properties.builtyear',trim(session()->get(PROPERTY_BUILDYEARFILTER)));
+        }
+        if(session()->get(PROPERTY_MINPRICEFILTER)){
+            $data = $data->where('tbl_properties.price','>=',trim(session()->get(PROPERTY_MINPRICEFILTER)));
+        }
+        if(session()->get(PROPERTY_MAXPRICEFILTER)){
+            $data = $data->where('tbl_properties.price','<=',trim(session()->get(PROPERTY_MAXPRICEFILTER)));
+        }
+        $data = $data->orderBy('id','DESC')->paginate(10);
         if($data){
             foreach($data as $row){
                 $list = array();
@@ -60,7 +82,6 @@ class PropertyController extends Controller
                 $list['bathroom'] = $row->bathroom;
                 $list['name'] = $row->name;
                 $list['actions'] = $row->id;
-
                 $properties[] = $list;
             }
         $response['data'] = $data;
@@ -270,5 +291,31 @@ class PropertyController extends Controller
         }catch(Exception $e){
             Log::error($e->getMessage());
         }
+    }
+
+    public function search(Request $request){
+        session()->start();
+        session()->put(PROPERTY_IDFILTER, trim($request->id));
+        session()->put(PROPERTY_NAMEFILTER, trim($request->name));
+        session()->put(PROPERTY_CATEGORYFILTER, trim($request->category));
+        session()->put(PROPERTY_LOCATIONFILTER, trim($request->location));
+        session()->put(PROPERTY_BUILDYEARFILTER, trim($request->build_year));
+        session()->put(PROPERTY_MINPRICEFILTER, trim($request->min_price));
+        session()->put(PROPERTY_MAXPRICEFILTER, trim($request->max_price));
+
+        return redirect()->route('properties.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            PROPERTY_IDFILTER,
+            PROPERTY_NAMEFILTER,
+            PROPERTY_CATEGORYFILTER,
+            PROPERTY_LOCATIONFILTER,
+            PROPERTY_BUILDYEARFILTER,
+            PROPERTY_MINPRICEFILTER,
+            PROPERTY_MAXPRICEFILTER,
+        ]);
+        return redirect()->route('properties.index');
     }
 }
