@@ -136,7 +136,6 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')
                         ->with('success','Customer '.$id.' deleted successfully');
     }
-
     public function search(Request $request){
         session()->start();
         session()->put(CUST_IDFILTER, trim($request->id));

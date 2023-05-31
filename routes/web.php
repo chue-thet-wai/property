@@ -10,6 +10,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\TempController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\HelperController;
 
   
 /*
@@ -51,4 +52,7 @@ Route::group(['middleware' => ['auth']], function() {
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
 });
+Route::get('/download',function(){
+    
+})->name('download');
 
