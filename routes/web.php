@@ -11,7 +11,12 @@ use App\Http\Controllers\TempController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HelperController;
-
+use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\TownshipController;
+use App\Http\Controllers\WardController;
+use App\Http\Controllers\TenureController;
+use App\Http\Controllers\PropertyTypeController;
+use App\Http\Controllers\FloorController;
   
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +44,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('banners', BannerController::class);     
     Route::resource('owners', OwnerController::class);     
     Route::resource('customers', CustomerController::class);     
+    Route::resource('divisions', DivisionController::class);     
+    Route::resource('townships', TownshipController::class); 
+    Route::resource('wards', WardController::class);     
+    Route::resource('tenures', TenureController::class);     
+    Route::resource('property_types', PropertyTypeController::class);     
+    Route::resource('floors', FloorController::class);     
+
     Route::post('/properties/img-delete', [PropertyController::class,'destory_img'])->name('property.img_delete');    
     Route::get('/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    
     Route::get('/owners-detail/{owner}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');    

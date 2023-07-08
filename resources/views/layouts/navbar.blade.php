@@ -68,12 +68,37 @@
               <a class="nav-link mx-2" href="{{ route('logout') }}"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 Logout
+          <div class="btn dropdown">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              Setup
             </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-            </a>     
-          </li>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="{{ route('divisions.index') }}">Division</a></li>
+              <li><a class="dropdown-item" href="{{ route('townships.index') }}">Township</a></li>
+              <li><a class="dropdown-item" href="{{ route('wards.index') }}">Ward</a></li>
+              <li><a class="dropdown-item" href="{{ route('tenures.index') }}">Tenure Property</a></li>
+              <li><a class="dropdown-item" href="{{ route('property_types.index') }}">Property Type</a></li>
+              <li><a class="dropdown-item" href="{{ route('floors.index') }}">Floor</a></li>
+            </ul>
+          </div>
+          <div class="dropdown">
+            <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              Profile
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="{{route('profile.index')}}">My Account</a></li>
+              <li>
+                  <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+                </a>     
+              </li>
+            </ul>
+          </div>          
         </ul>
       </div>
     </div>
