@@ -25,8 +25,8 @@
                     </div>
                 </div>            
                 <div class="col-xs-2 col-sm-2 col-md-2 py-4">                                
-                    <button type="submit" class="btn btn-primary">Search</button>
-                    <a class="btn btn-primary" href="{{ route('owners.search.reset') }}"> Reset</a>
+                    <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
+                    <a class="btn btn-primary px-4 py-2" href="{{ route('owners.search.reset') }}"> Reset</a>
                 </div>
             </div>
         {!! Form::close() !!}

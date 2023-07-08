@@ -51,7 +51,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/customers/search/reset',[CustomerController::class,'reset'])->name('customers.search.reset');
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
+
 });
+Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 Route::get('/download',function(){
     
 })->name('download');

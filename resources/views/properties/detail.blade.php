@@ -38,7 +38,7 @@
             @endforeach
         </div>             
             <div class="col-xs-12 col-sm-12 col-md-12 py-4">
-                <a class="btn btn-primary" href="{{ route('properties.index') }}"> Back</a>
+                <a class="btn btn-primary px-4 py-2" href="{{ route('properties.index') }}"> Back</a>
             </div>
         </div>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\TblProperty;
 use App\Models\TblPropertyImage;
+use App\Models\TblPropertyDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -20,30 +21,14 @@ class PropertyController extends Controller
             'Id',            
             'Title',
             'category',
-            'Property Type',
-            'location',
-            'address',
-            'price',
-            'square feet',
-            'story',
-            'bedroom',
-            'bathroom',
             'Owner',
-            'actions',
+            'Property Location',
+            'Build Year',
+            'Price',
+            'Actions',
         );
         $data = TblProperty::select(
-        'tbl_properties.id',
-        'title',
-        'category',
-        'protype',
-        'location',
-        'tbl_properties.address',
-        'price',
-        'squarefeet',
-        'story',
-        'bedroom',
-        'bathroom',
-        'name')->join('tbl_owners','tbl_owners.id','=','tbl_properties.owner_id');
+        'tbl_properties.*', 'tbl_owners.name')->join('tbl_owners','tbl_owners.id','=','tbl_properties.owner_id');
         if(session()->get(PROPERTY_IDFILTER)){
             $data = $data->where('tbl_properties.id',trim(session()->get(PROPERTY_IDFILTER)));
         }
@@ -72,15 +57,10 @@ class PropertyController extends Controller
                 $list['id'] = $row->id;
                 $list['title'] = $row->title;
                 $list['category'] = $row->category;
-                $list['protype'] = $row->protype;
-                $list['location'] = $row->location;
-                $list['address'] = $row->address;
-                $list['price'] = $row->price;
-                $list['squarefeet'] = $row->squarefeet;
-                $list['story'] = $row->story;
-                $list['bedroom'] = $row->bedroom;
-                $list['bathroom'] = $row->bathroom;
                 $list['name'] = $row->name;
+                $list['property_location'] = $row->property_location;
+                $list['build_year'] = $row->build_year;
+                $list['price'] = $row->price;
                 $list['actions'] = $row->id;
                 $properties[] = $list;
             }
@@ -98,52 +78,83 @@ class PropertyController extends Controller
     }
 
     public function store(Request $request){
+        return $request;
+        // $image = $request->feature_photo;
+        // return $image->extension();
         $this->validate($request, [
+            'owner'=>'required',
+            'phonenumber'=>'required',
             'title'=>'required',
+            'title_mm'=>'required',
             'category'=>'required',
-            'protype'=>'required',
-            'location'=>'required',
+            'status'=>'required',
             'price'=>'required',
-            'squarefeet'=>'required',
-            'address'=>'required',
-            'postalcode'=>'required',
-            'story'=>'required',
-            'bedroom'=>'required',
-            'bathroom'=>'required',
-            'outinspace'=>'required',
-            'amenities'=>'required',
-            'availabledate'=>'required',
-            'proname'=>'required',
-            'area'=>'required',
-            'condition'=>'required',
-            'developer'=>'required',
-            'tenure'=>'required',
-            'builtyear'=>'required',
-            'feature' =>'required',
-            'images' => 'required',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'owner_id' => 'required',
+            'promotion_price'=>'required',
+            'description'=>'required',
+            'description_mm'=>'required',
+            'property_location'=>'required',
+            'postal_code'=>'required',
+            'google_map_url'=>'required',
+            'detail_address'=>'required',
+            'front_area'=>'required',
+            'side_area'=>'required',
+            'square_feet'=>'required',
+            'acre'=>'required',
+            'tenure_property'=>'required',
+            'property_type'=>'required',
+            'floor' =>'required',
+            'build_year' => 'required',
+            'master_bedroom' => 'required',
+            'common_room' => 'required',
+            'bathroom' => 'required',
+            'building_facility' => 'required',
+            'special_features.*' => 'required',
+            'view_count' => 'required',
+            'remark' => 'required',
+            'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'other_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'confidential_documents' => 'required|image|max:1024',
         ]);
       
         $inputs = $request->all();
+        $image = $request->feature_photo;
+        $imageName = time().rand(1,99).'.'.$image->extension();
+        $inputs['feature_image'] = $imageName;
         $inputs['created_by'] = Auth::user()->id;
         try{            
             $property = TblProperty::create($inputs);
+            $image->storeAs('feature_images', $imageName);
             $images = [];
-            if ($request->images){
-                foreach($request->images as $key => $image)
+            $documents = [];
+            if ($request->other_photo){
+                foreach($request->other_photo as $key => $image)
                 {   
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    // $image->storeAs('property_images', $imageName);
-                    $image->move(public_path('property_images'), $imageName);   
+                    $image->storeAs('property_images', $imageName);
+                    // $image->move(public_path('property_images'), $imageName);   
                     $images[]['image'] = $imageName;
                 }
-            } 
+            }
             foreach ($images as $key => $image) {
                 $image['property_id'] = $property->id;  
                 // return $image;              
                 TblPropertyImage::create($image);
+            }
+            if ($request->confidential_documents){
+                foreach($request->confidential_documents as $key => $document)
+                {   
+                    $documentName = time().rand(1,99).'.'.$document->extension();
+                    // $image->storeAs('property_images', $imageName, 's3');
+                    $document->storeAs('property_images', $documentName);
+                    // $image->move(public_path('property_images'), $imageName);   
+                    $documents[]['confidential_documents'] = $documentName;
+                }
+            }
+            foreach ($documents as $key => $document) {
+                $document['property_id'] = $property->id;  
+                // return $image;              
+                TblPropertyDocument::create($document);
             }
             Log::error('success save property');
         }catch(Exception $e){
