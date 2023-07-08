@@ -28,7 +28,7 @@
             $back_route = $route .'.index'; 
         ?>
         <div class="pull-right py-2">
-            <a class="btn btn-primary" href="{{route($back_route)}}"> Back</a>
+            <a class="btn btn-primary px-4 py-2" href="{{route($back_route)}}"> Back</a>
         </div>    
   </div>
 </div>

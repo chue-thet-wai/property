@@ -5,4 +5,5 @@
 @endsection
 @section('cardbody')
     {{ __('WELCOME!') }}
+    {{__('messages.welcome')}}
 @endsection

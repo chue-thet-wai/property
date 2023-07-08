@@ -56,8 +56,8 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 py-4">
-        <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-primary px-4 py-2" href="{{ route('users.index') }}"> Back</a>
+        <button type="submit" class="btn btn-primary px-4 py-2">Submit</button>
     </div>
 </div>
 {!! Form::close() !!}

@@ -22,10 +22,10 @@
                                         $delete_route = $routename .'.destroy'; 
                                     ?>
                                     <td>
-                                        <a href="{{ route($show_route,$value) }}" class="btn btn-primary">View</a>
-                                        <a class="px-3 btn btn-primary"  href="{{ route($edit_route,$value) }}">Edit</a>                                                
+                                        <a href="{{ route($show_route,$value) }}" class="btn btn-action-dark px-3">View</a>
+                                        <a class="btn btn-action-dark px-3"  href="{{ route($edit_route,$value) }}">Edit</a>                                                
                                         {!! Form::open(['method' => 'DELETE','route' => [$delete_route, $value],'style'=>'display:inline']) !!}
-                                            {!! Form::submit('Delete', ['class' => 'btn btn-danger text-white']) !!}
+                                            {!! Form::submit('Delete', ['class' => 'btn btn-action-danger text-white px-3']) !!}
                                         {!! Form::close() !!}
                                     </td>
                                     @break
@@ -55,6 +55,11 @@
                                 @case('leavestatus')
                                     <td>
                                         <span class="text-gray-800 fw-boldest">{{ $leavestatus[$value] }}</span>
+                                    </td>
+                                    @break
+                                @case('property_location')
+                                    <td>
+                                        <span class="text-gray-800 fw-boldest">{{ $propertylocation[$value] }}</span>
                                     </td>
                                     @break
                                 @default

@@ -5,6 +5,17 @@
     define('RENT', 'R');
     define('SALE', 'S');
 
+    //status
+    define('AVAILABLE', 'AV');
+    define('SOLDOUT', 'SO');
+    define('PENDING', 'PE');
+    define('SOLDOUTBYOTHERAGENCY', 'SOBYA');
+
+    // property location
+    define('STATE', 'S');
+    define('CITY', 'C');
+    define('TOWNSHIP', 'T');
+
     //property type
     define('APARTMENT', 'A');
     define('CONDO', 'C');
@@ -38,6 +49,11 @@
     define('CUST_PHONEFILTER', 'CUST_PHONEFILTER');
     define('CUST_ENQUIRYTYPEFILTER', 'CUST_ENQUIRYTYPEFILTER');
     define('CUST_ENQUIRYPROPERTYFILTER', 'CUST_ENQUIRYPROPERTYFILTER');
+
+    // tenure property
+    define('TENURE0', '0');
+    define('TENURE1', '1');
+    define('TENURE2', '2');
     
 
     function get_all_divisions(){
