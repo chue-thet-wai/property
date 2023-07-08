@@ -1,4 +1,6 @@
-<?php 
+<?php
+    use App\Models\Division;
+    use App\Models\Township;
     // category
     define('RENT', 'R');
     define('SALE', 'S');
@@ -37,5 +39,26 @@
     define('CUST_ENQUIRYTYPEFILTER', 'CUST_ENQUIRYTYPEFILTER');
     define('CUST_ENQUIRYPROPERTYFILTER', 'CUST_ENQUIRYPROPERTYFILTER');
     
+
+    function get_all_divisions(){
+        $division_arr = [];
+        $divisions = Division::all();
+        if($divisions){
+            foreach($divisions as $division){
+                $division_arr[$division->id] = $division->division;
+            }
+        }
+        return $division_arr;
+    }
+    function get_all_townships(){
+        $township_arr = [];
+        $townships = Township::all();
+        if($townships){
+            foreach($townships as $township){
+                $township_arr[$township->id] = $township->township;
+            }
+        }
+        return $township_arr;
+    }
 
 ?>		

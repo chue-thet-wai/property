@@ -64,13 +64,13 @@
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <strong>Bedroom: <span class="required">*</span></strong>
-                    {!! Form::text('bedroom', null, array('placeholder' => 'Type Bedroom','class' => 'form-control')) !!}
+                    {!! Form::number('bedroom', null, array('placeholder' => 'Type Bedroom','class' => 'form-control')) !!}
                 </div>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <strong>Bathroom: <span class="required">*</span></strong>
-                    {!! Form::text('bathroom', null, array('placeholder' => 'Type Bathroom','class' => 'form-control')) !!}
+                    {!! Form::number('bathroom', null, array('placeholder' => 'Type Bathroom','class' => 'form-control')) !!}
                 </div>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3">
@@ -130,7 +130,7 @@
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <strong>Builtyear: <span class="required">*</span></strong>
-                    {!! Form::text('builtyear', null, array('placeholder' => 'Type Builtyear','class' => 'form-control')) !!}
+                    {!! Form::number('builtyear', null, array('placeholder' => 'Type Builtyear','class' => 'form-control')) !!}
                 </div>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3">
