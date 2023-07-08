@@ -108,19 +108,21 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Division: <span class="required">*</span></strong>
-                        {!! Form::select('division', $propertylocation, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('division', $division_arr, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'division-dropdown')) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Township: <span class="required">*</span></strong>
-                        {!! Form::select('township', $propertylocation, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('township', [], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'township-dropdown')) !!}
+                        <!-- <select id="township-dropdown" class="form-control">
+                        </select> -->
                     </div>
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Ward: <span class="required">*</span></strong>
-                        {!! Form::select('ward', $propertylocation, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('ward', [], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'ward-dropdown')) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">

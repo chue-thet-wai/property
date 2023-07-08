@@ -64,6 +64,9 @@ Route::group(['middleware' => ['auth']], function() {
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
 
+    Route::get('get-townshipbydivision',[TownshipController::class,'townshipbydivision'])->name('get-townshipbydivision');
+    Route::get('get-wardbytownship',[WardController::class,'wardbytownship'])->name('get-wardbytownship');
+
 });
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 Route::get('/download',function(){

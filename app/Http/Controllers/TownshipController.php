@@ -65,4 +65,9 @@ class TownshipController extends Controller
         }
         return redirect()->route('townships.index');
     }
+
+    public function townshipbydivision(Request $request) {
+        $townships = Township::select('id', 'township')->where('division_id', $request->division_id)->get();
+        return $townships;
+    }
 }
