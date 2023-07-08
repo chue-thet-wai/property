@@ -29,6 +29,14 @@
                                         {!! Form::close() !!}
                                     </td>
                                     @break
+                                @case('action')
+                                    <?php 
+                                        $edit_route = $routename .'.edit'; 
+                                    ?>
+                                    <td>
+                                        <a class="px-3 btn btn-primary"  href="{{ route($edit_route,$value) }}">Edit</a> 
+                                    </td>
+                                    @break
                                 @case('category')
                                     <td>
                                         <span class="text-gray-800 fw-boldest">{{ $categories[$value] }}</span>
