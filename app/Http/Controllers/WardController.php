@@ -70,4 +70,9 @@ class WardController extends Controller
         }
         return redirect()->route('wards.index');
     }
+
+    public function wardbytownship(Request $request) {
+        $wards = Ward::select('id', 'ward')->where('township_id', $request->township_id)->get();
+        return $wards;
+    }
 }

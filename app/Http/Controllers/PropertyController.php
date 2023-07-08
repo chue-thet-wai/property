@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\TblProperty;
 use App\Models\TblPropertyImage;
 use App\Models\TblPropertyDocument;
+use App\Models\Division;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -74,7 +75,13 @@ class PropertyController extends Controller
     }
 
     public function create(){
-        return view('properties.create');
+        $divisions = Division::select('id', 'division')->get();
+        $division_arr = [];
+        foreach ($divisions as $division) {
+            $division_arr[$division->id] = $division->division;
+        }
+        
+        return view('properties.create', compact('division_arr'));
     }
 
     public function store(Request $request){
@@ -176,28 +183,38 @@ class PropertyController extends Controller
     public function update(Request $request,$id){
 
         $this->validate($request, [
+            'owner'=>'required',
+            'phonenumber'=>'required',
             'title'=>'required',
+            'title_mm'=>'required',
             'category'=>'required',
-            'protype'=>'required',
-            'location'=>'required',
+            'status'=>'required',
             'price'=>'required',
-            'squarefeet'=>'required',
-            'address'=>'required',
-            'postalcode'=>'required',
-            'story'=>'required',
-            'bedroom'=>'required',
-            'bathroom'=>'required',
-            'outinspace'=>'required',
-            'amenities'=>'required',
-            'availabledate'=>'required',
-            'proname'=>'required',
-            'area'=>'required',
-            'condition'=>'required',
-            'developer'=>'required',
-            'tenure'=>'required',
-            'builtyear'=>'required',
-            'feature' =>'required',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'promotion_price'=>'required',
+            'description'=>'required',
+            'description_mm'=>'required',
+            'property_location'=>'required',
+            'postal_code'=>'required',
+            'google_map_url'=>'required',
+            'detail_address'=>'required',
+            'front_area'=>'required',
+            'side_area'=>'required',
+            'square_feet'=>'required',
+            'acre'=>'required',
+            'tenure_property'=>'required',
+            'property_type'=>'required',
+            'floor' =>'required',
+            'build_year' => 'required',
+            'master_bedroom' => 'required',
+            'common_room' => 'required',
+            'bathroom' => 'required',
+            'building_facility' => 'required',
+            'special_features.*' => 'required',
+            'view_count' => 'required',
+            'remark' => 'required',
+            'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'other_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'confidential_documents' => 'required|image|max:1024',
         ]);
         $inputs = $request->all();
         $inputs['updated_by'] = Auth::user()->id;
@@ -225,75 +242,75 @@ class PropertyController extends Controller
     }
 
     public function show($id){
-        $property_arr = array();
-        $property = TblProperty::select(
-            'title',
-            'category',
-            'protype',
-            'price',
-            'squarefeet',
-            'story',
-            'bedroom',
-            'bathroom',
-            'feature',
-            'outinspace',
-            'amenities',
-            'availabledate',
-            'accessories',
-            'decoration',
-            'proname',
-            'area',
-            'condition',
-            'developer',
-            'tenure',
-            'builtyear',            
-            'location',            
-            'postalcode',
-            'address',            
-            'description',
-        )->find($id)->toArray();
-        if($property){
-            foreach($property as $key=>$value){
-                switch($key){
-                    case 'protype' :
-                        $key = 'Property Type';
-                    break;
-                    case 'squarefeet' :
-                        $key = 'Square Feet';
-                    break;
-                    case 'bedroom' :
-                        $key = 'bed room';
-                    break;
-                    case 'bathroom' :
-                        $key = 'bath room';
-                    break;
-                    case 'outinspace' :
-                        $key = 'Outside/Inside space';
-                    break;
-                    case 'availabledate' :
-                        $key = 'available date';
-                    break;
-                    case 'proname' :
-                        $key = 'Property name';
-                    break;
-                    case 'builtyear' :
-                        $key = 'built year';
-                    break;
-                    case 'postalcode' :
-                        $key = 'postal code';
-                    break;
-                    default :
-                        $key = $key;
-                    break;
-                }
-                $property_arr[ucwords($key)] = $value;
-            }
-        }
-        $images = TblPropertyImage::where('property_id',$id)->get();
-        $response = array();
-        $response['property'] = $property_arr;
-        $response['images'] = $images;
-        return view('properties.detail',compact('response'));
+        // $property_arr = array();
+        // $property = TblProperty::select(
+        //     'title',
+        //     'category',
+        //     'protype',
+        //     'price',
+        //     'squarefeet',
+        //     'story',
+        //     'bedroom',
+        //     'bathroom',
+        //     'feature',
+        //     'outinspace',
+        //     'amenities',
+        //     'availabledate',
+        //     'accessories',
+        //     'decoration',
+        //     'proname',
+        //     'area',
+        //     'condition',
+        //     'developer',
+        //     'tenure',
+        //     'builtyear',            
+        //     'location',            
+        //     'postalcode',
+        //     'address',            
+        //     'description',
+        // )->find($id)->toArray();
+        // if($property){
+        //     foreach($property as $key=>$value){
+        //         switch($key){
+        //             case 'protype' :
+        //                 $key = 'Property Type';
+        //             break;
+        //             case 'squarefeet' :
+        //                 $key = 'Square Feet';
+        //             break;
+        //             case 'bedroom' :
+        //                 $key = 'bed room';
+        //             break;
+        //             case 'bathroom' :
+        //                 $key = 'bath room';
+        //             break;
+        //             case 'outinspace' :
+        //                 $key = 'Outside/Inside space';
+        //             break;
+        //             case 'availabledate' :
+        //                 $key = 'available date';
+        //             break;
+        //             case 'proname' :
+        //                 $key = 'Property name';
+        //             break;
+        //             case 'builtyear' :
+        //                 $key = 'built year';
+        //             break;
+        //             case 'postalcode' :
+        //                 $key = 'postal code';
+        //             break;
+        //             default :
+        //                 $key = $key;
+        //             break;
+        //         }
+        //         $property_arr[ucwords($key)] = $value;
+        //     }
+        // }
+        // $images = TblPropertyImage::where('property_id',$id)->get();
+        // $response = array();
+        // $response['property'] = $property_arr;
+        // $response['images'] = $images;
+        // return view('properties.detail',compact('response'));
     }
 
     public function destory_img(Request $request){
