@@ -347,4 +347,31 @@ class PropertyRentController extends Controller
         PropertyRent::find($id)->delete();
         return redirect()->route('property_rents.index');
     }
+    public function show($id){
+
+        $divisions = get_all_divisions();
+        $tenures = get_all_tenures();
+        $propertytypes = get_all_propertytypes();
+        $floors = get_all_floors();
+        $township = get_all_townships();
+        $ward = get_all_wards();
+        $setup = [];          
+        $setup['divisions'] = $divisions; 
+        $setup['tenures'] = $tenures; 
+        $setup['propertytypes'] = $propertytypes; 
+        $setup['floors'] = $floors;
+        $setup['township'] = $township;
+        $setup['ward'] = $ward;
+
+        $property = PropertyRent::with('owner')->find($id);
+        $images = PropertyRentImage::where('property_rent_id',$id)->get();        
+        $documents = PropertyRentDocument::where('property_rent_id',$id)->get();        
+        $response = array();
+        $response['property'] = $property;
+        $response['images'] = $images;
+        $response['document'] = $documents;
+
+        return view('properties.detail',compact('response', 'setup'));
+    }
+
 }
