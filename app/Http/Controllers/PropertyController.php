@@ -350,6 +350,31 @@ class PropertyController extends Controller
         // $response['property'] = $property_arr;
         // $response['images'] = $images;
         // return view('properties.detail',compact('response'));
+
+
+        $divisions = get_all_divisions();
+        $tenures = get_all_tenures();
+        $propertytypes = get_all_propertytypes();
+        $floors = get_all_floors();
+        $township = get_all_townships();
+        $ward = get_all_wards();
+        $setup = [];          
+        $setup['divisions'] = $divisions; 
+        $setup['tenures'] = $tenures; 
+        $setup['propertytypes'] = $propertytypes; 
+        $setup['floors'] = $floors;
+        $setup['township'] = $township;
+        $setup['ward'] = $ward;
+
+        $property = TblProperty::with('owner')->find($id);
+        $images = TblPropertyImage::where('property_id',$id)->get();        
+        $documents = TblPropertyDocument::where('property_id',$id)->get();        
+        $response = array();
+        $response['property'] = $property;
+        $response['images'] = $images;
+        $response['document'] = $documents;
+
+        return view('properties.detail',compact('response', 'setup'));
     }
 
     public function destory_img(Request $request){
