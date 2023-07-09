@@ -115,3 +115,55 @@ $(document).ready(function () {
     });
   });
 });
+
+var deleteButtons = document.querySelectorAll(".img-delete-icon");
+// Attach event listener to each delete button
+deleteButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    // Get the parent element (list item) of the button
+    var listItem = this.parentNode;
+
+    // Remove the list item from the DOM
+    listItem.remove();
+
+    var id = $(this).attr("data-id");
+    console.log(id);
+    $.ajax({
+      type: "POST",
+      url: "/properties/img-delete",
+      data: { id: id },
+      success: function (status) {
+        console.log(status);
+      },
+      error: function (msg) {
+        console.log(msg);
+      },
+    });
+  });
+});
+
+var deleteButtons = document.querySelectorAll(".doc-delete-icon");
+// Attach event listener to each delete button
+deleteButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    // Get the parent element (list item) of the button
+    var listItem = this.parentNode;
+
+    // Remove the list item from the DOM
+    listItem.remove();
+
+    var id = $(this).attr("data-id");
+    console.log(id);
+    $.ajax({
+      type: "POST",
+      url: "/properties/doc-delete",
+      data: { id: id },
+      success: function (status) {
+        console.log(status);
+      },
+      error: function (msg) {
+        console.log(msg);
+      },
+    });
+  });
+});

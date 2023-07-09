@@ -22,7 +22,6 @@ class PropertyController extends Controller
             'Title',
             'category',
             'Owner',
-            'Property Location',
             'Build Year',
             'Price',
             'Actions',
@@ -38,9 +37,6 @@ class PropertyController extends Controller
         if(session()->get(PROPERTY_CATEGORYFILTER)){
             $data = $data->where('tbl_properties.category',trim(session()->get(PROPERTY_CATEGORYFILTER)));
         }
-        // if(session()->get(PROPERTY_LOCATIONFILTER)){
-        //     $data = $data->where('tbl_properties.location',trim(session()->get(PROPERTY_LOCATIONFILTER)));
-        // }
         if(session()->get(PROPERTY_BUILDYEARFILTER)){
             $data = $data->where('tbl_properties.builtyear',trim(session()->get(PROPERTY_BUILDYEARFILTER)));
         }
@@ -58,7 +54,6 @@ class PropertyController extends Controller
                 $list['title'] = $row->title;
                 $list['category'] = $row->category;
                 $list['name'] = $row->name;
-                // $list['property_location'] = $row->property_location;
                 $list['build_year'] = $row->build_year;
                 $list['price'] = $row->price;
                 $list['actions'] = $row->id;
@@ -74,13 +69,18 @@ class PropertyController extends Controller
     }
 
     public function create(){
-        $divisions = Division::select('id', 'division')->get();
-        $division_arr = [];
-        foreach ($divisions as $division) {
-            $division_arr[$division->id] = $division->division;
-        }
+
+        $divisions = get_all_divisions();
+        $tenures = get_all_tenures();
+        $propertytypes = get_all_propertytypes();
+        $floors = get_all_floors();
+        $setup = [];          
+        $setup['divisions'] = $divisions; 
+        $setup['tenures'] = $tenures; 
+        $setup['propertytypes'] = $propertytypes; 
+        $setup['floors'] = $floors;
         
-        return view('properties.create', compact('division_arr'));
+        return view('properties.create', compact('setup'));
     }
 
     public function store(Request $request){
@@ -126,7 +126,7 @@ class PropertyController extends Controller
         $inputs['created_by'] = Auth::user()->id;
         try{            
             $property = TblProperty::create($inputs);
-            $image->storeAs('feature_images', $imageName);
+            $image->storeAs('public/feature_images', $imageName);
             $images = [];
             $documents = [];
             if ($request->other_photo){
@@ -134,7 +134,7 @@ class PropertyController extends Controller
                 {   
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $image->storeAs('property_images', $imageName);
+                    $image->storeAs('public/property_images', $imageName);
                     // $image->move(public_path('property_images'), $imageName);   
                     $images[]['image'] = $imageName;
                 }
@@ -149,7 +149,7 @@ class PropertyController extends Controller
                 {   
                     $documentName = time().rand(1,99).'.'.$document->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $document->storeAs('property_images', $documentName);
+                    $document->storeAs('public/confidential_documents', $documentName);
                     // $image->move(public_path('property_images'), $imageName);   
                     $documents[]['confidential_documents'] = $documentName;
                 }
@@ -168,15 +168,27 @@ class PropertyController extends Controller
     }
 
     public function edit($id){
-        $property = TblProperty::find($id);
+        $divisions = get_all_divisions();
+        $tenures = get_all_tenures();
+        $propertytypes = get_all_propertytypes();
+        $floors = get_all_floors();
+        $setup = [];          
+        $setup['divisions'] = $divisions; 
+        $setup['tenures'] = $tenures; 
+        $setup['propertytypes'] = $propertytypes; 
+        $setup['floors'] = $floors;
+
+        $property = TblProperty::with('owner')->find($id);
         $images = TblPropertyImage::where('property_id',$id)->get();        
         $documents = TblPropertyDocument::where('property_id',$id)->get();        
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
         $response['document'] = $documents;
-        // return $response;
-        return view('properties.edit',compact('response'));
+
+        // return $property;
+
+        return view('properties.edit',compact('response', 'setup'));
     }
 
     public function update(Request $request,$id){
@@ -208,29 +220,59 @@ class PropertyController extends Controller
             'building_facility' => 'required',
             'special_features.*' => 'required',
             'view_count' => 'required',
-            'remark' => 'required',
-            'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'other_photo' => 'required|max:1024',
-            'confidential_documents' => 'required|max:1024',
+            // 'remark' => 'required',
+            // 'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            // 'other_photo' => 'required|max:1024',
+            // 'confidential_documents' => 'required|max:1024',
         ]);
+
         $inputs = $request->all();
+
+        if($request->feature_photo) {
+            $image = $request->feature_photo;
+            $imageName = time().rand(1,99).'.'.$image->extension();
+            $inputs['feature_photo'] = $imageName;
+            $image->storeAs('public/feature_images', $imageName);
+        }
+
+        $inputs['category'] = SALE;
         $inputs['updated_by'] = Auth::user()->id;
         $property = TblProperty::find($id);
         try{
             $property->update($inputs);
-            if ($request->images){
-                foreach($request->images as $key => $image)
+            $images = [];
+            $documents = [];
+            if ($request->other_photo){
+                foreach($request->other_photo as $key => $image)
                 {   
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    // $image->storeAs('property_images', $imageName);
-                    $image->move(public_path('property_images'), $imageName);   
-                    // $images[]['image'] = $imageName;
-                    $img_input['image'] = $imageName;
-                    $img_input['property_id'] = $id;
-                    TblPropertyImage::create($img_input);
+                    $image->storeAs('public/property_images', $imageName);
+                    // $image->move(public_path('property_images'), $imageName);   
+                    $images[]['image'] = $imageName;
                 }
             }
+            foreach ($images as $key => $image) {
+                $image['property_id'] = $property->id;  
+                // return $image;              
+                TblPropertyImage::create($image);
+            }
+            if ($request->confidential_documents){
+                foreach($request->confidential_documents as $key => $document)
+                {   
+                    $documentName = time().rand(1,99).'.'.$document->extension();
+                    // $image->storeAs('property_images', $imageName, 's3');
+                    $document->storeAs('public/confidential_documents', $documentName);
+                    // $image->move(public_path('property_images'), $imageName);   
+                    $documents[]['confidential_documents'] = $documentName;
+                }
+            }
+            foreach ($documents as $key => $document) {
+                $document['property_id'] = $property->id;  
+                // return $image;              
+                TblPropertyDocument::create($document);
+            }
+            Log::error('success save property');
         }catch(Exception $e){
             Log::error('Error update property');
             Log::error($e->getMessage());
@@ -313,6 +355,14 @@ class PropertyController extends Controller
     public function destory_img(Request $request){
         try{
             TblPropertyImage::find($request->id)->delete();
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+        }
+    }
+
+    public function destory_doc(Request $request){
+        try{
+            TblPropertyDocument::find($request->id)->delete();
         }catch(Exception $e){
             Log::error($e->getMessage());
         }
