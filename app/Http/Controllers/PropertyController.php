@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
  
-
 use Auth;
 
 class PropertyController extends Controller
@@ -85,9 +84,6 @@ class PropertyController extends Controller
     }
 
     public function store(Request $request){
-        // return $request;
-        // $image = $request->feature_photo;
-        // return $image->extension();
         $this->validate($request, [
             'owner'=>'required',
             'phonenumber'=>'required',
@@ -122,6 +118,7 @@ class PropertyController extends Controller
         ]);
       
         $inputs = $request->all();
+
         $image = $request->feature_photo;
         $imageName = time().rand(1,99).'.'.$image->extension();
         $inputs['feature_photo'] = $imageName;

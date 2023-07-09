@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_properties', function (Blueprint $table) {
+        Schema::create('property_rents', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('owner_id')->nullable();
             $table->string('title');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->decimal('promotion_price',11,2);
             $table->text('description')->nullable();
             $table->text('description_mm')->nullable();
-            $table->string('property_location');
+            $table->string('property_location')->nullable();
             $table->text('detail_address');
             $table->string('postal_code', 64);
             $table->string('google_map_url');
@@ -48,6 +48,8 @@ return new class extends Migration
             $table->text('remark');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
+            $table->date('rent_out_date')->nullable();
+            $table->date('available_date')->nullable();
             $table->timestamps();
             // $table->foreign('owner_id')->references('id')->on('tbl_owners');
         });
@@ -60,6 +62,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_properties');
+        Schema::dropIfExists('property_rents');
     }
 };

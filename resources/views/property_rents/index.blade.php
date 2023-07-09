@@ -61,8 +61,8 @@
             </div>
         {!! Form::close() !!}
     </div>
-    <x-create-btn label="Create New Property" route="properties"/>
-    <x-table :body="$response['properties']" :headers="$response['headers']" routename="properties" title="Properties"/>
+    <x-create-btn label="Create New Property" route="property_rents"/>
+    <x-table :body="$response['property_rents']" :headers="$response['headers']" routename="property_rents" title="Rent"/>
     {!! $response['data']->render() !!}
 @endsection
 

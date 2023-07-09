@@ -57,11 +57,6 @@
                                         <span class="text-gray-800 fw-boldest">{{ $leavestatus[$value] }}</span>
                                     </td>
                                     @break
-                                @case('property_location')
-                                    <td>
-                                        <span class="text-gray-800 fw-boldest">{{ $propertylocation[$value] }}</span>
-                                    </td>
-                                    @break
                                 @default
                                     <td>
                                         <span class="text-gray-800 fw-boldest">{{ $value }}</span>

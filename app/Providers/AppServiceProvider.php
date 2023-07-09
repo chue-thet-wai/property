@@ -49,6 +49,10 @@ class AppServiceProvider extends ServiceProvider
             // $view->with('propertylocation',config('constants.propertylocation'));
             $view->with('tenureproperty',config('constants.tenureproperty'));
         });
+        view()->composer('property_rents.*',function($view){
+            $view->with('status',config('constants.rent_status'));
+            $view->with('tenureproperty',config('constants.tenureproperty'));
+        });
 
     }
 }

@@ -24,15 +24,11 @@
             PENDING => 'Pending',
             SOLDOUTBYOTHERAGENCY => 'Sold Out by Other Agency'
         ],
-        // 'propertylocation' => [
-        //     STATE => 'State',
-        //     CITY => 'City',
-        //     TOWNSHIP => 'Township'
-        // ],
-        'tenureproperty' => [
-            TENURE0 => 'Tenure 1',
-            TENURE1 => 'Tenure 2',
-            TENURE2 => 'Tenure 3',
+        'rent_status' => [
+            RENTAVAILABLE => 'Available',
+            RENTOUT => 'Rent Out',
+            CANCEL => 'Cancel',
+            RENTOUTBYOTHERAGENCY => 'Rent Out by Other Agency'
         ],
     ];
 ?>
