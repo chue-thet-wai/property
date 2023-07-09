@@ -21,7 +21,6 @@ class PropertyRentController extends Controller
         $headers = array(
             'Id',            
             'Title',
-            'category',
             'Owner',
             'Division',
             'Township',
@@ -37,11 +36,7 @@ class PropertyRentController extends Controller
         }
         if(session()->get(PROPERTY_RENT_NAMEFILTER)){
             $data = $data->where('property_rents.title','like','%'.trim(session()->get(PROPERTY_RENT_NAMEFILTER)).'%');
-        }
-        if(session()->get(PROPERTY_RENT_CATEGORYFILTER)){
-            $data = $data->where('property_rents.category',trim(session()->get(PROPERTY_RENT_CATEGORYFILTER)));
-        }
-        
+        }        
         if(session()->get(PROPERTY_RENT_BUILDYEARFILTER)){
             $data = $data->where('property_rents.builtyear',trim(session()->get(PROPERTY_RENT_BUILDYEARFILTER)));
         }
@@ -51,7 +46,16 @@ class PropertyRentController extends Controller
         if(session()->get(PROPERTY_RENT_MAXPRICEFILTER)){
             $data = $data->where('property_rents.price','<=',trim(session()->get(PROPERTY_RENT_MAXPRICEFILTER)));
         }
-        $data = $data->orderBy('id','DESC')->paginate(10);
+        if(session()->get(PROPERTY_RENT_DIVISIONFILTER)){
+            $data = $data->where('property_rents.division',trim(session()->get(PROPERTY_RENT_DIVISIONFILTER)));
+        }
+        if(session()->get(PROPERTY_RENT_TOWNSHIPFILTER)){
+            $data = $data->where('property_rents.township',trim(session()->get(PROPERTY_RENT_TOWNSHIPFILTER)));
+        }
+        if(session()->get(PROPERTY_RENT_WARDFILTER)){
+            $data = $data->where('property_rents.ward',trim(session()->get(PROPERTY_RENT_WARDILTER)));
+        }
+        $data = $data->where('property_rents.is_delete',0)->orderBy('id','DESC')->paginate(10);
         if($data){
             foreach($data as $row){
                 if(isset($row->division, $division_arr)){
@@ -72,7 +76,6 @@ class PropertyRentController extends Controller
                 $list = array();
                 $list['id'] = $row->id;
                 $list['title'] = $row->title;
-                $list['category'] = $row->category;
                 $list['name'] = $row->name;
                 $list['division'] = $division;
                 $list['township'] = $township;
@@ -86,7 +89,11 @@ class PropertyRentController extends Controller
         $response['property_rents'] = $property_rents;
         $response['headers'] = $headers;
 
-        return view('property_rents.index',compact('response'))
+        $setup['divisions'] = $division_arr;
+        $setup['townships'] = $township_arr;
+        $setup['wards'] = $ward_arr;
+
+        return view('property_rents.index',compact('response','setup'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
         }
     }
@@ -117,9 +124,6 @@ class PropertyRentController extends Controller
             'price'=>'required',
             'description'=>'required',
             'description_mm'=>'required',
-            'postal_code'=>'required',
-            'google_map_url'=>'required',
-            'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
             'square_feet'=>'required',
@@ -131,10 +135,6 @@ class PropertyRentController extends Controller
             'master_bedroom' => 'required',
             'common_room' => 'required',
             'bathroom' => 'required',
-            'building_facility' => 'required',
-            'special_features' => 'required',
-            'view_count' => 'required',
-            'remark' => 'required',
             'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             'other_photo' => 'required|max:1024',
             'confidential_documents' => 'required|max:1024',
@@ -146,12 +146,12 @@ class PropertyRentController extends Controller
         $inputs = $request->all();
         $image = $request->feature_photo;
         $imageName = time().rand(1,99).'.'.$image->extension();
-        $inputs['feature_image'] = $imageName;
+        $inputs['feature_photo'] = $imageName;
         $inputs['category'] = RENT;
         $inputs['created_by'] = auth()->user()->id;
         try{            
             $property = PropertyRent::create($inputs);
-            $image->storeAs('feature_images', $imageName);
+            $image->storeAs('public/feature_images', $imageName);
             $images = [];
             $documents = [];
             if ($request->other_photo){
@@ -159,7 +159,7 @@ class PropertyRentController extends Controller
                 {   
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $image->storeAs('property_images', $imageName);
+                    $image->storeAs('public/property_images', $imageName);
                     // $image->move(public_path('property_images'), $imageName);   
                     $images[]['image'] = $imageName;
                 }
@@ -174,7 +174,7 @@ class PropertyRentController extends Controller
                 {   
                     $documentName = time().rand(1,99).'.'.$document->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $document->storeAs('property_images', $documentName);
+                    $document->storeAs('public/confidential_documents', $documentName);
                     // $image->move(public_path('property_images'), $imageName);   
                     $documents[]['confidential_documents'] = $documentName;
                 }
@@ -192,22 +192,29 @@ class PropertyRentController extends Controller
         return redirect()->route('property_rents.index');
     }
 
-    public function edit($id){
+    public function edit($id){        
+
+        $property = PropertyRent::with('owner')->find($id);
+        $images = PropertyRentImage::where('property_rent_id',$id)->get(); 
+        $documents = PropertyRentDocument::where('property_rent_id',$id)->get();        
+        $response = array();
+        $response['property'] = $property;
+        $response['images'] = $images;
+        $response['documents'] = $documents;
+
         $divisions = get_all_divisions();
+        $townships = get_townships_by_division($property->division);
+        $wards = get_wards_by_township($property->township);
         $tenures = get_all_tenures();
         $propertytypes = get_all_propertytypes();
         $floors = get_all_floors();
         $setup = [];          
         $setup['divisions'] = $divisions; 
+        $setup['townships'] = $townships; 
+        $setup['wards'] = $wards; 
         $setup['tenures'] = $tenures; 
         $setup['propertytypes'] = $propertytypes; 
         $setup['floors'] = $floors;
-
-        $property = PropertyRent::find($id);
-        $images = PropertyRentImage::where('property_rent_id',$id)->get();        
-        $response = array();
-        $response['property'] = $property;
-        $response['images'] = $images;
         return view('property_rents.edit',compact('response','setup'));
     }
 
@@ -217,15 +224,10 @@ class PropertyRentController extends Controller
             'phonenumber'=>'required',
             'title'=>'required',
             'title_mm'=>'required',
-            'category'=>'required',
             'status'=>'required',
             'price'=>'required',
             'description'=>'required',
             'description_mm'=>'required',
-            'property_location'=>'required',
-            'postal_code'=>'required',
-            'google_map_url'=>'required',
-            'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
             'square_feet'=>'required',
@@ -237,25 +239,26 @@ class PropertyRentController extends Controller
             'master_bedroom' => 'required',
             'common_room' => 'required',
             'bathroom' => 'required',
-            'building_facility' => 'required',
-            'special_features.*' => 'required',
-            'view_count' => 'required',
-            'remark' => 'required',
-            'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'other_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'confidential_documents' => 'required|image|max:1024',
-            'rent_out_date' => 'required',
-            'available_date'=>'required',
+            // 'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            // 'other_photo' => 'required|max:1024',
+            // 'confidential_documents' => 'required|max:1024',
+            'division'=>'required',
+            'township' => 'required',
+            'ward' => 'required',
         ]);
       
         $inputs = $request->all();
-        $image = $request->feature_photo;
-        $imageName = time().rand(1,99).'.'.$image->extension();
-        $inputs['feature_image'] = $imageName;
-        $inputs['created_by'] = Auth::user()->id;
-        try{            
-            $property = PropertyRent::create($inputs);
-            $image->storeAs('feature_images', $imageName);
+        if($request->feature_photo){
+            $image = $request->feature_photo;
+            $imageName = time().rand(1,99).'.'.$image->extension();
+            $image->storeAs('public/feature_images', $imageName);
+            $inputs['feature_photo'] = $imageName;
+        }        
+        
+        $inputs['updated_by'] = auth()->user()->id;
+        $property = PropertyRent::find($id);
+        try{           
+            $property->update($inputs);
             $images = [];
             $documents = [];
             if ($request->other_photo){
@@ -263,7 +266,7 @@ class PropertyRentController extends Controller
                 {   
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $image->storeAs('property_images', $imageName);
+                    $image->storeAs('public/property_images', $imageName);
                     // $image->move(public_path('property_images'), $imageName);   
                     $images[]['image'] = $imageName;
                 }
@@ -278,7 +281,7 @@ class PropertyRentController extends Controller
                 {   
                     $documentName = time().rand(1,99).'.'.$document->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $document->storeAs('property_images', $documentName);
+                    $document->storeAs('public/confidential_documents', $documentName);
                     // $image->move(public_path('property_images'), $imageName);   
                     $documents[]['confidential_documents'] = $documentName;
                 }
@@ -295,5 +298,53 @@ class PropertyRentController extends Controller
         }
         return redirect()->route('property_rents.index');
     }
-    
+
+    public function destory_img(Request $request){
+        try{
+            PropertyRentImage::find($request->id)->delete();
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+        }
+    }
+
+    public function destory_doc(Request $request){
+        try{
+            PropertyRentDocument::find($request->id)->delete();
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+        }
+    }
+
+    public function search(Request $request){
+        session()->start();
+        session()->put(PROPERTY_RENT_IDFILTER, trim($request->id));
+        session()->put(PROPERTY_RENT_NAMEFILTER, trim($request->name));
+        session()->put(PROPERTY_RENT_BUILDYEARFILTER, trim($request->build_year));
+        session()->put(PROPERTY_RENT_MINPRICEFILTER, trim($request->min_price));
+        session()->put(PROPERTY_RENT_MAXPRICEFILTER, trim($request->max_price));
+        session()->put(PROPERTY_RENT_DIVISIONFILTER, trim($request->division));
+        session()->put(PROPERTY_RENT_TOWNSHIPFILTER, trim($request->township));
+        session()->put(PROPERTY_RENT_WARDFILTER, trim($request->ward));
+
+        return redirect()->route('property_rents.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            PROPERTY_RENT_IDFILTER,
+            PROPERTY_RENT_NAMEFILTER,
+            PROPERTY_RENT_BUILDYEARFILTER,
+            PROPERTY_RENT_MINPRICEFILTER,
+            PROPERTY_RENT_MAXPRICEFILTER,
+            PROPERTY_RENT_DIVISIONFILTER,
+            PROPERTY_RENT_TOWNSHIPFILTER,
+            PROPERTY_RENT_WARDFILTER,
+        ]);
+        return redirect()->route('property_rents.index');
+    }
+
+    public function destroy($id){
+        PropertyRent::find($id)->delete();
+        return redirect()->route('property_rents.index');
+    }
 }

@@ -108,7 +108,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Township: <span class="required">*</span></strong>
-                        {!! Form::select('township', [], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'township-dropdown')) !!}
+                        {!! Form::select('township', $setup['townships'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'township-dropdown')) !!}
                         <!-- <select id="township-dropdown" class="form-control">
                         </select> -->
                     </div>
@@ -116,7 +116,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Ward: <span class="required">*</span></strong>
-                        {!! Form::select('ward', [], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'ward-dropdown')) !!}
+                        {!! Form::select('ward', $setup['wards'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'ward-dropdown')) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">
@@ -251,8 +251,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Other Photo:</strong>
-                        {!! Form::file('other_photo[]', array('placeholder' => 'Type Other Photo','class' => 'form-control mt-2', 'multiple' => 'multiple')) !!}
-                        
+                        {!! Form::file('other_photo[]', array('placeholder' => 'Type Other Photo','class' => 'form-control mt-2', 'multiple' => 'multiple')) !!}                        
                             <div class="otherPhotoBox d-flex gap-1 flex-wrap">
                                 @foreach ($response['images'] as $photo)
                                     <div class="position-relative mb-1 ">
@@ -260,8 +259,7 @@
                                         <img class="showImage" src="{{ asset('storage/property_images/'. $photo->image) }}" alt="other_image">
                                     </div>
                                 @endforeach
-                            </div> 
-                        
+                            </div>                        
                     </div>
                 </div>
                 <div class="col-md-3">

@@ -57,13 +57,13 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <strong>Price: <span class="required">*</span></strong>
-                        {!! Form::number('price', null, array('placeholder' => 'Type Price','class' => 'form-control mt-2','required')) !!}
+                        {!! Form::number('price', null, array('placeholder' => 'Type Price','class' => 'form-control mt-2','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <strong>Promotion Price:</strong>
-                        {!! Form::number('promotion_price', null, array('placeholder' => 'Type Promotion Price','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('promotion_price', null, array('placeholder' => 'Type Promotion Price','class' => 'form-control mt-2','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -80,14 +80,14 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <strong>{{__('messages.description')}}:</strong>
-                        {!! Form::textarea('description', null, array('placeholder' => 'Type description','class' => 'form-control mt-2', 'rows' => 3)) !!}
+                        <strong>{{__('messages.description')}}:<span class="required">*</span></strong>
+                        {!! Form::textarea('description', null, array('placeholder' => 'Type description','class' => 'form-control mt-2', 'rows' => 3,'required')) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <strong>{{__('messages.description')}} (mm):</strong>
-                        {!! Form::textarea('description_mm', null, array('placeholder' => 'Type description','class' => 'form-control mt-2', 'rows' => 3)) !!}
+                        <strong>{{__('messages.description')}} (mm):<span class="required">*</span></strong>
+                        {!! Form::textarea('description_mm', null, array('placeholder' => 'Type description','class' => 'form-control mt-2', 'rows' => 3,'required')) !!}
                     </div>
                 </div> 
                 <div class="col-md-2">
@@ -114,43 +114,40 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Division: <span class="required">*</span></strong>
-                        {!! Form::select('division', $setup['divisions'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'division-dropdown')) !!}
+                        {!! Form::select('division', $setup['divisions'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'division-dropdown','required')) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Township: <span class="required">*</span></strong>
-                        {!! Form::select('township', [], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'township-dropdown')) !!}
-                        <!-- <select id="township-dropdown" class="form-control">
-                        </select> -->
+                        {!! Form::select('township', [], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'township-dropdown','required')) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Ward: <span class="required">*</span></strong>
-                        {!! Form::select('ward', [], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'ward-dropdown')) !!}
+                        {!! Form::select('ward', [], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'ward-dropdown','required')) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <strong>Postal Code: <span class="required">*</span></strong>
+                        <strong>Postal Code:</strong>
                         {!! Form::text('postal_code', null, array('placeholder' => 'Type Postal Code','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <strong>Google Map URL: <span class="required">*</span></strong>
+                        <strong>Google Map URL:</strong>
                         {!! Form::textarea('google_map_url', null, array('placeholder' => 'Type Google Map URL','class' => 'form-control mt-2', 'rows' => 3)) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Detail Address:</strong>
-                        {!! Form::textarea('detail_address', null, array('placeholder' => 'Type Detail Address','class' => 'form-control mt-2', 'rows' => 3)) !!}
+                        {!! Form::textarea('detail_address', null, array('placeholder' => 'Type Detail Address','class' => 'form-control mt-2','rows' => 3)) !!}
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="bg-white px-4 py-5 rounded mb-2">
@@ -160,29 +157,28 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Front Area: <span class="required">*</span></strong>
-                        {!! Form::number('front_area', null, array('placeholder' => 'Type Front Area','class' => 'form-control')) !!}
+                        {!! Form::number('front_area', null, array('placeholder' => 'Type Front Area','class' => 'form-control','id'=>'front-area','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Side Area: <span class="required">*</span></strong>
-                        {!! Form::number('side_area', null, array('placeholder' => 'Type Side Area','class' => 'form-control')) !!}
+                        {!! Form::number('side_area', null, array('placeholder' => 'Type Side Area','class' => 'form-control','id'=>'side-area','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Square Feet: <span class="required">*</span></strong>
-                        {!! Form::number('square_feet', null, array('placeholder' => 'Type Square Feet','class' => 'form-control')) !!}
+                        {!! Form::number('square_feet', null, array('placeholder' => 'Type Square Feet','class' => 'form-control','id'=>'square-feet','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Acre: <span class="required">*</span></strong>
-                        {!! Form::number('acre', null, array('placeholder' => 'Type acre','class' => 'form-control')) !!}
+                        {!! Form::number('acre', null, array('placeholder' => 'Type acre','class' => 'form-control','id'=>'acre','step' => 'any','required','min'=>0)) !!}
                     </div>
                 </div>
             </div>
-
         </div>
      
         <div class="bg-white px-4 py-5 rounded mb-2">
@@ -192,43 +188,43 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Tenure Property: <span class="required">*</span></strong>
-                        {!! Form::select('tenure_property', $setup['tenures'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('tenure_property', $setup['tenures'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Property Type: <span class="required">*</span></strong>
-                        {!! Form::select('property_type', $setup['propertytypes'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('property_type', $setup['propertytypes'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Floor: <span class="required">*</span></strong>
-                        {!! Form::select('floor', $setup['floors'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('floor', $setup['floors'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Build Year: <span class="required">*</span></strong>
-                        {!! Form::selectRange('build_year', date('Y'), date('Y') + 10, null, ['class' => 'form-control mt-2', 'placeholder' => 'Select a Build Year']) !!}
+                        {!! Form::selectRange('build_year', date('Y'), (date('Y') -60) + 10, null, ['class' => 'form-control mt-2', 'placeholder' => 'Select a Build Year'],'required') !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Master Bedroom: <span class="required">*</span></strong>
-                        {!! Form::number('master_bedroom', null, array('placeholder' => 'Type Master Bedroom','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('master_bedroom', null, array('placeholder' => 'Type Master Bedroom','class' => 'form-control mt-2','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Common Room: <span class="required">*</span></strong>
-                        {!! Form::number('common_room', null, array('placeholder' => 'Type Common Room','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('common_room', null, array('placeholder' => 'Type Common Room','class' => 'form-control mt-2','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Bathroom: <span class="required">*</span></strong>
-                        {!! Form::number('bathroom', null, array('placeholder' => 'Type Bathroom','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('bathroom', null, array('placeholder' => 'Type Bathroom','class' => 'form-control mt-2','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -253,25 +249,25 @@
             <div class="row g-3">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>Feature Photo:</strong>
-                        {!! Form::file('feature_photo', array('placeholder' => 'Type Feature Photo','class' => 'form-control mt-2')) !!}
+                        <strong>Feature Photo:<span class="required">*</span></strong>
+                        {!! Form::file('feature_photo', array('placeholder' => 'Type Feature Photo','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>Other Photo:</strong>
-                        {!! Form::file('other_photo[]', array('placeholder' => 'Type Other Photo','class' => 'form-control mt-2', 'multiple' => 'multiple')) !!}
+                        <strong>Other Photo:<span class="required">*</span></strong>
+                        {!! Form::file('other_photo[]', array('placeholder' => 'Type Other Photo','class' => 'form-control mt-2', 'multiple' => 'multiple','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>Confidential Documents:</strong>
-                        {!! Form::file('confidential_documents[]', array('placeholder' => 'Type Confidential Documents','class' => 'form-control mt-2', 'multiple' => 'multiple')) !!}
+                        <strong>Confidential Documents:<span class="required">*</span></strong>
+                        {!! Form::file('confidential_documents[]', array('placeholder' => 'Type Confidential Documents','class' => 'form-control mt-2', 'multiple' => 'multiple','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>View Count: <span class="required">*</span></strong>
+                        <strong>View Count:</strong>
                         {!! Form::number('view_count', null, ['placeholder'=>'Type View Count','class' => 'form-control mt-2']) !!}
                     </div>
                 </div>

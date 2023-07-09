@@ -54,19 +54,22 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('property_rents', PropertyRentController::class);     
 
     Route::post('/properties/img-delete', [PropertyController::class,'destory_img'])->name('property.img_delete');    
-    Route::post('/properties/doc-delete', [PropertyController::class,'destory_doc'])->name('property.doc_delete');    
+    Route::post('/properties/doc-delete', [PropertyController::class,'destory_doc'])->name('property.doc_delete');
+    Route::post('/property-rent/img-delete', [PropertyRentController::class,'destory_img'])->name('property_rent.img_delete');    
+    Route::post('/property-rent/doc-delete', [PropertyRentController::class,'destory_doc'])->name('property_rent.doc_delete');    
     Route::get('/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    
     Route::get('/owners-detail/{owner}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');    
     Route::get('/profile', [UserController::class,'show'])->name('profile.index');    
     Route::post('/properties/search',[PropertyController::class,'search'])->name('properties.search');
     Route::get('/properties/search/reset',[PropertyController::class,'reset'])->name('properties.search.reset');
+    Route::post('/property_rents/search',[PropertyRentController::class,'search'])->name('property_rents.search');
+    Route::get('/property_rents/search/reset',[PropertyRentController::class,'reset'])->name('property_rents.search.reset');
     Route::post('/owners/search',[OwnerController::class,'search'])->name('owners.search');
     Route::get('/owners/search/reset',[OwnerController::class,'reset'])->name('owners.search.reset');
     Route::post('/customers/search',[CustomerController::class,'search'])->name('customers.search');
     Route::get('/customers/search/reset',[CustomerController::class,'reset'])->name('customers.search.reset');
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
-
     Route::get('get-townshipbydivision',[TownshipController::class,'townshipbydivision'])->name('get-townshipbydivision');
     Route::get('get-wardbytownship',[WardController::class,'wardbytownship'])->name('get-wardbytownship');
 

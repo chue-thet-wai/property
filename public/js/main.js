@@ -167,3 +167,71 @@ deleteButtons.forEach(function (button) {
     });
   });
 });
+//for rent property
+var deleteButtons = document.querySelectorAll(".rent-img-delete-icon");
+// Attach event listener to each delete button
+deleteButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    // Get the parent element (list item) of the button
+    var listItem = this.parentNode;
+
+    // Remove the list item from the DOM
+    listItem.remove();
+
+    var id = $(this).attr("data-id");
+    $.ajax({
+      type: "POST",
+      url: "/property-rent/img-delete",
+      data: { id: id },
+      success: function (status) {
+        console.log(status);
+      },
+      error: function (msg) {
+        console.log(msg);
+      },
+    });
+  });
+});
+
+var deleteButtons = document.querySelectorAll(".rent-doc-delete-icon");
+// Attach event listener to each delete button
+deleteButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    // Get the parent element (list item) of the button
+    var listItem = this.parentNode;
+
+    // Remove the list item from the DOM
+    listItem.remove();
+
+    var id = $(this).attr("data-id");
+    console.log(id);
+    $.ajax({
+      type: "POST",
+      url: "/property-rent/doc-delete",
+      data: { id: id },
+      success: function (status) {
+        console.log(status);
+      },
+      error: function (msg) {
+        console.log(msg);
+      },
+    });
+  });
+});
+
+$('#front-area').focusout(function () {
+  calculateAreaAcre();
+});
+
+$('#side-area').focusout(function () {
+  calculateAreaAcre();
+});
+
+function calculateAreaAcre() {
+  var front_area = parseFloat($('#front-area').val());
+  var side_area = parseFloat($('#side-area').val());
+  var square_feet = front_area * side_area;
+  var acre = square_feet / 43560;
+  $('#square-feet').val(square_feet);
+  $('#acre').val(acre.toFixed(3));
+}

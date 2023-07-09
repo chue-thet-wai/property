@@ -43,20 +43,22 @@
     //sale filter
     define('PROPERTY_IDFILTER', 'PROPERTY_IDFILTER');    
     define('PROPERTY_NAMEFILTER','PROPERTY_NAMEFILTER');
-    define('PROPERTY_CATEGORYFILTER','PROPERTY_CATEGORYFILTER');
-    define('PROPERTY_LOCATIONFILTER','PROPERTY_LOCATIONFILTER');
     define('PROPERTY_BUILDYEARFILTER','PROPERTY_BUILDYEARFILTER');
     define('PROPERTY_MINPRICEFILTER','PROPERTY_MINPRICEFILTER');
     define('PROPERTY_MAXPRICEFILTER','PROPERTY_MAXPRICEFILTER');  
+    define('PROPERTY_DIVISIONFILTER', 'PROPERTY_DIVISIONFILTER');
+    define('PROPERTY_TOWNSHIPFILTER', 'PROPERTY_TOWNSHIPFILTER');
+    define('PROPERTY_WARDFILTER', 'PROPERTY_WARDFILTER');
 
     //rent filter
     define('PROPERTY_RENT_IDFILTER', 'PROPERTY_RENT_IDFILTER');    
     define('PROPERTY_RENT_NAMEFILTER','PROPERTY_RENT_NAMEFILTER');
-    define('PROPERTY_RENT_CATEGORYFILTER','PROPERTY_RENT_CATEGORYFILTER');
-    define('PROPERTY_RENT_LOCATIONFILTER','PROPERTY_RENT_LOCATIONFILTER');
     define('PROPERTY_RENT_BUILDYEARFILTER','PROPERTY_RENT_BUILDYEARFILTER');
     define('PROPERTY_RENT_MINPRICEFILTER','PROPERTY_RENT_MINPRICEFILTER');
-    define('PROPERTY_RENT_MAXPRICEFILTER','PROPERTY_RENT_MAXPRICEFILTER');  
+    define('PROPERTY_RENT_MAXPRICEFILTER','PROPERTY_RENT_MAXPRICEFILTER');
+    define('PROPERTY_RENT_DIVISIONFILTER', 'PROPERTY_RENT_DIVISIONFILTER');
+    define('PROPERTY_RENT_TOWNSHIPFILTER', 'PROPERTY_RENT_TOWNSHIPFILTER');
+    define('PROPERTY_RENT_WARDFILTER', 'PROPERTY_RENT_WARDFILTER');  
 
     //owner filter
     define('OWNER_NAMEFILTER', 'OWNER_NAMEFILTER');
@@ -133,6 +135,29 @@
         }
         return $floor_arr;
     }
+
+    function get_townships_by_division($id){
+        $township_arr = [];
+        $townships = Township::all()->where('division_id',$id);
+        if($townships){
+            foreach($townships as $township){
+                $township_arr[$township->id] = $township->township;
+            }
+        }
+        return $township_arr;
+    }
+
+    function get_wards_by_township($id){
+        $ward_arr = [];
+        $wards = Ward::all()->where('township_id',$id);
+        if($wards){
+            foreach($wards as $ward){
+                $ward_arr[$ward->id] = $ward->ward;
+            }
+        }
+        return $ward_arr;
+    }
+    
     
 
 ?>		

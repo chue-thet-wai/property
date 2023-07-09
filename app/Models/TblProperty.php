@@ -41,7 +41,7 @@ class TblProperty extends Model
         'feature_photo',
         'division',
         'township',
-        'wrad',
+        'ward',
         'remark',
         'created_by',
         'updated_by',
@@ -52,5 +52,6 @@ class TblProperty extends Model
     {
         return $this->belongsTo(TblOwner::class, 'owner_id');
     }
+    
 
 }
