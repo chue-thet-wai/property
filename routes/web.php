@@ -16,6 +16,7 @@ use App\Http\Controllers\TownshipController;
 use App\Http\Controllers\WardController;
 use App\Http\Controllers\TenureController;
 use App\Http\Controllers\PropertyTypeController;
+use App\Http\Controllers\PropertyRentController;
 use App\Http\Controllers\FloorController;
   
 /*
@@ -50,6 +51,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('tenures', TenureController::class);     
     Route::resource('property_types', PropertyTypeController::class);     
     Route::resource('floors', FloorController::class);     
+    Route::resource('property_rents', PropertyRentController::class);     
 
     Route::post('/properties/img-delete', [PropertyController::class,'destory_img'])->name('property.img_delete');    
     Route::get('/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    

@@ -12,8 +12,17 @@
           <!-- <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('home') ? 'active' : '' }}"  aria-current="page" href="{{route('home')}}">Home</a>
           </li> -->          
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('properties.*') ? 'active' : '' }}" href="{{route('properties.index')}}">Properties</a>
+          </li> -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              Property
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item {{ request()->routeIs('properties.*') ? 'active' : '' }}" href="{{route('properties.index')}}">Sale</a></li>
+              <li><a class="dropdown-item" href="{{ route('property_rents.index') }}">Rent</a></li>
+            </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('customers.*') ? 'active' : '' }}" href="{{route('customers.index')}}">Customers Enquiry</a>
