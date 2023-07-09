@@ -26,7 +26,7 @@ return new class extends Migration
             $table->decimal('promotion_price',11,2);
             $table->text('description')->nullable();
             $table->text('description_mm')->nullable();
-            $table->string('property_location')->nullable();
+            $table->string('property_location');
             $table->text('detail_address');
             $table->string('postal_code', 64);
             $table->string('google_map_url');

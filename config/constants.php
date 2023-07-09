@@ -25,7 +25,7 @@
             SOLDOUTBYOTHERAGENCY => 'Sold Out by Other Agency'
         ],
         'rent_status' => [
-            AVAILABLE => 'Available',
+            RENTAVAILABLE => 'Available',
             RENTOUT => 'Rent Out',
             CANCEL => 'Cancel',
             RENTOUTBYOTHERAGENCY => 'Rent Out by Other Agency'

@@ -38,9 +38,9 @@ class PropertyController extends Controller
         if(session()->get(PROPERTY_CATEGORYFILTER)){
             $data = $data->where('tbl_properties.category',trim(session()->get(PROPERTY_CATEGORYFILTER)));
         }
-        if(session()->get(PROPERTY_LOCATIONFILTER)){
-            $data = $data->where('tbl_properties.location',trim(session()->get(PROPERTY_LOCATIONFILTER)));
-        }
+        // if(session()->get(PROPERTY_LOCATIONFILTER)){
+        //     $data = $data->where('tbl_properties.location',trim(session()->get(PROPERTY_LOCATIONFILTER)));
+        // }
         if(session()->get(PROPERTY_BUILDYEARFILTER)){
             $data = $data->where('tbl_properties.builtyear',trim(session()->get(PROPERTY_BUILDYEARFILTER)));
         }
@@ -58,7 +58,7 @@ class PropertyController extends Controller
                 $list['title'] = $row->title;
                 $list['category'] = $row->category;
                 $list['name'] = $row->name;
-                $list['property_location'] = $row->property_location;
+                // $list['property_location'] = $row->property_location;
                 $list['build_year'] = $row->build_year;
                 $list['price'] = $row->price;
                 $list['actions'] = $row->id;
@@ -94,7 +94,6 @@ class PropertyController extends Controller
             'promotion_price'=>'required',
             'description'=>'required',
             'description_mm'=>'required',
-            'property_location'=>'required',
             'postal_code'=>'required',
             'google_map_url'=>'required',
             'detail_address'=>'required',
@@ -114,15 +113,15 @@ class PropertyController extends Controller
             'view_count' => 'required',
             'remark' => 'required',
             'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'other_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'confidential_documents' => 'required|image|max:1024',
+            'other_photo' => 'required|max:1024',
+            'confidential_documents' => 'required|max:1024',
         ]);
       
         $inputs = $request->all();
 
         $image = $request->feature_photo;
         $imageName = time().rand(1,99).'.'.$image->extension();
-        $inputs['feature_image'] = $imageName;
+        $inputs['feature_photo'] = $imageName;
         $inputs['category'] = SALE;
         $inputs['created_by'] = Auth::user()->id;
         try{            
@@ -171,9 +170,12 @@ class PropertyController extends Controller
     public function edit($id){
         $property = TblProperty::find($id);
         $images = TblPropertyImage::where('property_id',$id)->get();        
+        $documents = TblPropertyDocument::where('property_id',$id)->get();        
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
+        $response['document'] = $documents;
+        // return $response;
         return view('properties.edit',compact('response'));
     }
 
@@ -184,13 +186,11 @@ class PropertyController extends Controller
             'phonenumber'=>'required',
             'title'=>'required',
             'title_mm'=>'required',
-            'category'=>'required',
             'status'=>'required',
             'price'=>'required',
             'promotion_price'=>'required',
             'description'=>'required',
             'description_mm'=>'required',
-            'property_location'=>'required',
             'postal_code'=>'required',
             'google_map_url'=>'required',
             'detail_address'=>'required',
@@ -210,8 +210,8 @@ class PropertyController extends Controller
             'view_count' => 'required',
             'remark' => 'required',
             'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'other_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'confidential_documents' => 'required|image|max:1024',
+            'other_photo' => 'required|max:1024',
+            'confidential_documents' => 'required|max:1024',
         ]);
         $inputs = $request->all();
         $inputs['updated_by'] = Auth::user()->id;

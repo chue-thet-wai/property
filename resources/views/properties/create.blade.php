@@ -48,12 +48,6 @@
                         {!! Form::text('title_mm', null, array('placeholder' => 'Type Title','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>
-                <!-- <div class="col-md-3">
-                    <div class="form-group">
-                        <strong>Category: <span class="required">*</span></strong>
-                        {!! Form::select('category', $categories, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
-                    </div>
-                </div> -->
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Status: <span class="required">*</span></strong>
