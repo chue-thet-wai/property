@@ -8,7 +8,7 @@
     @foreach ($errors->all() as $error)
         <x-alert type="danger" message="{{$error}}" />
     @endforeach
-    {!! Form::open(array('route' => 'properties.store','method'=>'POST','enctype'=>'multipart/form-data','id'=>'frm-property')) !!}
+    {!! Form::open(array('route' => 'property_rents.store','method'=>'POST','enctype'=>'multipart/form-data','id'=>'frm-property')) !!}
         
         <div class="bg-white px-4 py-5 rounded mb-2">
             <h2 class="mb-4 fw-bolder">Owner Info</h2>
@@ -17,14 +17,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <strong>Owner: <span class="required">*</span></strong>
-                        {!! Form::text('owner', null, array('placeholder' => 'Type Owner Name','class' => 'form-control mt-2','id'=>'owner')) !!}
+                        {!! Form::text('owner', null, array('placeholder' => 'Type Owner Name','class' => 'form-control mt-2','id'=>'owner','required')) !!}
                         {!! Form::hidden('owner_id', null, array('class' => 'form-control','id'=>'owner_id')) !!}
                     </div>
                 </div> 
                 <div class="col-md-4">
                     <div class="form-group">
                         <strong>Owner Contact: <span class="required">*</span></strong>
-                        {!! Form::text('phonenumber', null, array('class' => 'form-control mt-2','id'=>'phonenumber','readonly')) !!}
+                        {!! Form::text('phonenumber', null, array('class' => 'form-control mt-2','id'=>'phonenumber','readonly','required')) !!}
                     </div>
                 </div> 
             </div>
@@ -39,37 +39,43 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong> {{__('messages.title')}}: <span class="required">*</span></strong>
-                        {!! Form::text('title', null, array('placeholder' => 'Type Title','class' => 'form-control mt-2')) !!}
+                        {!! Form::text('title', null, array('placeholder' => 'Type Title','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong> {{__('messages.title')}} (mm): <span class="required">*</span></strong>
-                        {!! Form::text('title_mm', null, array('placeholder' => 'Type Title','class' => 'form-control mt-2')) !!}
+                        {!! Form::text('title_mm', null, array('placeholder' => 'Type Title','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
-                <!-- <div class="col-md-3">
-                    <div class="form-group">
-                        <strong>Category: <span class="required">*</span></strong>
-                        {!! Form::select('category', $categories, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
-                    </div>
-                </div> -->
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <strong>Status: <span class="required">*</span></strong>
-                        {!! Form::select('status', $status, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('status', $status, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <strong>Price: <span class="required">*</span></strong>
-                        {!! Form::number('price', null, array('placeholder' => 'Type Price','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('price', null, array('placeholder' => 'Type Price','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
-                        <strong>Promotion Price: <span class="required">*</span></strong>
+                        <strong>Promotion Price:</strong>
                         {!! Form::number('promotion_price', null, array('placeholder' => 'Type Promotion Price','class' => 'form-control mt-2')) !!}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <strong>Available Date:</strong>
+                        {!! Form::date('available_date', null, array('placeholder' => 'Available Date','class' => 'form-control mt-2')) !!}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <strong>Rent Out Date:</strong>
+                        {!! Form::date('rent_out_date', null, array('placeholder' => 'Available Date','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -86,13 +92,13 @@
                 </div> 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <strong>Bank Loan: <span class="required">*</span></strong>
+                        <strong>Bank Loan:</strong>
                         {!! Form::checkbox('bank_loan', '1', false, array('class' => 'form-check-input mt-2')) !!}
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <strong>Public Status: <span class="required">*</span></strong>
+                        <strong>Public Status:</strong>
                         {!! Form::checkbox('public_status', '1', false, array('class' => 'form-check-input mt-2')) !!}
                     </div>
                 </div>
@@ -108,7 +114,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Division: <span class="required">*</span></strong>
-                        {!! Form::select('division', $division_arr, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'division-dropdown')) !!}
+                        {!! Form::select('division', $setup['divisions'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'division-dropdown')) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">
@@ -186,19 +192,19 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Tenure Property: <span class="required">*</span></strong>
-                        {!! Form::select('tenure_property', $tenureproperty, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('tenure_property', $setup['tenures'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Property Type: <span class="required">*</span></strong>
-                        {!! Form::select('property_type', $tenureproperty, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('property_type', $setup['propertytypes'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Floor: <span class="required">*</span></strong>
-                        {!! Form::select('floor', $tenureproperty, null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
+                        {!! Form::select('floor', $setup['floors'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -280,7 +286,7 @@
         </div> 
             
         <div class="col-md-12 py-4">
-            <a class="btn btn-primary px-4 py-2" href="{{ route('properties.index') }}"> Back</a>
+            <a class="btn btn-primary px-4 py-2" href="{{ route('property_rents.index') }}"> Back</a>
             <button type="submit" class="btn btn-primary px-4 py-2">Save</button>
         </div>
         
