@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('property_rents', PropertyRentController::class);     
 
     Route::post('/properties/img-delete', [PropertyController::class,'destory_img'])->name('property.img_delete');    
+    Route::post('/properties/doc-delete', [PropertyController::class,'destory_doc'])->name('property.doc_delete');    
     Route::get('/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    
     Route::get('/owners-detail/{owner}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');    
     Route::get('/profile', [UserController::class,'show'])->name('profile.index');    

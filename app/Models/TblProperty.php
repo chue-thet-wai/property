@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TblProperty extends Model
 {
@@ -20,7 +21,6 @@ class TblProperty extends Model
         'promotion_price',
         'description',
         'description_mm',
-        'property_location',
         'detail_address',
         'postal_code',
         'google_map_url',
@@ -39,10 +39,18 @@ class TblProperty extends Model
         'special_features',
         'view_count',
         'feature_photo',
+        'division',
+        'township',
+        'wrad',
         'remark',
         'created_by',
         'updated_by',
         'owner_id',
     ];
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(TblOwner::class, 'owner_id');
+    }
 
 }
