@@ -12,9 +12,9 @@
     define('SOLDOUTBYOTHERAGENCY', 'SOBYA');
 
     // property location
-    define('STATE', 'S');
-    define('CITY', 'C');
-    define('TOWNSHIP', 'T');
+    // define('STATE', 'S');
+    // define('CITY', 'C');
+    // define('TOWNSHIP', 'T');
 
     //property type
     define('APARTMENT', 'A');
