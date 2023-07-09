@@ -69,8 +69,7 @@ $("#inputImage").change(function () {
   readURL(this);
 });
 
-$(document).ready(function () {
-  $("#kt_table_widget_1").DataTable();
+$(document).ready(function () {  
 
   $("#division-dropdown").on("change", function () {
     var idDivision = this.value;

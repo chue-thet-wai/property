@@ -1,6 +1,6 @@
 <div class="card card-xxl-stretch">
     <div class="table-responsive">
-        <table class="table table-bordered" id="kt_table_widget_1">
+        <table class="table table-bordered" id="dataTable">
             <tbody>
                 <tr class="text-start bg-primary text-white text-uppercase">
                     @foreach ($headers as $key => $value)
