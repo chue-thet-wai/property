@@ -69,8 +69,9 @@ $("#inputImage").change(function () {
   readURL(this);
 });
 
-$(document).ready(function () {  
 
+$(document).ready(function () {
+  // $(".dataTable").DataTable();
   $("#division-dropdown").on("change", function () {
     var idDivision = this.value;
     // console.log(idDivision);
@@ -218,19 +219,34 @@ deleteButtons.forEach(function (button) {
   });
 });
 
-$('#front-area').focusout(function () {
+$("#front-area").focusout(function () {
   calculateAreaAcre();
 });
 
-$('#side-area').focusout(function () {
+$("#side-area").focusout(function () {
   calculateAreaAcre();
 });
 
 function calculateAreaAcre() {
-  var front_area = parseFloat($('#front-area').val());
-  var side_area = parseFloat($('#side-area').val());
+  var front_area = parseFloat($("#front-area").val());
+  var side_area = parseFloat($("#side-area").val());
   var square_feet = front_area * side_area;
   var acre = square_feet / 43560;
-  $('#square-feet').val(square_feet);
-  $('#acre').val(acre.toFixed(3));
+  $("#square-feet").val(square_feet);
+  $("#acre").val(acre.toFixed(3));
 }
+
+// zoom Image
+$(".showImage").click(function () {
+  var imageSrc = $(this).attr("src");
+  console.log(imageSrc);
+  $("#zoomed-image").attr("src", imageSrc);
+  $("#zoom-modal").modal("show");
+});
+
+$(".featurePhotoBox img").click(function () {
+  var imageSrc = $(this).attr("src");
+  console.log(imageSrc);
+  $("#zoomed-image").attr("src", imageSrc);
+  $("#zoom-modal").modal("show");
+});

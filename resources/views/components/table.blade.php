@@ -33,8 +33,8 @@
                                     <?php 
                                         $edit_route = $routename .'.edit'; 
                                     ?>
-                                    <td>
-                                        <a class="px-3 btn btn-primary"  href="{{ route($edit_route,$value) }}">Edit</a> 
+                                    <td class="w-25">
+                                        <a class="px-3 btn btn-action-dark"  href="{{ route($edit_route,$value) }}">Edit</a> 
                                     </td>
                                     @break
                                 @case('category')

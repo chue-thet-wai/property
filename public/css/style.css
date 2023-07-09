@@ -595,3 +595,10 @@ img {
   top: -3px;
   right: -3px;
 }
+
+.otherPhotoBox i,
+.documentsBox i,
+.showImage,
+.featurePhotoBox {
+  cursor: pointer;
+}

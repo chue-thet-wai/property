@@ -98,7 +98,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 @foreach (Config::get('languages') as $lang => $language)
                     @if ($lang != App::getLocale())
-                      <a class="dropdown-item" href="{{ route('lang.switch', $lang) }}">{{$language['display']}}</a>
+                      <a class="dropdown-item" href="{{ route('lang.switch', $lang) }}"> {{$language['display']}}</a>
                     @endif
                 @endforeach
               </div>
