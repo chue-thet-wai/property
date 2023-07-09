@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class PropertyRent extends Model
 {
@@ -48,4 +50,9 @@ class PropertyRent extends Model
         'township',
         'ward'
     ];
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(TblOwner::class, 'owner_id');
+    }
 }

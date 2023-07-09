@@ -17,11 +17,16 @@ class PropertyController extends Controller
     {
         $response = array();        
         $properties = array();
+        $division_arr = get_all_divisions();
+        $township_arr = get_all_townships();
+        $ward_arr = get_all_wards();
         $headers = array(
             'Id',            
             'Title',
-            'category',
             'Owner',
+            'Division',
+            'Township',
+            'Ward',
             'Build Year',
             'Price',
             'Actions',
@@ -33,12 +38,9 @@ class PropertyController extends Controller
         }
         if(session()->get(PROPERTY_NAMEFILTER)){
             $data = $data->where('tbl_properties.title','like','%'.trim(session()->get(PROPERTY_NAMEFILTER)).'%');
-        }
-        if(session()->get(PROPERTY_CATEGORYFILTER)){
-            $data = $data->where('tbl_properties.category',trim(session()->get(PROPERTY_CATEGORYFILTER)));
-        }
+        }        
         if(session()->get(PROPERTY_BUILDYEARFILTER)){
-            $data = $data->where('tbl_properties.builtyear',trim(session()->get(PROPERTY_BUILDYEARFILTER)));
+            $data = $data->where('tbl_properties.build_year',trim(session()->get(PROPERTY_BUILDYEARFILTER)));
         }
         if(session()->get(PROPERTY_MINPRICEFILTER)){
             $data = $data->where('tbl_properties.price','>=',trim(session()->get(PROPERTY_MINPRICEFILTER)));
@@ -46,14 +48,40 @@ class PropertyController extends Controller
         if(session()->get(PROPERTY_MAXPRICEFILTER)){
             $data = $data->where('tbl_properties.price','<=',trim(session()->get(PROPERTY_MAXPRICEFILTER)));
         }
-        $data = $data->orderBy('id','DESC')->paginate(10);
+        if(session()->get(PROPERTY_DIVISIONFILTER)){
+            $data = $data->where('tbl_properties.division',trim(session()->get(PROPERTY_DIVISIONFILTER)));
+        }
+        if(session()->get(PROPERTY_TOWNSHIPFILTER)){
+            $data = $data->where('tbl_properties.township',trim(session()->get(PROPERTY_TOWNSHIPFILTER)));
+        }
+        if(session()->get(PROPERTY_WARDFILTER)){
+            $data = $data->where('tbl_properties.ward',trim(session()->get(PROPERTY_WARDFILTER)));
+        }
+        $data = $data->where('tbl_properties.is_delete',0)->orderBy('id','DESC')->paginate(10);
         if($data){
             foreach($data as $row){
+                if(isset($row->division, $division_arr)){
+                    $division = $division_arr[$row->division];
+                }else{
+                    $division ='';
+                }
+                if(isset($row->township, $township_arr)){
+                    $township = $township_arr[$row->township];
+                }else{
+                    $township ='';
+                }
+                if(isset($row->ward, $ward_arr)){
+                    $ward = $ward_arr[$row->ward];
+                }else{
+                    $ward ='';
+                }
                 $list = array();
                 $list['id'] = $row->id;
                 $list['title'] = $row->title;
-                $list['category'] = $row->category;
                 $list['name'] = $row->name;
+                $list['division'] = $division;
+                $list['township'] = $township;
+                $list['ward'] = $ward;
                 $list['build_year'] = $row->build_year;
                 $list['price'] = $row->price;
                 $list['actions'] = $row->id;
@@ -63,7 +91,11 @@ class PropertyController extends Controller
         $response['properties'] = $properties;
         $response['headers'] = $headers;
 
-        return view('properties.index',compact('response'))
+        $setup['divisions'] = $division_arr;
+        $setup['townships'] = $township_arr;
+        $setup['wards'] = $ward_arr;
+
+        return view('properties.index',compact('response','setup'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
         }
     }
@@ -168,16 +200,6 @@ class PropertyController extends Controller
     }
 
     public function edit($id){
-        $divisions = get_all_divisions();
-        $tenures = get_all_tenures();
-        $propertytypes = get_all_propertytypes();
-        $floors = get_all_floors();
-        $setup = [];          
-        $setup['divisions'] = $divisions; 
-        $setup['tenures'] = $tenures; 
-        $setup['propertytypes'] = $propertytypes; 
-        $setup['floors'] = $floors;
-
         $property = TblProperty::with('owner')->find($id);
         $images = TblPropertyImage::where('property_id',$id)->get();        
         $documents = TblPropertyDocument::where('property_id',$id)->get();        
@@ -186,7 +208,19 @@ class PropertyController extends Controller
         $response['images'] = $images;
         $response['document'] = $documents;
 
-        // return $property;
+        $divisions = get_all_divisions();
+        $townships = get_townships_by_division($property->division);
+        $wards = get_wards_by_township($property->township);
+        $tenures = get_all_tenures();
+        $propertytypes = get_all_propertytypes();
+        $floors = get_all_floors();
+        $setup = [];          
+        $setup['divisions'] = $divisions; 
+        $setup['townships'] = $townships; 
+        $setup['wards'] = $wards; 
+        $setup['tenures'] = $tenures; 
+        $setup['propertytypes'] = $propertytypes; 
+        $setup['floors'] = $floors;
 
         return view('properties.edit',compact('response', 'setup'));
     }
@@ -397,12 +431,12 @@ class PropertyController extends Controller
         session()->start();
         session()->put(PROPERTY_IDFILTER, trim($request->id));
         session()->put(PROPERTY_NAMEFILTER, trim($request->name));
-        session()->put(PROPERTY_CATEGORYFILTER, trim($request->category));
-        session()->put(PROPERTY_LOCATIONFILTER, trim($request->location));
         session()->put(PROPERTY_BUILDYEARFILTER, trim($request->build_year));
         session()->put(PROPERTY_MINPRICEFILTER, trim($request->min_price));
         session()->put(PROPERTY_MAXPRICEFILTER, trim($request->max_price));
-
+        session()->put(PROPERTY_DIVISIONFILTER,trim($request->division));
+        session()->put(PROPERTY_TOWNSHIPFILTER,trim($request->township));
+        session()->put(PROPERTY_WARDFILTER,trim($request->ward));
         return redirect()->route('properties.index');
     }
 
@@ -410,12 +444,18 @@ class PropertyController extends Controller
         session()->forget([
             PROPERTY_IDFILTER,
             PROPERTY_NAMEFILTER,
-            PROPERTY_CATEGORYFILTER,
-            PROPERTY_LOCATIONFILTER,
             PROPERTY_BUILDYEARFILTER,
             PROPERTY_MINPRICEFILTER,
             PROPERTY_MAXPRICEFILTER,
+            PROPERTY_DIVISIONFILTER,
+            PROPERTY_TOWNSHIPFILTER,
+            PROPERTY_WARDFILTER,
         ]);
+        return redirect()->route('properties.index');
+    }
+
+    public function destroy($id){
+        TblProperty::find($id)->delete();
         return redirect()->route('properties.index');
     }
 }
