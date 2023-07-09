@@ -69,9 +69,9 @@ $("#inputImage").change(function () {
   readURL(this);
 });
 
+
 $(document).ready(function () {
   // $(".dataTable").DataTable();
-
   $("#division-dropdown").on("change", function () {
     var idDivision = this.value;
     // console.log(idDivision);

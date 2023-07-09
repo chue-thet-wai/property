@@ -167,7 +167,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
      
         <div class="bg-white px-4 py-5 rounded mb-2">
