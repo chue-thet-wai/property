@@ -4,6 +4,10 @@ $.ajaxSetup({
   },
 });
 
+$("#table_id").DataTable({
+  lengthChange: false, // Disable "Show entries"
+});
+
 function readURL(input) {
   if (input.files && input.files[0]) {
     $.each(input.files, function (key, value) {
@@ -71,7 +75,7 @@ $("#inputImage").change(function () {
 
 
 $(document).ready(function () {
-  // $(".dataTable").DataTable();
+  
   $("#division-dropdown").on("change", function () {
     var idDivision = this.value;
     // console.log(idDivision);

@@ -38,7 +38,7 @@ class PropertyRentController extends Controller
             $data = $data->where('property_rents.title','like','%'.trim(session()->get(PROPERTY_RENT_NAMEFILTER)).'%');
         }        
         if(session()->get(PROPERTY_RENT_BUILDYEARFILTER)){
-            $data = $data->where('property_rents.builtyear',trim(session()->get(PROPERTY_RENT_BUILDYEARFILTER)));
+            $data = $data->where('property_rents.build_year',trim(session()->get(PROPERTY_RENT_BUILDYEARFILTER)));
         }
         if(session()->get(PROPERTY_RENT_MINPRICEFILTER)){
             $data = $data->where('property_rents.price','>=',trim(session()->get(PROPERTY_RENT_MINPRICEFILTER)));
