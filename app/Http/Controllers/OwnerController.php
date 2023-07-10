@@ -34,7 +34,7 @@ class OwnerController extends Controller
         if(session()->get(OWNER_NAMEFILTER)){
             $data = $data->where('tbl_owners.name','like','%'.session()->get(OWNER_NAMEFILTER).'%');
         }
-        $data = $data->orderBy('id','DESC')->paginate(10);
+        $data = $data->orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list = array();
@@ -50,8 +50,7 @@ class OwnerController extends Controller
         $response['owners'] = $owners;
         $response['headers'] = $headers;
 
-        return view('owners.index',compact('response'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        return view('owners.index',compact('response'));
         }
     }
     public function create(){
@@ -145,7 +144,7 @@ class OwnerController extends Controller
             'story',
             'bedroom',
             'bathroom')
-            ->where('owner_id',$id)->orderBy('id','DESC')->paginate(10);
+            ->where('owner_id',$id)->orderBy('id','DESC');
             if($data){
                 foreach($data as $row){
                     $list = array();

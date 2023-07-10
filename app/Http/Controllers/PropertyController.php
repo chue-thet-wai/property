@@ -57,7 +57,7 @@ class PropertyController extends Controller
         if(session()->get(PROPERTY_WARDFILTER)){
             $data = $data->where('tbl_properties.ward',trim(session()->get(PROPERTY_WARDFILTER)));
         }
-        $data = $data->where('tbl_properties.is_delete',0)->orderBy('id','DESC')->paginate(10);
+        $data = $data->where('tbl_properties.is_delete',0)->orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 if(isset($row->division, $division_arr)){
@@ -95,8 +95,7 @@ class PropertyController extends Controller
         $setup['townships'] = $township_arr;
         $setup['wards'] = $ward_arr;
 
-        return view('properties.index',compact('response','setup'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        return view('properties.index',compact('response','setup'));
         }
     }
 
