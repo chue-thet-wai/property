@@ -602,3 +602,7 @@ img {
 .featurePhotoBox {
   cursor: pointer;
 }
+
+#table_id_filter input[type=search]{
+  margin:10px !important;
+}
