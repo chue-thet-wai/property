@@ -12,7 +12,7 @@ class DivisionController extends Controller
         $response = [];
         $headers = ['Division','Actions'];
         
-        $data = Division::orderBy('id','DESC')->paginate(10);
+        $data = Division::orderBy('id','DESC');
         if($data){
             foreach($data as $row){
                 $list['division'] = $row->division;

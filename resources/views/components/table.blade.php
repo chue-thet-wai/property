@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 @foreach ($body as $row)
-                    <tr>
+                    <tr class="">
                         @foreach ($row as $key => $value)
                             @switch($key)
                                 @case('actions')

@@ -33,7 +33,7 @@
     </div>
     <x-create-btn label="Create New Owner" route="owners"/>
     <x-table :body="$response['owners']" :headers="$response['headers']" routename="owners" title="Owners"/>
-    {!! $response['data']->render() !!}
+    
 @endsection
 
 

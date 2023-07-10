@@ -14,12 +14,17 @@
 <div class="card card-xxl-stretch">
     <div class="table-responsive">
         <table class="table table-bordered" id="kt_table_widget_1">
-            <tbody>
+            <thead>
                 <tr class="text-start bg-primary text-white text-uppercase">
                     <th>No</th>
                     <th>Name</th>
                     <th width="280px">Action</th>
                 </tr>
+            </thead>
+            <tbody>
+                @php
+                    $i = 0;
+                @endphp
                 @foreach ($roles as $key => $role)
                 <tr>
                     <td>{{ ++$i }}</td>
@@ -41,6 +46,4 @@
         </table>
     </div>
 </div>
-
-{!! $roles->render() !!}
 @endsection

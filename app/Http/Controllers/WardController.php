@@ -12,7 +12,7 @@ class WardController extends Controller
         $wards = [];
         $response =[];
         $headers = ['Ward','Township','Action'];
-        $data = Ward::orderBy('created_at','DESC')->paginate(10);
+        $data = Ward::orderBy('created_at','DESC');
         $township_arr = get_all_townships();
         if($data){
             foreach($data as $row){
