@@ -32,8 +32,7 @@
         {!! Form::close() !!}
     </div>
     <x-create-btn label="Create New Owner" route="owners"/>
-    <x-table :body="$response['owners']" :headers="$response['headers']" routename="owners" title="Owners"/>
-    
+    <x-table :body="$response['owners']" :headers="$response['headers']" routename="owners" title="Owners"/>    
 @endsection
 
 
