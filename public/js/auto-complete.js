@@ -296,7 +296,6 @@ function autocompletephonenumber(inp, arr) {
 }
 
 var owners = [];
-
 if (document.getElementById("owner")) {
   $.get("/get-owners", function (data, status) {
     if (status == 'success') {
@@ -342,9 +341,10 @@ function getOwnerDetails(owner) {
     if (status == 'success' && data.name !== undefined) {
       document.getElementById("owner_id").value = data.id;
       document.getElementById("phonenumber").value = data.phonenumber;
-      console.log('data',data);
+      document.getElementById("owner").value = data.name;
     } else {
       document.getElementById("owner_id").value = '';
+      document.getElementById("owner").value = '';
       document.getElementById("phonenumber").value = '';
     }
   });
@@ -354,9 +354,11 @@ function getOwnerDetailsWithPhone(phonenumber) {
     if (status == 'success' && data.name !== undefined) {
       document.getElementById("owner_id").value = data.id;
       document.getElementById("owner").value = data.name;
+      document.getElementById("phonenumber").value = data.phonenumber;
     } else {
       document.getElementById("owner_id").value = '';
       document.getElementById("owner").value = '';
+      document.getElementById("phonenumber").value = '';
     }
   });
 }
