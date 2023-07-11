@@ -137,7 +137,7 @@ function autocompletewithdata(inp, arr) {
         a.appendChild(b);
       }
     }
-  });    
+  });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function (e) {
     var x = document.getElementById(this.id + "autocomplete-list");
@@ -163,7 +163,6 @@ function autocompletewithdata(inp, arr) {
       }
     }
   });
-
   function addActive(x) {
     /*a function to classify an item as "active":*/
     if (!x) return false;
@@ -196,7 +195,7 @@ function autocompletewithdata(inp, arr) {
   });
 }
 
-function autocompletephonenumber(inp, arr) {
+function autocompletePhone(inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
@@ -236,7 +235,7 @@ function autocompletephonenumber(inp, arr) {
         a.appendChild(b);
       }
     }
-  });    
+  });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function (e) {
     var x = document.getElementById(this.id + "autocomplete-list");
@@ -262,7 +261,6 @@ function autocompletephonenumber(inp, arr) {
       }
     }
   });
-
   function addActive(x) {
     /*a function to classify an item as "active":*/
     if (!x) return false;
@@ -296,6 +294,7 @@ function autocompletephonenumber(inp, arr) {
 }
 
 var owners = [];
+
 if (document.getElementById("owner")) {
   $.get("/get-owners", function (data, status) {
     if (status == 'success') {
@@ -312,10 +311,8 @@ var owners_phone = [];
 if (document.getElementById("phonenumber")) {
   $.get("/get-owners-phone", function (data, status) {
     if (status == 'success') {
-      console.log('success');
-      console.log('owner', data);
       owners_phone = Object.keys(data).map((key) => data[key]);
-      autocompletephonenumber(document.getElementById("phonenumber"), owners_phone);
+      autocompletePhone(document.getElementById("phonenumber"), owners_phone);
     } else {
       console.log(status);
     }
@@ -324,15 +321,19 @@ if (document.getElementById("phonenumber")) {
 
 if (document.getElementById("owner")) {
   document.getElementById("owner").addEventListener("focusout", function () {
-    const myArray = this.value.split("(");
-    getOwnerDetails(myArray[0]);
+    var split_arr = this.value.split('(');
+    if (split_arr.length > 1) {
+        getOwnerDetails(split_arr[0]);      
+    }
   });
-  }
-  
+}
+
 if (document.getElementById("phonenumber")) {
   document.getElementById("phonenumber").addEventListener("focusout", function () {
-    const myArray = this.value.split("(");
-    getOwnerDetailsWithPhone(myArray[0]);
+    var split_arr = this.value.split('(');
+    if (split_arr.length > 1){
+      getOwnerDetailsPhone(split_arr[0]);      
+    }
   });
 }
 
@@ -344,21 +345,22 @@ function getOwnerDetails(owner) {
       document.getElementById("owner").value = data.name;
     } else {
       document.getElementById("owner_id").value = '';
-      document.getElementById("owner").value = '';
       document.getElementById("phonenumber").value = '';
+      document.getElementById("owner").value = '';
     }
   });
 }
-function getOwnerDetailsWithPhone(phonenumber) {
+
+function getOwnerDetailsPhone(phonenumber) {
   $.get("/owners-detail-phone/" + phonenumber, function (data, status) {
     if (status == 'success' && data.name !== undefined) {
       document.getElementById("owner_id").value = data.id;
-      document.getElementById("owner").value = data.name;
       document.getElementById("phonenumber").value = data.phonenumber;
+      document.getElementById("owner").value = data.name;
     } else {
       document.getElementById("owner_id").value = '';
-      document.getElementById("owner").value = '';
       document.getElementById("phonenumber").value = '';
+      document.getElementById("owner").value = '';
     }
   });
 }
