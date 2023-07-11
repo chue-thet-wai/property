@@ -148,25 +148,25 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Front Area: <span class="required">*</span></strong>
-                        {!! Form::number('front_area', null, array('placeholder' => 'Type Front Area','class' => 'form-control')) !!}
+                        {!! Form::number('front_area', null, array('placeholder' => 'Type Front Area','class' => 'form-control','id'=>'front-area','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Side Area: <span class="required">*</span></strong>
-                        {!! Form::number('side_area', null, array('placeholder' => 'Type Side Area','class' => 'form-control')) !!}
+                        {!! Form::number('side_area', null, array('placeholder' => 'Type Side Area','class' => 'form-control','id'=>'side-area','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Square Feet: <span class="required">*</span></strong>
-                        {!! Form::number('square_feet', null, array('placeholder' => 'Type Square Feet','class' => 'form-control')) !!}
+                        {!! Form::number('square_feet', null, array('placeholder' => 'Type Square Feet','class' => 'form-control','id'=>'square-feet','required')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Acre: <span class="required">*</span></strong>
-                        {!! Form::number('acre', null, array('placeholder' => 'Type acre','class' => 'form-control')) !!}
+                        {!! Form::number('acre', null, array('placeholder' => 'Type acre','class' => 'form-control','id'=>'acre','required')) !!}
                     </div>
                 </div>
             </div>
@@ -259,7 +259,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>View Count: <span class="required">*</span></strong>
+                        <strong>View Count:</strong>
                         {!! Form::number('view_count', null, ['placeholder'=>'Type View Count','class' => 'form-control mt-2']) !!}
                     </div>
                 </div>
