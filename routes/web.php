@@ -58,7 +58,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/property-rent/img-delete', [PropertyRentController::class,'destory_img'])->name('property_rent.img_delete');    
     Route::post('/property-rent/doc-delete', [PropertyRentController::class,'destory_doc'])->name('property_rent.doc_delete');    
     Route::get('/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    
-    Route::get('/owners-detail/{owner}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');    
+    Route::get('/owners-detail/{owner}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');  
+    Route::get('/get-owners-phone', [OwnerController::class,'get_owners_with_phone'])->name('owners.get-owners-phone');    
+    Route::get('/owners-detail-phone/{phonenumber}', [OwnerController::class,'get_owner_details_with_phone'])->name('owners.get-owners-details-phone');    
     Route::get('/profile', [UserController::class,'show'])->name('profile.index');    
     Route::post('/properties/search',[PropertyController::class,'search'])->name('properties.search');
     Route::get('/properties/search/reset',[PropertyController::class,'reset'])->name('properties.search.reset');

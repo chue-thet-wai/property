@@ -12,7 +12,7 @@ class PropertyTypeController extends Controller
         $response = [];
         $headers = ['Property Type','Actions'];
         
-        $data = PropertyType::orderBy('id','DESC');
+        $data = PropertyType::orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list['property_type'] = $row->property_type;
