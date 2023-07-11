@@ -173,14 +173,30 @@ class OwnerController extends Controller
         $owners = TblOwner::get();
         if($owners){
             foreach($owners as $row){ 
-                $owner_arr[$row->id] = $row->name;            
+                $owner_arr[$row->id] = $row->name . ' (' .$row->phonenumber . ')';            
             }
         }
         return $owner_arr;
     }
 
+    public function get_owners_with_phone(){
+        $owner_phone_arr = array();
+        $owner_phones = TblOwner::get();
+        if($owner_phones){
+            foreach($owner_phones as $row){ 
+                $owner_phone_arr[$row->id] = $row->phonenumber. ' (' .$row->name . ')';            
+            }
+        }
+        return $owner_phone_arr;
+    }
+
     public function get_owner_details($owner){
         $owner = TblOwner::where('name',$owner)->first();
+        return $owner;
+    }
+
+    public function get_owner_details_with_phone($phonenumber){
+        $owner = TblOwner::where('phonenumber',$phonenumber)->first();
         return $owner;
     }
 

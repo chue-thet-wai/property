@@ -11,7 +11,7 @@ class TownshipController extends Controller
         $townships = [];
         $response =[];
         $headers = ['Township','Action'];
-        $data = Township::orderBy('created_at','DESC');
+        $data = Township::orderBy('created_at','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list = [];

@@ -24,7 +24,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <strong>Owner Contact: <span class="required">*</span></strong>
-                        {!! Form::text('phonenumber', null, array('class' => 'form-control mt-2','id'=>'phonenumber','readonly')) !!}
+                        {!! Form::text('phonenumber', null, array('class' => 'form-control mt-2','id'=>'phonenumber')) !!}
                     </div>
                 </div> 
             </div>
