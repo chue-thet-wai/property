@@ -296,7 +296,6 @@ function autocompletephonenumber(inp, arr) {
 }
 
 var owners = [];
-
 if (document.getElementById("owner")) {
   $.get("/get-owners", function (data, status) {
     if (status == 'success') {
