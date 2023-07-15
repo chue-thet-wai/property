@@ -124,6 +124,7 @@ class PropertyRentController extends Controller
             'price'=>'required',
             'description'=>'required',
             'description_mm'=>'required',
+            'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
             'square_feet'=>'required',
@@ -131,16 +132,9 @@ class PropertyRentController extends Controller
             'tenure_property'=>'required',
             'property_type'=>'required',
             'floor' =>'required',
-            'build_year' => 'required',
-            'master_bedroom' => 'required',
-            'common_room' => 'required',
-            'bathroom' => 'required',
             'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             'other_photo' => 'required|max:1024',
             'confidential_documents' => 'required|max:1024',
-            'division'=>'required',
-            'township' => 'required',
-            'ward' => 'required',
         ]);
       
         $inputs = $request->all();
@@ -206,14 +200,15 @@ class PropertyRentController extends Controller
         $property = PropertyRent::with('owner')->find($id);
         $images = PropertyRentImage::where('property_rent_id',$id)->get(); 
         $documents = PropertyRentDocument::where('property_rent_id',$id)->get();        
-        $property_floors = PropertyFloor::where('property_id',$id)->get();      
-          
+        $property_floors = get_property_floor_id($id); 
+        
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
         $response['documents'] = $documents;
         $response['property_floors'] = $property_floors;
-
+        
+        // return $response;
         $divisions = get_all_divisions();
         $townships = get_townships_by_division($property->division);
         $wards = get_wards_by_township($property->township);
@@ -240,6 +235,7 @@ class PropertyRentController extends Controller
             'price'=>'required',
             'description'=>'required',
             'description_mm'=>'required',
+            'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
             'square_feet'=>'required',
@@ -247,19 +243,9 @@ class PropertyRentController extends Controller
             'tenure_property'=>'required',
             'property_type'=>'required',
             'floor' =>'required',
-            'build_year' => 'required',
-            'master_bedroom' => 'required',
-            'common_room' => 'required',
-            'bathroom' => 'required',
-            // 'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            // 'other_photo' => 'required|max:1024',
-            // 'confidential_documents' => 'required|max:1024',
-            'division'=>'required',
-            'township' => 'required',
-            'ward' => 'required',
         ]);
 
-        return $request->floor;
+        // return $request->floor;
       
         $inputs = $request->all();
         if($request->feature_photo){
@@ -275,6 +261,7 @@ class PropertyRentController extends Controller
             $property->update($inputs);
             $floors = $request->floor;
             if($floors){
+                PropertyFloor::where('property_id', $property->id)->delete();
                 foreach($floors as $floor){
                     $floor_inputs = [];
                     $floor_inputs['property_id'] = $property->id;
@@ -389,10 +376,12 @@ class PropertyRentController extends Controller
         $property = PropertyRent::with('owner')->find($id);
         $images = PropertyRentImage::where('property_rent_id',$id)->get();        
         $documents = PropertyRentDocument::where('property_rent_id',$id)->get();        
+        $property_floor = PropertyFloor::where('property_id',$id)->get();      
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
         $response['document'] = $documents;
+        $response['property_floor'] = $property_floor;
 
         return view('properties.detail',compact('response', 'setup'));
     }

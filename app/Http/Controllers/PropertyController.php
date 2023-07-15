@@ -106,11 +106,8 @@ class PropertyController extends Controller
             'title_mm'=>'required',
             'status'=>'required',
             'price'=>'required',
-            'promotion_price'=>'required',
             'description'=>'required',
             'description_mm'=>'required',
-            'postal_code'=>'required',
-            'google_map_url'=>'required',
             'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
@@ -119,16 +116,6 @@ class PropertyController extends Controller
             'tenure_property'=>'required',
             'property_type'=>'required',
             'floor' =>'required',
-            'build_year' => 'required',
-            'master_bedroom' => 'required',
-            'common_room' => 'required',
-            'bathroom' => 'required',
-            'building_facility' => 'required',
-            'special_features.*' => 'required',
-            'remark' => 'required',
-            'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'other_photo' => 'required|max:1024',
-            'confidential_documents' => 'required|max:1024',
         ]);
       
         $inputs = $request->all();
@@ -186,19 +173,27 @@ class PropertyController extends Controller
         $tenures = get_all_tenures();
         $propertytypes = get_all_propertytypes();
         $floors = get_all_floors();
+        $townships = get_all_townships();
+        $wards = get_all_wards();
+        $property_floors = get_property_floor_id($id); 
+
         $setup = [];          
         $setup['divisions'] = $divisions; 
         $setup['tenures'] = $tenures; 
         $setup['propertytypes'] = $propertytypes; 
         $setup['floors'] = $floors;
+        $setup['townships'] = $townships;
+        $setup['wards'] = $wards;
 
         $property = TblProperty::with('owner')->find($id);
         $images = TblPropertyImage::where('property_id',$id)->get();        
-        $documents = TblPropertyDocument::where('property_id',$id)->get();        
+        $documents = TblPropertyDocument::where('property_id',$id)->get();
+              
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
         $response['document'] = $documents;
+        $response['property_floors'] = $property_floors;
 
         // return $property;
 
@@ -214,11 +209,8 @@ class PropertyController extends Controller
             'title_mm'=>'required',
             'status'=>'required',
             'price'=>'required',
-            'promotion_price'=>'required',
             'description'=>'required',
             'description_mm'=>'required',
-            'postal_code'=>'required',
-            'google_map_url'=>'required',
             'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
@@ -227,16 +219,6 @@ class PropertyController extends Controller
             'tenure_property'=>'required',
             'property_type'=>'required',
             'floor' =>'required',
-            'build_year' => 'required',
-            'master_bedroom' => 'required',
-            'common_room' => 'required',
-            'bathroom' => 'required',
-            'building_facility' => 'required',
-            'special_features.*' => 'required',
-            // 'remark' => 'required',
-            // 'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            // 'other_photo' => 'required|max:1024',
-            // 'confidential_documents' => 'required|max:1024',
         ]);
 
         $inputs = $request->all();
@@ -253,6 +235,16 @@ class PropertyController extends Controller
         $property = TblProperty::find($id);
         try{
             $property->update($inputs);
+            $floors = $request->floor;
+            if($floors){
+                PropertyFloor::where('property_id', $property->id)->delete();
+                foreach($floors as $floor){
+                    $floor_inputs = [];
+                    $floor_inputs['property_id'] = $property->id;
+                    $floor_inputs['floor_id'] = $floor;                
+                    PropertyFloor::create($floor_inputs);
+                }
+            }
             $images = [];
             $documents = [];
             if ($request->other_photo){
@@ -290,6 +282,7 @@ class PropertyController extends Controller
             Log::error('Error update property');
             Log::error($e->getMessage());
         }
+
         return redirect()->route('properties.index');
     }
 
@@ -312,12 +305,15 @@ class PropertyController extends Controller
 
         $property = TblProperty::with('owner')->find($id);
         $images = TblPropertyImage::where('property_id',$id)->get();        
-        $documents = TblPropertyDocument::where('property_id',$id)->get();        
+        $documents = TblPropertyDocument::where('property_id',$id)->get();  
+        $property_floor = PropertyFloor::where('property_id',$id)->get();        
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
         $response['document'] = $documents;
+        $response['property_floor'] = $property_floor;
 
+        // return $property_floor;
         return view('properties.detail',compact('response', 'setup'));
     }
 
