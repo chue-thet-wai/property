@@ -188,7 +188,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Floor: <span class="required">*</span></strong>
-                        {!! Form::select('floor', $setup['floors'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2','required')) !!}
+                        {!! Form::select('floor[]', $setup['floors'], $response['property_floors'], array('placeholder' => 'Choose...','class' => 'form-control mt-2','multiple')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">

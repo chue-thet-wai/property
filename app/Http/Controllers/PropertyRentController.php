@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\PropertyRent;
 use App\Models\PropertyRentImage;
 use App\Models\PropertyRentDocument;
+use App\Models\PropertyFloor;
 use App\Models\Division;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -150,6 +151,15 @@ class PropertyRentController extends Controller
         $inputs['created_by'] = auth()->user()->id;
         try{            
             $property = PropertyRent::create($inputs);
+            $floors = $request->floor;
+            if($floors){
+                foreach($floors as $floor){
+                    $floor_inputs = [];
+                    $floor_inputs['property_id'] = $property->id;
+                    $floor_inputs['floor_id'] = $floor;                    
+                    PropertyFloor::create($floor_inputs);
+                }
+            }
             $image->storeAs('public/feature_images', $imageName);
             $images = [];
             $documents = [];
@@ -196,10 +206,13 @@ class PropertyRentController extends Controller
         $property = PropertyRent::with('owner')->find($id);
         $images = PropertyRentImage::where('property_rent_id',$id)->get(); 
         $documents = PropertyRentDocument::where('property_rent_id',$id)->get();        
+        $property_floors = PropertyFloor::where('property_id',$id)->get();      
+          
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
         $response['documents'] = $documents;
+        $response['property_floors'] = $property_floors;
 
         $divisions = get_all_divisions();
         $townships = get_townships_by_division($property->division);
@@ -245,6 +258,8 @@ class PropertyRentController extends Controller
             'township' => 'required',
             'ward' => 'required',
         ]);
+
+        return $request->floor;
       
         $inputs = $request->all();
         if($request->feature_photo){
@@ -258,6 +273,15 @@ class PropertyRentController extends Controller
         $property = PropertyRent::find($id);
         try{           
             $property->update($inputs);
+            $floors = $request->floor;
+            if($floors){
+                foreach($floors as $floor){
+                    $floor_inputs = [];
+                    $floor_inputs['property_id'] = $property->id;
+                    $floor_inputs['floor_id'] = $floor;                    
+                    PropertyFloor::create($floor_inputs);
+                }
+            }
             $images = [];
             $documents = [];
             if ($request->other_photo){
