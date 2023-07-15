@@ -200,7 +200,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Floor: <span class="required">*</span></strong>
-                        {!! Form::select('floor[]', $setup['floors'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2','multiple')) !!}
+                        {!! Form::select('floor[]', $setup['floors'], null, array('class' => 'form-control mt-2 selectpicker','multiple','data-live-search'=>'true','id'=>'floor')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
