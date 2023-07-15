@@ -15,6 +15,10 @@
                 <strong>Division: <span class="required">*</span></strong>
                 {!! Form::text('division', $division->division, array('placeholder' => 'Division','class' => 'form-control','required')) !!}
             </div>
+            <div class="form-group">
+                <strong>Division: <span class="required">*</span></strong>
+                {!! Form::text('division_mm', $division->division_mm, array('placeholder' => 'Division','class' => 'form-control','required')) !!}
+            </div>
         </div>        
         <div class="col-xs-12 col-sm-12 col-md-12 py-4">
             <a class="btn btn-primary" href="{{ route('divisions.index') }}"> Back</a>

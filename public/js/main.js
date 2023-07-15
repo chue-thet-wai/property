@@ -70,7 +70,8 @@ $("#inputImage").change(function () {
 });
 
 $(document).ready(function () {
-  // $(".dataTable").DataTable();
+  $.noConflict();
+  $("#kt_table_widget_1").DataTable();
 
   $("#division-dropdown").on("change", function () {
     var idDivision = this.value;

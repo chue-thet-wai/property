@@ -10,12 +10,15 @@ class TownshipController extends Controller
     public function index(){
         $townships = [];
         $response =[];
-        $headers = ['Township','Action'];
+        $headers = ['Division', 'Township', 'Township(mm)', 'Action'];
         $data = Township::orderBy('created_at','DESC')->paginate(10);
+        $division_arr = get_all_divisions();
         if($data){
             foreach($data as $row){
                 $list = [];
+                $list['division'] = $division_arr[$row->division_id];
                 $list['township'] = $row->township;
+                $list['township_mm'] = $row->township_mm;
                 $list['action'] = $row->id;
                 $townships[] = $list;
             }
@@ -33,7 +36,8 @@ class TownshipController extends Controller
 
     public function store(Request $request){
         $this->validate($request, [
-            'township'=>'required|unique:townships,township'                    
+            'township'=>'required|unique:townships,township',
+            'township_mm'=>'required|unique:townships,township_mm'                    
         ]);
         
         $input = $request->all();
@@ -52,7 +56,8 @@ class TownshipController extends Controller
 
     public function update(Request $request, $id){
          $this->validate($request, [
-            'township'=>'required|unique:townships,township,'.$id                    
+            'township'=>'required|unique:townships,township,'.$id,                  
+            'township_mm'=>'required|unique:townships,township_mm,'.$id                  
         ]);
 
         $township = Township::find($id);

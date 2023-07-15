@@ -10,12 +10,13 @@ class FloorController extends Controller
     public function index(){
         $floors = [];
         $response = [];
-        $headers = ['Floor','Actions'];
+        $headers = ['Floor', 'Floor(mm)','Actions'];
         
         $data = Floor::orderBy('id','DESC')->paginate(10);
         if($data){
             foreach($data as $row){
                 $list['floor'] = $row->floor;
+                $list['floor_mm'] = $row->floor_mm;
                 $list['action'] = $row->id;
                 $floors[] = $list;
             }
@@ -32,7 +33,8 @@ class FloorController extends Controller
 
     public function store(Request $request){
         $this->validate($request, [
-            'floor'=>'required|unique:floors,floor'                    
+            'floor'=>'required|unique:floors,floor',                 
+            'floor_mm'=>'required|unique:floors,floor_mm'                 
         ]);
         
         $input = $request->all();
@@ -50,7 +52,8 @@ class FloorController extends Controller
 
     public function update(Request $request,$id){
         $this->validate($request, [
-            'floor'=>'required|unique:floors,floor,'.$id                    
+            'floor'=>'required|unique:floors,floor,'.$id,
+            'floor_mm'=>'required|unique:floors,floor_mm,'.$id
         ]);
 
         $floor = Floor::find($id);

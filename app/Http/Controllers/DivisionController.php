@@ -10,12 +10,13 @@ class DivisionController extends Controller
     public function index(){
         $divisions = [];
         $response = [];
-        $headers = ['Division','Actions'];
+        $headers = ['Division', 'Division(mm)','Actions'];
         
         $data = Division::orderBy('id','DESC')->paginate(10);
         if($data){
             foreach($data as $row){
                 $list['division'] = $row->division;
+                $list['division_mm'] = $row->division_mm;
                 $list['action'] = $row->id;
                 $divisions[] = $list;
             }
@@ -32,7 +33,8 @@ class DivisionController extends Controller
 
     public function store(Request $request){
         $this->validate($request, [
-            'division'=>'required|unique:divisions,division'                    
+            'division'=>'required|unique:divisions,division',               
+            'division_mm'=>'required|unique:divisions,division_mm'                 
         ]);
         
         $input = $request->all();
@@ -50,7 +52,8 @@ class DivisionController extends Controller
 
     public function update(Request $request,$id){
         $this->validate($request, [
-            'division'=>'required|unique:divisions,division,'.$id                    
+            'division'=>'required|unique:divisions,division,'.$id,                   
+            'division_mm'=>'required|unique:divisions,division_mm,'.$id,                   
         ]);
 
         $division = Division::find($id);

@@ -10,12 +10,13 @@ class PropertyTypeController extends Controller
     public function index(){
         $property_types = [];
         $response = [];
-        $headers = ['Property Type','Actions'];
+        $headers = ['Property Type', 'Property_Type(mm)','Actions'];
         
         $data = PropertyType::orderBy('id','DESC')->paginate(10);
         if($data){
             foreach($data as $row){
                 $list['property_type'] = $row->property_type;
+                $list['property_type_mm'] = $row->property_type_mm;
                 $list['action'] = $row->id;
                 $property_types[] = $list;
             }
@@ -32,7 +33,8 @@ class PropertyTypeController extends Controller
 
     public function store(Request $request){
         $this->validate($request, [
-            'property_type'=>'required|unique:property_types,property_type'                    
+            'property_type'=>'required|unique:property_types,property_type',
+            'property_type_mm'=>'required|unique:property_types,property_type_mm'
         ]);
         
         $input = $request->all();
@@ -50,7 +52,8 @@ class PropertyTypeController extends Controller
 
     public function update(Request $request,$id){
         $this->validate($request, [
-            'property_type'=>'required|unique:property_types,property_type,'.$id                    
+            'property_type'=>'required|unique:property_types,property_type,'.$id,                   
+            'property_type_mm'=>'required|unique:property_types,property_type_mm,'.$id,                   
         ]);
 
         $property_type = PropertyType::find($id);

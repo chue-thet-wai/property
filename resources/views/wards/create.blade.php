@@ -22,6 +22,12 @@
                 {!! Form::text('ward', null, array('placeholder' => 'Ward Name','class' => 'form-control','required')) !!}
             </div>
         </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="form-group">
+                <strong>Ward(mm): <span class="required">*</span></strong>
+                {!! Form::text('ward_mm', null, array('placeholder' => 'Ward Name','class' => 'form-control','required')) !!}
+            </div>
+        </div>
         <div class="col-xs-12 col-sm-12 col-md-12 py-4">
             <a class="btn btn-primary" href="{{ route('wards.index') }}"> Back</a>
             <button type="submit" class="btn btn-primary">Submit</button>

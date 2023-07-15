@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Tenure extends Model
 {
     use HasFactory;
-    protected $fillable = ['tenure'];
+    protected $fillable = ['tenure', 'tenure_mm'];
 }

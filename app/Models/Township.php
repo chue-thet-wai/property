@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Township extends Model
 {
     use HasFactory;
-    protected $fillable = ['division_id','township'];
+    protected $fillable = ['division_id','township', 'township_mm'];
 }
