@@ -198,7 +198,25 @@
                 <div class="col-md-6">
                     
                     <strong>Floor:</strong>
-                    <div>{{ $setup['floors'][$response['property']->floor] }}</div>
+                    <div>
+                        @php
+                            $concatenatedFloorNames = '';
+
+                            foreach ($response['property_floor'] as $floor) {
+                                $floorId = $floor->floor_id;
+                                if (isset($setup['floors'][$floorId])) {
+                                    $floorName = $setup['floors'][$floorId];
+                                    if($concatenatedFloorNames != '') {
+                                        $concatenatedFloorNames .= ',';
+                                    }
+                                    $concatenatedFloorNames .= $floorName;
+                                }
+                            }
+
+                        @endphp
+
+                        {{$concatenatedFloorNames}}
+                    </div>
         
                 </div>
                 <div class="col-md-6">

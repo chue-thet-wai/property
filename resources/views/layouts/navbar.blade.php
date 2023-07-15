@@ -91,7 +91,7 @@
             </ul>
           </li>    
           
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   {{ Config::get('languages')[App::getLocale()]['display'] }}
               </a>
@@ -102,7 +102,7 @@
                     @endif
                 @endforeach
               </div>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>

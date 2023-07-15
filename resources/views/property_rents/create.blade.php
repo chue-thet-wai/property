@@ -80,14 +80,14 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <strong>{{__('messages.description')}}:<span class="required">*</span></strong>
-                        {!! Form::textarea('description', null, array('placeholder' => 'Type description','class' => 'form-control mt-2', 'rows' => 3,'required')) !!}
+                        <strong>{{__('messages.description')}}:</strong>
+                        {!! Form::textarea('description', null, array('placeholder' => 'Type description','class' => 'form-control mt-2', 'rows' => 3)) !!}
                     </div>
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <strong>{{__('messages.description')}} (mm):<span class="required">*</span></strong>
-                        {!! Form::textarea('description_mm', null, array('placeholder' => 'Type description','class' => 'form-control mt-2', 'rows' => 3,'required')) !!}
+                        <strong>{{__('messages.description')}} (mm):</strong>
+                        {!! Form::textarea('description_mm', null, array('placeholder' => 'Type description','class' => 'form-control mt-2', 'rows' => 3)) !!}
                     </div>
                 </div> 
                 <div class="col-md-2">
@@ -205,26 +205,26 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>Build Year: <span class="required">*</span></strong>
-                        {!! Form::selectRange('build_year', date('Y'), (date('Y') -60) + 10, null, ['class' => 'form-control mt-2', 'placeholder' => 'Select a Build Year'],'required') !!}
+                        <strong>Build Year:</strong>
+                        {!! Form::selectRange('build_year', date('Y'), (date('Y') -60) + 10, null, ['class' => 'form-control mt-2', 'placeholder' => 'Select a Build Year']) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>Master Bedroom: <span class="required">*</span></strong>
-                        {!! Form::number('master_bedroom', null, array('placeholder' => 'Type Master Bedroom','class' => 'form-control mt-2','required','min'=>0)) !!}
+                        <strong>Master Bedroom:</strong>
+                        {!! Form::number('master_bedroom', null, array('placeholder' => 'Type Master Bedroom','class' => 'form-control mt-2','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>Common Room: <span class="required">*</span></strong>
-                        {!! Form::number('common_room', null, array('placeholder' => 'Type Common Room','class' => 'form-control mt-2','required','min'=>0)) !!}
+                        <strong>Common Room:</strong>
+                        {!! Form::number('common_room', null, array('placeholder' => 'Type Common Room','class' => 'form-control mt-2','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <strong>Bathroom: <span class="required">*</span></strong>
-                        {!! Form::number('bathroom', null, array('placeholder' => 'Type Bathroom','class' => 'form-control mt-2','required','min'=>0)) !!}
+                        <strong>Bathroom:</strong>
+                        {!! Form::number('bathroom', null, array('placeholder' => 'Type Bathroom','class' => 'form-control mt-2','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-6">

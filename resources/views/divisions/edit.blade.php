@@ -15,6 +15,8 @@
                 <strong>Division: <span class="required">*</span></strong>
                 {!! Form::text('division', $division->division, array('placeholder' => 'Division','class' => 'form-control','required')) !!}
             </div>
+        </div>        
+        <div class="col-xs-4 col-sm-4 col-md-4">
             <div class="form-group">
                 <strong>Division: <span class="required">*</span></strong>
                 {!! Form::text('division_mm', $division->division_mm, array('placeholder' => 'Division','class' => 'form-control','required')) !!}

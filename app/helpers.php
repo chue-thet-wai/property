@@ -5,6 +5,7 @@
     use App\Models\Tenure;
     use App\Models\PropertyType;
     use App\Models\Floor;
+    use App\Models\PropertyFloor;
     // category
     define('RENT', 'R');
     define('SALE', 'S');
@@ -157,6 +158,18 @@
             }
         }
         return $ward_arr;
+    }
+
+    function get_property_floor_id($id){
+        
+        $property_floor_arr = [];
+        $property_floors = PropertyFloor::all()->where('property_id',$id);
+        if($property_floors){
+            foreach($property_floors as $property_floor){
+                $property_floor_arr[$property_floor->id] = $property_floor->floor_id;
+            }
+        }
+        return $property_floor_arr;
     }
     
     
