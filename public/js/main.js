@@ -73,7 +73,6 @@ $("#inputImage").change(function () {
   readURL(this);
 });
 
-
 $(document).ready(function () {
   
   $("#division-dropdown").on("change", function () {

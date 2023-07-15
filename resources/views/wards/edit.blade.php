@@ -13,13 +13,19 @@
         <div class="col-xs-4 col-sm-4 col-md-4">
             <div class="form-group">
                 <strong>Township: <span class="required">*</span></strong>
-                {!! Form::select('township_id', $townships,null, array('placeholder' => 'Choose','class' => 'form-control','required')) !!}
+                {!! Form::select('township_id', $townships, null, array('placeholder' => 'Choose','class' => 'form-control','required')) !!}
             </div>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4">
             <div class="form-group">
                 <strong>Ward: <span class="required">*</span></strong>
-                {!! Form::text('ward', null, array('placeholder' => 'Ward Name','class' => 'form-control','required')) !!}
+                {!! Form::text('ward', $ward->ward, array('placeholder' => 'Ward Name','class' => 'form-control','required')) !!}
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="form-group">
+                <strong>Ward(mm): <span class="required">*</span></strong>
+                {!! Form::text('ward_mm', $ward->ward_mm, array('placeholder' => 'Ward Name','class' => 'form-control','required')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 py-4">

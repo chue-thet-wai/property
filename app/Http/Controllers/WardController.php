@@ -11,14 +11,15 @@ class WardController extends Controller
     public function index(){
         $wards = [];
         $response =[];
-        $headers = ['Ward','Township','Action'];
-        $data = Ward::orderBy('created_at','DESC')->get();
+        $headers = ['Township', 'Ward', 'Ward(mm)','Action'];
+        $data = Ward::orderBy('created_at','DESC')->paginate(10);
         $township_arr = get_all_townships();
         if($data){
             foreach($data as $row){
                 $list = [];
-                $list['ward'] = $row->ward;
                 $list['township'] = $township_arr[$row->township_id];
+                $list['ward'] = $row->ward;
+                $list['ward_mm'] = $row->ward_mm;
                 $list['action'] = $row->id;
                 $wards[] = $list;
             }
@@ -36,7 +37,8 @@ class WardController extends Controller
 
     public function store(Request $request){
         $this->validate($request, [
-            'ward'=>'required|unique:wards,ward' ,
+            'ward'=>'required|unique:wards,ward',
+            'ward_mm'=>'required|unique:wards,ward_mm',
             'township_id' => 'required'                   
         ]);
         
@@ -57,6 +59,7 @@ class WardController extends Controller
     public function update(Request $request, $id){
          $this->validate($request, [
             'ward'=>'required|unique:wards,ward,'.$id,
+            'ward_mm'=>'required|unique:wards,ward_mm,'.$id,
             'township_id' => 'required'                 
         ]);
 

@@ -22,6 +22,12 @@
                 {!! Form::text('township', $township->township, array('placeholder' => 'Township','class' => 'form-control')) !!}
             </div>
         </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="form-group">
+                <strong>Township(mm): <span class="required">*</span></strong>
+                {!! Form::text('township_mm', $township->township_mm, array('placeholder' => 'Township','class' => 'form-control')) !!}
+            </div>
+        </div>
         <div class="col-xs-12 col-sm-12 col-md-12 py-4">
             <a class="btn btn-primary" href="{{ route('townships.index') }}"> Back</a>
             <button type="submit" class="btn btn-primary">Submit</button>
