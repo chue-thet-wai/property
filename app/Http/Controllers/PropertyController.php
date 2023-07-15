@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\TblProperty;
 use App\Models\TblPropertyImage;
 use App\Models\TblPropertyDocument;
+use App\Models\PropertyFloor;
 use App\Models\Division;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
