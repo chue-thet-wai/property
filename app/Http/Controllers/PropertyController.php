@@ -18,6 +18,9 @@ class PropertyController extends Controller
     {
         $response = array();        
         $properties = array();
+        $division_arr = get_all_divisions();
+        $township_arr = get_all_townships();
+        $ward_arr = get_all_wards();
         $headers = array(
             'Id',            
             'Title',
