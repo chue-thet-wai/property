@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Division extends Model
 {
     use HasFactory;
-    protected $fillable = ['division'];
+    protected $fillable = ['division', 'division_mm'];
 
     public function township()
     {

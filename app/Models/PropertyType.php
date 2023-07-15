@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class PropertyType extends Model
 {
     use HasFactory;
-    protected $fillable = ['property_type'];
+    protected $fillable = ['property_type', 'property_type_mm'];
 }

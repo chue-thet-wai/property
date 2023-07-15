@@ -10,12 +10,13 @@ class TenureController extends Controller
     public function index(){
         $tenures = [];
         $response = [];
-        $headers = ['Tenure','Actions'];
+        $headers = ['Tenure', 'Tenure(mm)','Actions'];
         
         $data = Tenure::orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list['tenure'] = $row->tenure;
+                $list['tenure_mm'] = $row->tenure_mm;
                 $list['action'] = $row->id;
                 $tenures[] = $list;
             }
@@ -32,7 +33,8 @@ class TenureController extends Controller
 
     public function store(Request $request){
         $this->validate($request, [
-            'tenure'=>'required|unique:tenures,tenure'                    
+            'tenure'=>'required|unique:tenures,tenure',                    
+            'tenure_mm'=>'required|unique:tenures,tenure_mm'                    
         ]);
         
         $input = $request->all();
@@ -50,7 +52,8 @@ class TenureController extends Controller
 
     public function update(Request $request,$id){
         $this->validate($request, [
-            'tenure'=>'required|unique:tenures,tenure,'.$id                    
+            'tenure'=>'required|unique:tenures,tenure,'.$id,
+            'tenure_mm'=>'required|unique:tenures,tenure_mm,'.$id
         ]);
 
         $tenure = Tenure::find($id);
