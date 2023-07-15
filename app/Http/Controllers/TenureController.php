@@ -12,7 +12,7 @@ class TenureController extends Controller
         $response = [];
         $headers = ['Tenure', 'Tenure(mm)','Actions'];
         
-        $data = Tenure::orderBy('id','DESC')->paginate(10);
+        $data = Tenure::orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list['tenure'] = $row->tenure;

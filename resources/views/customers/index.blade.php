@@ -54,7 +54,7 @@
     </div>
     <x-create-btn label="Create New Customer" route="customers"/>
     <x-table :body="$response['customers']" :headers="$response['headers']" routename="customers" title="customers"/>
-    {!! $response['data']->render() !!}
+    
 @endsection
 
 

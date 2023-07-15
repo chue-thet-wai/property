@@ -38,7 +38,7 @@ class PropertyRentController extends Controller
             $data = $data->where('property_rents.title','like','%'.trim(session()->get(PROPERTY_RENT_NAMEFILTER)).'%');
         }        
         if(session()->get(PROPERTY_RENT_BUILDYEARFILTER)){
-            $data = $data->where('property_rents.builtyear',trim(session()->get(PROPERTY_RENT_BUILDYEARFILTER)));
+            $data = $data->where('property_rents.build_year',trim(session()->get(PROPERTY_RENT_BUILDYEARFILTER)));
         }
         if(session()->get(PROPERTY_RENT_MINPRICEFILTER)){
             $data = $data->where('property_rents.price','>=',trim(session()->get(PROPERTY_RENT_MINPRICEFILTER)));
@@ -55,7 +55,7 @@ class PropertyRentController extends Controller
         if(session()->get(PROPERTY_RENT_WARDFILTER)){
             $data = $data->where('property_rents.ward',trim(session()->get(PROPERTY_RENT_WARDILTER)));
         }
-        $data = $data->where('property_rents.is_delete',0)->orderBy('id','DESC')->paginate(10);
+        $data = $data->where('property_rents.is_delete',0)->orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 if(isset($row->division, $division_arr)){
@@ -93,8 +93,7 @@ class PropertyRentController extends Controller
         $setup['townships'] = $township_arr;
         $setup['wards'] = $ward_arr;
 
-        return view('property_rents.index',compact('response','setup'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        return view('property_rents.index',compact('response','setup'));
         }
     }
 

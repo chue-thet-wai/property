@@ -4,6 +4,10 @@ $.ajaxSetup({
   },
 });
 
+$("#table_id").DataTable({
+  lengthChange: false, // Disable "Show entries"
+});
+
 function readURL(input) {
   if (input.files && input.files[0]) {
     $.each(input.files, function (key, value) {
@@ -70,9 +74,7 @@ $("#inputImage").change(function () {
 });
 
 $(document).ready(function () {
-  $.noConflict();
-  $("#kt_table_widget_1").DataTable();
-
+  
   $("#division-dropdown").on("change", function () {
     var idDivision = this.value;
     // console.log(idDivision);

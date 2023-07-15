@@ -14,14 +14,16 @@
 @endif
 <div class="card card-xxl-stretch">
   <div class="table-responsive">
-      <table class="table table-bordered" id="kt_table_widget_1">
+      <table class="table table-bordered" id="table_id">
+          <thead>
+            <tr class="text-start bg-primary text-white text-uppercase">
+              <th>Name</th>
+              <th>Email</th>
+              <th>Roles</th>
+              <th width="280px">Action</th>
+            </tr>
+          </thead>
           <tbody>
-          <tr class="text-start bg-primary text-white text-uppercase">
-            <th>Name</th>
-            <th>Email</th>
-            <th>Roles</th>
-            <th width="280px">Action</th>
-          </tr>
           @foreach ($data as $key => $user)
             <tr>
               <td>{{ $user->name }}</td>
@@ -46,5 +48,5 @@
       </table>
   </div>
 </div>
-{!! $data->render() !!}
+
 @endsection

@@ -12,7 +12,7 @@ class FloorController extends Controller
         $response = [];
         $headers = ['Floor', 'Floor(mm)','Actions'];
         
-        $data = Floor::orderBy('id','DESC')->paginate(10);
+        $data = Floor::orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list['floor'] = $row->floor;

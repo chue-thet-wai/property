@@ -34,7 +34,7 @@ class OwnerController extends Controller
         if(session()->get(OWNER_NAMEFILTER)){
             $data = $data->where('tbl_owners.name','like','%'.session()->get(OWNER_NAMEFILTER).'%');
         }
-        $data = $data->orderBy('id','DESC')->paginate(10);
+        $data = $data->orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list = array();
@@ -50,8 +50,7 @@ class OwnerController extends Controller
         $response['owners'] = $owners;
         $response['headers'] = $headers;
 
-        return view('owners.index',compact('response'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        return view('owners.index',compact('response'));
         }
     }
     public function create(){
@@ -145,7 +144,7 @@ class OwnerController extends Controller
             'story',
             'bedroom',
             'bathroom')
-            ->where('owner_id',$id)->orderBy('id','DESC')->paginate(10);
+            ->where('owner_id',$id)->orderBy('id','DESC');
             if($data){
                 foreach($data as $row){
                     $list = array();
@@ -174,14 +173,30 @@ class OwnerController extends Controller
         $owners = TblOwner::get();
         if($owners){
             foreach($owners as $row){ 
-                $owner_arr[$row->id] = $row->name;            
+                $owner_arr[$row->id] = $row->name . ' (' .$row->phonenumber . ')';            
             }
         }
         return $owner_arr;
     }
 
+    public function get_owners_with_phone(){
+        $owner_phone_arr = array();
+        $owner_phones = TblOwner::get();
+        if($owner_phones){
+            foreach($owner_phones as $row){ 
+                $owner_phone_arr[$row->id] = $row->phonenumber. ' (' .$row->name . ')';            
+            }
+        }
+        return $owner_phone_arr;
+    }
+
     public function get_owner_details($owner){
         $owner = TblOwner::where('name',$owner)->first();
+        return $owner;
+    }
+
+    public function get_owner_details_with_phone($phonenumber){
+        $owner = TblOwner::where('phonenumber',$phonenumber)->first();
         return $owner;
     }
 

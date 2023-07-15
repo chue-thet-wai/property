@@ -12,7 +12,7 @@ class DivisionController extends Controller
         $response = [];
         $headers = ['Division', 'Division(mm)','Actions'];
         
-        $data = Division::orderBy('id','DESC')->paginate(10);
+        $data = Division::orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list['division'] = $row->division;
@@ -71,5 +71,4 @@ class DivisionController extends Controller
         $division = Division::with('township')->where('id',$id)->first();
         return view('divisions.show',compact('division'));
     }
-
 }

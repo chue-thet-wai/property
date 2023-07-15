@@ -76,7 +76,6 @@
     </div>
     <x-create-btn label="Create New Property" route="properties"/>
     <x-table :body="$response['properties']" :headers="$response['headers']" routename="properties" title="Properties"/>
-    {!! $response['data']->render() !!}
 @endsection
 
 

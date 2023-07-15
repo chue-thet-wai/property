@@ -46,7 +46,17 @@ class PropertyController extends Controller
         if(session()->get(PROPERTY_MAXPRICEFILTER)){
             $data = $data->where('tbl_properties.price','<=',trim(session()->get(PROPERTY_MAXPRICEFILTER)));
         }
-        $data = $data->orderBy('id','DESC')->paginate(10);
+        if(session()->get(PROPERTY_DIVISIONFILTER)){
+            $data = $data->where('tbl_properties.division',trim(session()->get(PROPERTY_DIVISIONFILTER)));
+        }
+        if(session()->get(PROPERTY_TOWNSHIPFILTER)){
+            $data = $data->where('tbl_properties.township',trim(session()->get(PROPERTY_TOWNSHIPFILTER)));
+        }
+        if(session()->get(PROPERTY_WARDFILTER)){
+            $data = $data->where('tbl_properties.ward',trim(session()->get(PROPERTY_WARDFILTER)));
+        }
+        $data = $data->where('tbl_properties.is_delete',0)->orderBy('id','DESC')->get();
+      
         if($data){
             foreach($data as $row){
                 $list = array();
@@ -62,9 +72,11 @@ class PropertyController extends Controller
         $response['data'] = $data;
         $response['properties'] = $properties;
         $response['headers'] = $headers;
+        $setup['divisions'] = $division_arr;
+        $setup['townships'] = $township_arr;
+        $setup['wards'] = $ward_arr;
 
-        return view('properties.index',compact('response'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        return view('properties.index',compact('response','setup'));
         }
     }
 
@@ -110,7 +122,6 @@ class PropertyController extends Controller
             'bathroom' => 'required',
             'building_facility' => 'required',
             'special_features.*' => 'required',
-            'view_count' => 'required',
             'remark' => 'required',
             'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             'other_photo' => 'required|max:1024',
@@ -219,7 +230,6 @@ class PropertyController extends Controller
             'bathroom' => 'required',
             'building_facility' => 'required',
             'special_features.*' => 'required',
-            'view_count' => 'required',
             // 'remark' => 'required',
             // 'feature_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             // 'other_photo' => 'required|max:1024',

@@ -1,7 +1,7 @@
 <div class="card card-xxl-stretch">
     <div class="table-responsive">
-        <table class="table table-bordered" id="kt_table_widget_1">
-            <tbody>
+        <table class="table table-bordered" id="table_id">
+            <thead>
                 <tr class="text-start bg-primary text-white text-uppercase">
                     @foreach ($headers as $key => $value)
                         @if($value == "actions")
@@ -11,8 +11,10 @@
                         @endif
                     @endforeach
                 </tr>
+            </thead>
+            <tbody>
                 @foreach ($body as $row)
-                    <tr>
+                    <tr class="">
                         @foreach ($row as $key => $value)
                             @switch($key)
                                 @case('actions')
