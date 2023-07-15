@@ -109,8 +109,7 @@ class PropertyController extends Controller
         $setup['divisions'] = $divisions; 
         $setup['tenures'] = $tenures; 
         $setup['propertytypes'] = $propertytypes; 
-        $setup['floors'] = $floors;
-        
+        $setup['floors'] = $floors;        
         return view('properties.create', compact('setup'));
     }
 
