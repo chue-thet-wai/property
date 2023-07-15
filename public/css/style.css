@@ -606,3 +606,7 @@ img {
 #table_id_filter input[type=search]{
   margin:10px !important;
 }
+.btn.dropdown-toggle{
+  border:1px solid #ced4da;
+  color:#212529;
+}

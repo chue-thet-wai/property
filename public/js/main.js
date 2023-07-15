@@ -8,6 +8,8 @@ $("#table_id").DataTable({
   lengthChange: false, // Disable "Show entries"
 });
 
+$('#floor').selectpicker();
+
 function readURL(input) {
   if (input.files && input.files[0]) {
     $.each(input.files, function (key, value) {
@@ -229,6 +231,7 @@ $("#front-area").focusout(function () {
 $("#side-area").focusout(function () {
   calculateAreaAcre();
 });
+
 
 function calculateAreaAcre() {
   var front_area = parseFloat($("#front-area").val());
