@@ -81,6 +81,7 @@
         }
         return $division_arr;
     }
+
     function get_all_townships(){
         $township_arr = [];
         $townships = Township::all();
@@ -91,7 +92,7 @@
         }
         return $township_arr;
     }
-
+    
     function get_all_wards(){
         $ward_arr = [];
         $wards = Ward::all();

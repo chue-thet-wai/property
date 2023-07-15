@@ -30,7 +30,6 @@ class TblProperty extends Model
         'acre',
         'tenure_property',
         'property_type',
-        'floor',
         'master_bedroom',
         'common_room',
         'bathroom',
