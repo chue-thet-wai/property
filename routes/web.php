@@ -70,6 +70,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/owners/search/reset',[OwnerController::class,'reset'])->name('owners.search.reset');
     Route::post('/customers/search',[CustomerController::class,'search'])->name('customers.search');
     Route::get('/customers/search/reset',[CustomerController::class,'reset'])->name('customers.search.reset');
+    Route::post('/townships/search',[TownshipController::class,'search'])->name('townships.search');
+    Route::get('/townships/search/reset',[TownshipController::class,'reset'])->name('townships.search.reset');
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
     Route::get('get-townshipbydivision',[TownshipController::class,'townshipbydivision'])->name('get-townshipbydivision');

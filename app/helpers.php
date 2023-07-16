@@ -72,6 +72,10 @@
     define('CUST_ENQUIRYTYPEFILTER', 'CUST_ENQUIRYTYPEFILTER');
     define('CUST_ENQUIRYPROPERTYFILTER', 'CUST_ENQUIRYPROPERTYFILTER');
 
+    //township filter
+    define('TOWNSHIP_DIVISIONFILTER', 'TOWNSHIP_DIVISIONFILTERw');
+    
+
     function get_all_divisions(){
         $division_arr = [];
         $divisions = Division::all();

@@ -11,7 +11,8 @@ class TownshipController extends Controller
         $townships = [];
         $response =[];
         $headers = ['Division', 'Township', 'Township(mm)', 'Action'];
-        $data = Township::orderBy('created_at','DESC')->paginate(10);
+        $data = Township::orderBy('created_at','DESC')->get();
+
         $division_arr = get_all_divisions();
         if($data){
             foreach($data as $row){
@@ -23,8 +24,8 @@ class TownshipController extends Controller
                 $townships[] = $list;
             }
         }
-        $response['data'] = $data;
         $response['townships'] = $townships;
+        $response['divisions'] = $division_arr;
         $response['headers'] = $headers;
         return view('townships.index',compact('response'));
     }
@@ -74,5 +75,19 @@ class TownshipController extends Controller
     public function townshipbydivision(Request $request) {
         $townships = Township::select('id', 'township')->where('division_id', $request->division_id)->get();
         return $townships;
+    }
+
+    public function search(Request $request){
+        session()->start();
+        session()->put(TOWNSHIP_DIVISIONFILTER, trim($request->division_id));
+
+        return redirect()->route('townships.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            TOWNSHIP_DIVISIONFILTER,
+        ]);
+        return redirect()->route('townships.index');
     }
 }
