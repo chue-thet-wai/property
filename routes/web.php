@@ -86,8 +86,8 @@ Route::group(['middleware' => ['auth']], function() {
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
     Route::get('get-townshipbydivision',[TownshipController::class,'townshipbydivision'])->name('get-townshipbydivision');
     Route::get('get-wardbytownship',[WardController::class,'wardbytownship'])->name('get-wardbytownship');
-    Route::post('/properties/{id}/softdelete',[PropertyController::class,'softdelete'])->name('properties.softdelete');
-    Route::post('/property_rents/{id}/softdelete',[PropertyRentController::class,'softdelete'])->name('property_rents.softdelete');
+    Route::post('/properties/softdelete',[PropertyController::class,'softdelete'])->name('properties.softdelete');
+    Route::post('/property_rents/softdelete',[PropertyRentController::class,'softdelete'])->name('property_rents.softdelete');
 });
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 Route::get('/download',function(){

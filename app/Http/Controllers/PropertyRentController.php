@@ -380,9 +380,9 @@ class PropertyRentController extends Controller
         return view('properties.detail',compact('response', 'setup'));
     }
 
-    public function softdelete($id){
+    public function softdelete(Request $request){
         // return $request->all();
-        $property_rent = PropertyRent::find($id);    
+        $property_rent = PropertyRent::find($request->id);    
         if (!$property_rent) {
             abort(404);
         }        

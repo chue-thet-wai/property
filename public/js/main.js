@@ -257,3 +257,42 @@ $(".featurePhotoBox img").click(function () {
   $("#zoomed-image").attr("src", imageSrc);
   $("#zoom-modal").modal("show");
 });
+
+function ConfirmDialog(delete_route,id) {
+  console.log(delete_route);
+  
+  Swal.fire({
+      title: 'Are you sure want to delete?',
+      text: 'You will not be able to recover this item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          type: "POST",
+          url: delete_route,
+          data: {'id':id},
+          success: function (status) {          
+            location.reload();
+          },
+          error: function (msg) {
+            Swal.fire(
+              'Error!',
+              'An error occurred while deleting the item.',
+              'error'
+            );
+          },
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // User cancelled, do nothing or handle accordingly
+        Swal.fire(
+          'Cancelled',
+          'Deletion cancelled.',
+          'info'
+        );
+      }
+    });
+};
