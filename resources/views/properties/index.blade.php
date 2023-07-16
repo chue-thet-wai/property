@@ -1,4 +1,4 @@
-<?php
+@php
     $id = session()->get(PROPERTY_IDFILTER);
     $name = session()->get(PROPERTY_NAMEFILTER);
     $build_year = session()->get(PROPERTY_BUILDYEARFILTER);
@@ -7,7 +7,7 @@
     $division = session()->get(PROPERTY_DIVISIONFILTER);
     $township = session()->get(PROPERTY_TOWNSHIPFILTER);
     $ward = session()->get(PROPERTY_WARDFILTER);
-?>
+@endphp
 @extends('layouts.navbar')
 @section('cardbody')
     @if ($message = Session::get('success'))
