@@ -12,7 +12,14 @@ class PropertyTypeController extends Controller
         $response = [];
         $headers = ['Property Type', 'Property_Type(mm)','Actions'];
         
-        $data = PropertyType::orderBy('id','DESC')->get();
+        $data = PropertyType::orderBy('id','DESC');
+        if(session()->get(PROPERTY_TYPE_NAMEFILTER)){
+            $data = $data->where(function($query){
+                $query->orWhere('property_type','like','%'.session()->get(PROPERTY_TYPE_NAMEFILTER).'%')
+                ->orWhere('property_type_mm','like','%'.session()->get(PROPERTY_TYPE_NAMEFILTER).'%');
+            });
+        }
+        $data = $data->get();
         if($data){
             foreach($data as $row){
                 $list['property_type'] = $row->property_type;
@@ -64,6 +71,19 @@ class PropertyTypeController extends Controller
         if($property_type){
             $property_type->update($input);
         }
+        return redirect()->route('property_types.index');
+    }
+    public function search(Request $request){
+        session()->start();
+        session()->put(PROPERTY_TYPE_NAMEFILTER, trim($request->property_type));
+
+        return redirect()->route('property_types.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            PROPERTY_TYPE_NAMEFILTER,
+        ]);
         return redirect()->route('property_types.index');
     }
 }

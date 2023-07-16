@@ -72,11 +72,22 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/customers/search/reset',[CustomerController::class,'reset'])->name('customers.search.reset');
     Route::post('/townships/search',[TownshipController::class,'search'])->name('townships.search');
     Route::get('/townships/search/reset',[TownshipController::class,'reset'])->name('townships.search.reset');
+    Route::post('/wards/search',[WardController::class,'search'])->name('wards.search');
+    Route::get('/wards/search/reset',[WardController::class,'reset'])->name('wards.search.reset');
+    Route::post('/divisions/search',[DivisionController::class,'search'])->name('divisions.search');
+    Route::get('/divisions/search/reset',[DivisionController::class,'reset'])->name('divisions.search.reset');
+    Route::post('/floors/search',[FloorController::class,'search'])->name('floors.search');
+    Route::get('/floors/search/reset',[FloorController::class,'reset'])->name('floors.search.reset');
+    Route::post('/tenures/search',[TenureController::class,'search'])->name('tenures.search');
+    Route::get('/tenures/search/reset',[TenureController::class,'reset'])->name('tenures.search.reset');
+    Route::post('/property_types/search',[PropertyTypeController::class,'search'])->name('property_types.search');
+    Route::get('/property_types/search/reset',[PropertyTypeController::class,'reset'])->name('property_types.search.reset');
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
     Route::get('get-townshipbydivision',[TownshipController::class,'townshipbydivision'])->name('get-townshipbydivision');
     Route::get('get-wardbytownship',[WardController::class,'wardbytownship'])->name('get-wardbytownship');
-
+    Route::post('/properties/{id}/softdelete',[PropertyController::class,'softdelete'])->name('properties.softdelete');
+    Route::post('/property_rents/{id}/softdelete',[PropertyRentController::class,'softdelete'])->name('property_rents.softdelete');
 });
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 Route::get('/download',function(){

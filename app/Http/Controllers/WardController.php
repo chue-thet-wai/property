@@ -11,20 +11,38 @@ class WardController extends Controller
     public function index(){
         $wards = [];
         $response =[];
-        $headers = ['Township', 'Ward', 'Ward(mm)','Action'];
-        $data = Ward::orderBy('created_at','DESC')->paginate(10);
+        $headers = ['Division','Township', 'Ward', 'Ward(mm)','Action'];
+        $data = Ward::join('townships','townships.id','=','wards.township_id')
+        ->join('divisions','divisions.id','=','townships.division_id');
+        
+        if(session()->get(WARD_TOWNSHIPFILTER)){
+            $data = $data->where('township_id',session()->get(WARD_TOWNSHIPFILTER));
+        }
+        if(session()->get(WARD_DIVISIONFILTER)){
+            $data = $data->where('division_id',session()->get(WARD_DIVISIONFILTER));
+        }
+        if(session()->get(WARD_NAMEFILTER)){
+            $data = $data->where(function($query){
+                $query->orWhere('ward','like','%'.session()->get(WARD_NAMEFILTER).'%')
+                ->orWhere('ward_mm','like','%'.session()->get(WARD_NAMEFILTER).'%');
+            });
+        }
+        $data = $data->orderBy('wards.created_at','DESC')->get();
         $township_arr = get_all_townships();
+        $division_arr = get_all_divisions();
         if($data){
             foreach($data as $row){
                 $list = [];
-                $list['township'] = $township_arr[$row->township_id];
+                $list['division'] = $row->division;
+                $list['township'] = $row->township;
                 $list['ward'] = $row->ward;
                 $list['ward_mm'] = $row->ward_mm;
                 $list['action'] = $row->id;
                 $wards[] = $list;
             }
         }
-        $response['data'] = $data;
+        $response['townships'] = $township_arr;
+        $response['divisions'] = $division_arr;
         $response['wards'] = $wards;
         $response['headers'] = $headers;
         return view('wards.index',compact('response'));
@@ -77,5 +95,22 @@ class WardController extends Controller
     public function wardbytownship(Request $request) {
         $wards = Ward::select('id', 'ward')->where('township_id', $request->township_id)->get();
         return $wards;
+    }
+    public function search(Request $request){
+        session()->start();
+        session()->put(WARD_DIVISIONFILTER, trim($request->division_id));
+        session()->put(WARD_TOWNSHIPFILTER, trim($request->township_id));
+        session()->put(WARD_NAMEFILTER, trim($request->ward));
+
+        return redirect()->route('wards.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            WARD_DIVISIONFILTER,
+            WARD_TOWNSHIPFILTER,
+            WARD_NAMEFILTER
+        ]);
+        return redirect()->route('wards.index');
     }
 }

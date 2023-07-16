@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\PropertyRent;
 use App\Models\PropertyRentImage;
 use App\Models\PropertyRentDocument;
-use App\Models\PropertyFloor;
+use App\Models\PropertyRentFloor;
 use App\Models\Division;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -122,9 +122,6 @@ class PropertyRentController extends Controller
             'title_mm'=>'required',
             'status'=>'required',
             'price'=>'required',
-            'description'=>'required',
-            'description_mm'=>'required',
-            'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
             'square_feet'=>'required',
@@ -149,9 +146,9 @@ class PropertyRentController extends Controller
             if($floors){
                 foreach($floors as $floor){
                     $floor_inputs = [];
-                    $floor_inputs['property_id'] = $property->id;
+                    $floor_inputs['property_rent_id'] = $property->id;
                     $floor_inputs['floor_id'] = $floor;                    
-                    PropertyFloor::create($floor_inputs);
+                    PropertyRentFloor::create($floor_inputs);
                 }
             }
             $image->storeAs('public/feature_images', $imageName);
@@ -200,13 +197,13 @@ class PropertyRentController extends Controller
         $property = PropertyRent::with('owner')->find($id);
         $images = PropertyRentImage::where('property_rent_id',$id)->get(); 
         $documents = PropertyRentDocument::where('property_rent_id',$id)->get();        
-        $property_floors = get_property_floor_id($id); 
+        $property_rent_floors = get_property_rent_floor_id($id);
         
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
         $response['documents'] = $documents;
-        $response['property_floors'] = $property_floors;
+        $response['property_rent_floors'] = $property_rent_floors;
         
         // return $response;
         $divisions = get_all_divisions();
@@ -233,9 +230,6 @@ class PropertyRentController extends Controller
             'title_mm'=>'required',
             'status'=>'required',
             'price'=>'required',
-            'description'=>'required',
-            'description_mm'=>'required',
-            'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
             'square_feet'=>'required',
@@ -261,12 +255,12 @@ class PropertyRentController extends Controller
             $property->update($inputs);
             $floors = $request->floor;
             if($floors){
-                PropertyFloor::where('property_id', $property->id)->delete();
+                PropertyRentFloor::where('property_rent_id', $property->id)->delete();
                 foreach($floors as $floor){
                     $floor_inputs = [];
-                    $floor_inputs['property_id'] = $property->id;
+                    $floor_inputs['property_rent_id'] = $property->id;
                     $floor_inputs['floor_id'] = $floor;                    
-                    PropertyFloor::create($floor_inputs);
+                    PropertyRentFloor::create($floor_inputs);
                 }
             }
             $images = [];
@@ -376,7 +370,7 @@ class PropertyRentController extends Controller
         $property = PropertyRent::with('owner')->find($id);
         $images = PropertyRentImage::where('property_rent_id',$id)->get();        
         $documents = PropertyRentDocument::where('property_rent_id',$id)->get();        
-        $property_floor = PropertyFloor::where('property_id',$id)->get();      
+        $property_floor = PropertyRentFloor::where('property_rent_id',$id)->get();      
         $response = array();
         $response['property'] = $property;
         $response['images'] = $images;
@@ -384,6 +378,18 @@ class PropertyRentController extends Controller
         $response['property_floor'] = $property_floor;
 
         return view('properties.detail',compact('response', 'setup'));
+    }
+
+    public function softdelete($id){
+        // return $request->all();
+        $property_rent = PropertyRent::find($id);    
+        if (!$property_rent) {
+            abort(404);
+        }        
+        $property_rent->is_delete = 1;
+        $property_rent->updated_by = auth()->user()->id;
+        $property_rent->save();
+        return redirect()->back(); 
     }
 
 }
