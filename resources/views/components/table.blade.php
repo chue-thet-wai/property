@@ -31,8 +31,8 @@
                                         <a href="{{ route($show_route,$value) }}" class="btn btn-action-dark px-3">View</a>
                                         <a class="btn btn-action-dark px-3"  href="{{ route($edit_route,$value) }}">Edit</a>                                       
                                         <!-- <a class="btn btn-action-dark px-3"  href="{{ route($delete_route,$value) }}">Delete</a>                                        -->
-                                        {!! Form::open(['method' => 'POST','route' => [$delete_route, $value],'style'=>'display:inline']) !!}
-                                            {!! Form::submit('Delete', ['class' => 'btn btn-action-danger text-white px-3']) !!}
+                                        {!! Form::open(['method' => 'POST', 'route' => [$delete_route, $value], 'style' => 'display:inline']) !!}
+                                            {!! Form::button('Delete', ['class' => 'btn btn-action-danger text-white px-3', 'onclick' => 'ConfirmDialog("' . route($delete_route) . '","' . $value . '")']) !!}
                                         {!! Form::close() !!}
                                     </td>
                                     @break

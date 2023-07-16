@@ -345,9 +345,8 @@ class PropertyController extends Controller
         return redirect()->route('properties.index');
     }
 
-    public function softdelete($id){
-        // return $request->all();
-        $property = TblProperty::find($id);    
+    public function softdelete(Request $request){
+        $property = TblProperty::find($request->id);    
         if (!$property) {
             abort(404);
         }        
