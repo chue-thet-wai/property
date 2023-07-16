@@ -12,7 +12,14 @@ class TenureController extends Controller
         $response = [];
         $headers = ['Tenure', 'Tenure(mm)','Actions'];
         
-        $data = Tenure::orderBy('id','DESC')->get();
+        $data = Tenure::orderBy('id','DESC');
+        if(session()->get(TENURE_NAMEFILTER)){
+            $data = $data->where(function($query){
+                $query->orWhere('tenure','like','%'.session()->get(TENURE_NAMEFILTER).'%')
+                ->orWhere('tenure_mm','like','%'.session()->get(TENURE_NAMEFILTER).'%');
+            });
+        }
+        $data = $data->get();
         if($data){
             foreach($data as $row){
                 $list['tenure'] = $row->tenure;
@@ -70,5 +77,18 @@ class TenureController extends Controller
     public function show($id){
         $tenure = Tenure::find($id);
         return view('tenures.show',compact('tenure'));
+    }
+    public function search(Request $request){
+        session()->start();
+        session()->put(TENURE_NAMEFILTER, trim($request->tenure));
+
+        return redirect()->route('tenures.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            TENURE_NAMEFILTER,
+        ]);
+        return redirect()->route('tenures.index');
     }
 }

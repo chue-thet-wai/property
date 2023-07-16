@@ -12,7 +12,14 @@ class FloorController extends Controller
         $response = [];
         $headers = ['Floor', 'Floor(mm)','Actions'];
         
-        $data = Floor::orderBy('id','DESC')->get();
+        $data = Floor::orderBy('id','DESC');
+        if(session()->get(FLOOR_NAMEFILTER)){
+            $data = $data->where(function($query){
+                $query->orWhere('floor','like','%'.session()->get(FLOOR_NAMEFILTER).'%')
+                ->orWhere('floor_mm','like','%'.session()->get(FLOOR_NAMEFILTER).'%');
+            });
+        }
+        $data = $data->get();
         if($data){
             foreach($data as $row){
                 $list['floor'] = $row->floor;
@@ -65,5 +72,19 @@ class FloorController extends Controller
             $floor->update($input);
         }
         return redirect()->route('floors.index');
-    }   
+    } 
+    
+    public function search(Request $request){
+        session()->start();
+        session()->put(FLOOR_NAMEFILTER, trim($request->floor));
+
+        return redirect()->route('floors.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            FLOOR_NAMEFILTER,
+        ]);
+        return redirect()->route('floors.index');
+    }
 }

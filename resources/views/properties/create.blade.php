@@ -57,13 +57,13 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Price: <span class="required">*</span></strong>
-                        {!! Form::number('price', null, array('placeholder' => 'Type Price','class' => 'form-control mt-2', 'required')) !!}
+                        {!! Form::number('price', null, array('placeholder' => 'Type Price','class' => 'form-control mt-2', 'required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Promotion Price:</strong>
-                        {!! Form::number('promotion_price', null, array('placeholder' => 'Type Promotion Price','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('promotion_price', null, array('placeholder' => 'Type Promotion Price','class' => 'form-control mt-2','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -148,25 +148,25 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Front Area: <span class="required">*</span></strong>
-                        {!! Form::number('front_area', null, array('placeholder' => 'Type Front Area','class' => 'form-control','id'=>'front-area','required')) !!}
+                        {!! Form::number('front_area', null, array('placeholder' => 'Type Front Area','class' => 'form-control','id'=>'front-area','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Side Area: <span class="required">*</span></strong>
-                        {!! Form::number('side_area', null, array('placeholder' => 'Type Side Area','class' => 'form-control','id'=>'side-area','required')) !!}
+                        {!! Form::number('side_area', null, array('placeholder' => 'Type Side Area','class' => 'form-control','id'=>'side-area','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Square Feet: <span class="required">*</span></strong>
-                        {!! Form::number('square_feet', null, array('placeholder' => 'Type Square Feet','class' => 'form-control','id'=>'square-feet','required')) !!}
+                        {!! Form::number('square_feet', null, array('placeholder' => 'Type Square Feet','class' => 'form-control','id'=>'square-feet','required','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Acre: <span class="required">*</span></strong>
-                        {!! Form::number('acre', null, array('placeholder' => 'Type acre','class' => 'form-control','id'=>'acre','required')) !!}
+                        {!! Form::number('acre', null, array('placeholder' => 'Type acre','class' => 'form-control','id'=>'acre','required','min'=>0,'step'=>'any')) !!}
                     </div>
                 </div>
             </div>
@@ -192,31 +192,31 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Floor: <span class="required">*</span></strong>
-                        {!! Form::select('floor', $setup['floors'], null, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'required')) !!}
+                        {!! Form::select('floor[]', $setup['floors'], null, array('class' => 'form-control mt-2 selectpicker','multiple','data-live-search'=>'true')) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Build Year:</strong>
-                        {!! Form::selectRange('build_year', date('Y'), date('Y') + 10, null, ['class' => 'form-control mt-2', 'placeholder' => 'Select a Build Year']) !!}
+                        {!! Form::selectRange('build_year', date('Y'), (date('Y') - 60)+ 10, null, ['class' => 'form-control mt-2', 'placeholder' => 'Select a Build Year']) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Master Bedroom:</strong>
-                        {!! Form::number('master_bedroom', null, array('placeholder' => 'Type Master Bedroom','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('master_bedroom', null, array('placeholder' => 'Type Master Bedroom','class' => 'form-control mt-2','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Common Room:</strong>
-                        {!! Form::number('common_room', null, array('placeholder' => 'Type Common Room','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('common_room', null, array('placeholder' => 'Type Common Room','class' => 'form-control mt-2','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <strong>Bathroom:</strong>
-                        {!! Form::number('bathroom', null, array('placeholder' => 'Type Bathroom','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('bathroom', null, array('placeholder' => 'Type Bathroom','class' => 'form-control mt-2','min'=>0)) !!}
                     </div>
                 </div>
                 <div class="col-md-6">

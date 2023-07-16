@@ -11,8 +11,17 @@ class TownshipController extends Controller
         $townships = [];
         $response =[];
         $headers = ['Division', 'Township', 'Township(mm)', 'Action'];
-        $data = Township::orderBy('created_at','DESC')->get();
-
+        $data = Township::orderBy('created_at','DESC');
+        if(session()->get(TOWNSHIP_DIVISIONFILTER)){
+            $data = $data->where('division_id',session()->get(TOWNSHIP_DIVISIONFILTER));
+        }
+        if(session()->get(TOWNSHIP_NAMEFILTER)){
+            $data = $data->where(function($query){
+                $query->orWhere('township','like','%'.session()->get(TOWNSHIP_NAMEFILTER).'%')
+                ->orWhere('township_mm','like','%'.session()->get(TOWNSHIP_NAMEFILTER).'%');
+            });
+        }
+        $data = $data->get();
         $division_arr = get_all_divisions();
         if($data){
             foreach($data as $row){
@@ -80,6 +89,7 @@ class TownshipController extends Controller
     public function search(Request $request){
         session()->start();
         session()->put(TOWNSHIP_DIVISIONFILTER, trim($request->division_id));
+        session()->put(TOWNSHIP_NAMEFILTER, trim($request->township));
 
         return redirect()->route('townships.index');
     }
@@ -87,6 +97,7 @@ class TownshipController extends Controller
     public function reset(){
         session()->forget([
             TOWNSHIP_DIVISIONFILTER,
+            TOWNSHIP_NAMEFILTER
         ]);
         return redirect()->route('townships.index');
     }

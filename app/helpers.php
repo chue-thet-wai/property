@@ -6,6 +6,7 @@
     use App\Models\PropertyType;
     use App\Models\Floor;
     use App\Models\PropertyFloor;
+    use App\Models\PropertyRentFloor;
     // category
     define('RENT', 'R');
     define('SALE', 'S');
@@ -74,7 +75,24 @@
 
     //township filter
     define('TOWNSHIP_DIVISIONFILTER', 'TOWNSHIP_DIVISIONFILTERw');
-    
+    define('TOWNSHIP_NAMEFILTER', 'TOWNSHIP_NAMEFILTER');
+
+    //ward filter
+    define('WARD_DIVISIONFILTER','WARD_DIVISIONFILTER');
+    define('WARD_TOWNSHIPFILTER','WARD_TOWNSHIPFILTER');    
+    define('WARD_NAMEFILTER', 'WARD_NAMEFILTER');
+
+    //division filter
+    define('DIVISION_NAMEFILTER', 'DIVISION_NAMEFILTER');
+
+    //floor filter
+    define('FLOOR_NAMEFILTER', 'FLOOR_NAMEFILTER');
+
+    //property type filter
+    define('PROPERTY_TYPE_NAMEFILTER', 'PROPERTY_TYPE_NAMEFILTER');
+
+    //tenure filter
+    define('TENURE_NAMEFILTER', 'TENURE_NAMEFILTER');
 
     function get_all_divisions(){
         $division_arr = [];
@@ -174,6 +192,17 @@
             }
         }
         return $property_floor_arr;
+    }
+
+    function get_property_rent_floor_id($id){
+        $property_rent_floor_arr = [];
+        $property_rent_floors = PropertyRentFloor::all()->where('property_rent_id',$id);
+        if($property_rent_floors){
+            foreach($property_rent_floors as $property_rent_floor){
+                $property_rent_floor_arr[$property_rent_floor->id] = $property_rent_floor->floor_id;
+            }
+        }
+        return $property_rent_floor_arr;
     }
     
     

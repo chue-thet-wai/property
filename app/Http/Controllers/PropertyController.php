@@ -38,9 +38,6 @@ class PropertyController extends Controller
         if(session()->get(PROPERTY_NAMEFILTER)){
             $data = $data->where('tbl_properties.title','like','%'.trim(session()->get(PROPERTY_NAMEFILTER)).'%');
         }
-        // if(session()->get(PROPERTY_CATEGORYFILTER)){
-        //     $data = $data->where('tbl_properties.category',trim(session()->get(PROPERTY_CATEGORYFILTER)));
-        // }
         if(session()->get(PROPERTY_BUILDYEARFILTER)){
             $data = $data->where('tbl_properties.builtyear',trim(session()->get(PROPERTY_BUILDYEARFILTER)));
         }
@@ -106,9 +103,6 @@ class PropertyController extends Controller
             'title_mm'=>'required',
             'status'=>'required',
             'price'=>'required',
-            'description'=>'required',
-            'description_mm'=>'required',
-            'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
             'square_feet'=>'required',
@@ -209,9 +203,6 @@ class PropertyController extends Controller
             'title_mm'=>'required',
             'status'=>'required',
             'price'=>'required',
-            'description'=>'required',
-            'description_mm'=>'required',
-            'detail_address'=>'required',
             'front_area'=>'required',
             'side_area'=>'required',
             'square_feet'=>'required',
@@ -287,8 +278,6 @@ class PropertyController extends Controller
     }
 
     public function show($id){
-
-
         $divisions = get_all_divisions();
         $tenures = get_all_tenures();
         $propertytypes = get_all_propertytypes();
@@ -337,7 +326,6 @@ class PropertyController extends Controller
         session()->start();
         session()->put(PROPERTY_IDFILTER, trim($request->id));
         session()->put(PROPERTY_NAMEFILTER, trim($request->name));
-        session()->put(PROPERTY_CATEGORYFILTER, trim($request->category));
         session()->put(PROPERTY_LOCATIONFILTER, trim($request->location));
         session()->put(PROPERTY_BUILDYEARFILTER, trim($request->build_year));
         session()->put(PROPERTY_MINPRICEFILTER, trim($request->min_price));
@@ -350,12 +338,22 @@ class PropertyController extends Controller
         session()->forget([
             PROPERTY_IDFILTER,
             PROPERTY_NAMEFILTER,
-            PROPERTY_CATEGORYFILTER,
-            PROPERTY_LOCATIONFILTER,
             PROPERTY_BUILDYEARFILTER,
             PROPERTY_MINPRICEFILTER,
             PROPERTY_MAXPRICEFILTER,
         ]);
         return redirect()->route('properties.index');
+    }
+
+    public function softdelete($id){
+        // return $request->all();
+        $property = TblProperty::find($id);    
+        if (!$property) {
+            abort(404);
+        }        
+        $property->is_delete = 1;
+        $property->updated_by = auth()->user()->id;
+        $property->save();
+        return redirect()->back(); 
     }
 }

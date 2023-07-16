@@ -12,7 +12,15 @@ class DivisionController extends Controller
         $response = [];
         $headers = ['Division', 'Division(mm)','Actions'];
         
-        $data = Division::orderBy('id','DESC')->get();
+        $data = Division::orderBy('id','DESC');
+        
+        if(session()->get(DIVISION_NAMEFILTER)){
+            $data = $data->where(function($query){
+                $query->orWhere('division','like','%'.session()->get(DIVISION_NAMEFILTER).'%')
+                ->orWhere('division_mm','like','%'.session()->get(DIVISION_NAMEFILTER).'%');
+            });
+        }
+        $data = $data->get();
         if($data){
             foreach($data as $row){
                 $list['division'] = $row->division;
@@ -70,5 +78,18 @@ class DivisionController extends Controller
     public function show($id){
         $division = Division::with('township')->where('id',$id)->first();
         return view('divisions.show',compact('division'));
+    }
+    public function search(Request $request){
+        session()->start();
+        session()->put(DIVISION_NAMEFILTER, trim($request->division));
+
+        return redirect()->route('divisions.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            DIVISION_NAMEFILTER,
+        ]);
+        return redirect()->route('divisions.index');
     }
 }
