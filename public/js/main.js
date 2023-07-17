@@ -260,6 +260,7 @@ $(".featurePhotoBox img").click(function () {
 
 function ConfirmDialog(delete_route,id) {
   console.log(delete_route);
+  console.log(id);
   
   Swal.fire({
       title: 'Are you sure want to delete?',
@@ -288,11 +289,7 @@ function ConfirmDialog(delete_route,id) {
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // User cancelled, do nothing or handle accordingly
-        Swal.fire(
-          'Cancelled',
-          'Deletion cancelled.',
-          'info'
-        );
+        
       }
     });
 };

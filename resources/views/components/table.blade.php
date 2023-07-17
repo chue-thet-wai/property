@@ -21,17 +21,12 @@
                                     <?php 
                                         $show_route = $routename .'.show'; 
                                         $edit_route = $routename .'.edit'; 
-                                        if($routename == 'properties' || $routename == 'property_rents'){
-                                            $delete_route = $routename .'.softdelete';
-                                        }else{
-                                            $delete_route = $routename.'.destroy';
-                                        }
+                                        $delete_route = $routename .'.softdelete';
                                     ?>
                                     <td>
                                         <a href="{{ route($show_route,$value) }}" class="btn btn-action-dark px-3">View</a>
-                                        <a class="btn btn-action-dark px-3"  href="{{ route($edit_route,$value) }}">Edit</a>                                       
-                                        <!-- <a class="btn btn-action-dark px-3"  href="{{ route($delete_route,$value) }}">Delete</a>                                        -->
-                                        {!! Form::open(['method' => 'POST', 'route' => [$delete_route, $value], 'style' => 'display:inline']) !!}
+                                        <a class="btn btn-action-dark px-3"  href="{{ route($edit_route,$value) }}">Edit</a>
+                                        {!! Form::open(['method' => 'POST', 'style' => 'display:inline']) !!}
                                             {!! Form::button('Delete', ['class' => 'btn btn-action-danger text-white px-3', 'onclick' => 'ConfirmDialog("' . route($delete_route) . '","' . $value . '")']) !!}
                                         {!! Form::close() !!}
                                     </td>
