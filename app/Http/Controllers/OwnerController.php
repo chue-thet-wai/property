@@ -15,18 +15,23 @@ class OwnerController extends Controller
         $owners = array();
         $headers = array(
             'id',
-            'name',
-            'phonenumber',
+            'firstname',
+            'lastname',
+            'companyname',
+            'contactnumber',
+            'secondcontact',
             'email',
-            'address',
             'actions',
         );
         $data = TblOwner::select(
             'id',
-            'name',
-            'phonenumber',
+            'firstname',
+            'lastname',
+            'companyname',
+            'contactnumber',
+            'secondcontact',
             'email',
-            'address'
+            'id'
         );
         if(session()->get(OWNER_PHONEFILTER)){
             $data = $data->where('tbl_owners.phonenumber',session()->get(OWNER_PHONEFILTER));
@@ -34,15 +39,17 @@ class OwnerController extends Controller
         if(session()->get(OWNER_NAMEFILTER)){
             $data = $data->where('tbl_owners.name','like','%'.session()->get(OWNER_NAMEFILTER).'%');
         }
-        $data = $data->orderBy('id','DESC')->get();
+        $data = $data->where('is_delete',0)->orderBy('id','DESC')->get();
         if($data){
             foreach($data as $row){
                 $list = array();
                 $list['id'] = $row->id;
-                $list['name'] = $row->name;
-                $list['phonenumber'] = $row->phonenumber;
+                $list['firstname'] = $row->firstname;
+                $list['lastname'] = $row->lastname;
+                $list['companynmae'] = $row->companyname;
+                $list['contactnumber'] = $row->contactnumber;
+                $list['secondcontact'] = $row->secondcontact;
                 $list['email'] = $row->email;
-                $list['address'] = $row->address;
                 $list['actions'] = $row->id;
                 $owners[] = $list;
             }
@@ -58,35 +65,30 @@ class OwnerController extends Controller
     }
     public function store(Request $request){
         $this->validate($request, [
-            'name'=>'required',
-            'phonenumber'=>'required',
-            'email'=>'required',
-            'address'=>'required'            
+            'firstname'=>'required',
+            'contactnumber'=>'required',           
         ]);
         $inputs = $request->all();
         $inputs['created_by'] = Auth::user()->id;
         try{
             $owner = TblOwner::create($inputs);
-            Log::error('Owner '. $owner->id . ' created success');
+            Log::error('Contact '. $owner->id . ' created success');
         }catch(Exception $e){
             Log::error($e->getMessage());
         }
-        return redirect()->route('owners.index')->with('success','Owner created successfully!');
+        return redirect()->route('owners.index')->with('success','Contact created successfully!');
     }
     public function edit($id){
         $response = array();
         $owner = TblOwner::find($id);
-        $response['owner'] = $owner;
-        return view('owners.edit',compact('response'));
+        return view('owners.edit',compact('owner'));
     }
     public function update(Request $request, $id){
         $this->validate($request, [
-            'name'=>'required',
-            'phonenumber'=>'required',
-            'email'=>'required',
-            'address'=>'required'            
+            'firstname'=>'required',
+            'contactnumber'=>'required',           
         ]);
-        $inputs = $request->all();
+        $inputs = $request->all();        
         $inputs['updated_by'] = Auth::user()->id;
         $owner = TblOwner::find($id);
         if($owner){
@@ -97,7 +99,7 @@ class OwnerController extends Controller
                 Log::error($e->getMessage());
             }
         }      
-        return redirect()->route('owners.index')->with('success','Owner updated successfully!');
+        return redirect()->route('owners.index')->with('success','Contact is updated successfully!');
     }
     public function destroy($id){
         TblOwner::find($id)->delete();
@@ -109,7 +111,15 @@ class OwnerController extends Controller
         $owner_arr = array();
         $properties = array();
         $response = array();
-        $owner = TblOwner::select('id','name','phonenumber','email','address')->find($id)->toArray();
+        $owner = TblOwner::select(
+            'firstname',
+            'lastname',
+            'companyname',
+            'contactnumber',
+            'secondcontact',
+            'email',
+            'address',
+            'remark')->find($id)->toArray();
 
         if($owner){
             foreach($owner as $key=>$value){
@@ -213,5 +223,16 @@ class OwnerController extends Controller
             OWNER_PHONEFILTER,
         ]);
         return redirect()->route('owners.index');
+    }
+
+    public function softdelete(Request $request){
+        $owner = TblOwner::find($request->id);    
+        if (!$owner) {
+            abort(404);
+        }        
+        $owner->is_delete = 1;
+        $owner->updated_by = auth()->user()->id;
+        $owner->save();
+        return 'success';
     }
 }

@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('get-wardbytownship',[WardController::class,'wardbytownship'])->name('get-wardbytownship');
     Route::post('/properties/softdelete',[PropertyController::class,'softdelete'])->name('properties.softdelete');
     Route::post('/property_rents/softdelete',[PropertyRentController::class,'softdelete'])->name('property_rents.softdelete');
+    Route::post('/owners/delete/softdelete',[OwnerController::class,'softdelete'])->name('owners.softdelete');
 });
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 Route::get('/download',function(){

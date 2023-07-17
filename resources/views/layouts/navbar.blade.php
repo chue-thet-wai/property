@@ -28,7 +28,7 @@
             <a class="nav-link mx-2 {{ request()->routeIs('customers.*') ? 'active' : '' }}" href="{{route('customers.index')}}">Customers Enquiry</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link mx-2 {{ request()->routeIs('owners.*') ? 'active' : '' }}" href="{{route('owners.index')}}">Owners</a>
+            <a class="nav-link mx-2 {{ request()->routeIs('owners.*') ? 'active' : '' }}" href="{{route('owners.index')}}">Contacts</a>
           </li>
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a>
