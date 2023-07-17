@@ -377,7 +377,7 @@ class PropertyRentController extends Controller
         $response['document'] = $documents;
         $response['property_floor'] = $property_floor;
 
-        return view('properties.detail',compact('response', 'setup'));
+        return view('property_rents.detail',compact('response', 'setup'));
     }
 
     public function softdelete(Request $request){

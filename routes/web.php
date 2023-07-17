@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/properties/doc-delete', [PropertyController::class,'destory_doc'])->name('property.doc_delete');
     Route::post('/property-rent/img-delete', [PropertyRentController::class,'destory_img'])->name('property_rent.img_delete');    
     Route::post('/property-rent/doc-delete', [PropertyRentController::class,'destory_doc'])->name('property_rent.doc_delete');    
-    Route::get('/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    
+    Route::get('/auto-complete/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    
     Route::get('/owners-detail/{owner}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');  
     Route::get('/get-owners-phone', [OwnerController::class,'get_owners_with_phone'])->name('owners.get-owners-phone');    
     Route::get('/owners-detail-phone/{phonenumber}', [OwnerController::class,'get_owner_details_with_phone'])->name('owners.get-owners-details-phone');    

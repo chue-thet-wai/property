@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('tbl_owners', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
+            $table->string('name');
             $table->string('lastname')->nullable();
             $table->string('companyname')->nullable();
-            $table->string('contactnumber');
+            $table->string('phonenumber');
             $table->string('secondcontact')->nullable();
             $table->string('email')->nullable();
             $table->text('address')->nullable();

@@ -295,16 +295,14 @@ function autocompletePhone(inp, arr) {
 
 var owners = [];
 
-if (document.getElementById("owner")) {
-  $.get("/get-owners", function (data, status) {
-    if (status == 'success') {
+$.get("/auto-complete/get-owners", function (data, status) {
+  if (status == 'success') {
       owners = Object.keys(data).map((key) => data[key]);
       autocompletewithdata(document.getElementById("owner"), owners);
     } else {
       console.log(status);
     }
   });
-}
 
 var owners_phone = [];
 
@@ -319,14 +317,12 @@ if (document.getElementById("phonenumber")) {
   });
 }
 
-if (document.getElementById("owner")) {
-  document.getElementById("owner").addEventListener("focusout", function () {
-    var split_arr = this.value.split('(');
-    if (split_arr.length > 1) {
-        getOwnerDetails(split_arr[0]);      
+document.getElementById("owner").addEventListener("focusout", function () {
+  var split_arr = this.value.split('(');
+    if (split_arr.length > 1){
+      getOwnerDetails(split_arr[0]);      
     }
-  });
-}
+});
 
 if (document.getElementById("phonenumber")) {
   document.getElementById("phonenumber").addEventListener("focusout", function () {
@@ -337,7 +333,7 @@ if (document.getElementById("phonenumber")) {
   });
 }
 
-function getOwnerDetails(owner) {
+function getOwnerDetails(owner) {  
   $.get("/owners-detail/" + owner, function (data, status) {
     if (status == 'success' && data.name !== undefined) {
       document.getElementById("owner_id").value = data.id;

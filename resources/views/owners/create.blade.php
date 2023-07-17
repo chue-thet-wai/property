@@ -13,7 +13,7 @@
         <div class="col-xs-4 col-sm-4 col-md-4">
             <div class="form-group">
                 <strong>First Name: <span class="required">*</span></strong>
-                {!! Form::text('firstname', null, array('placeholder' => 'first name','class' => 'form-control','required')) !!}
+                {!! Form::text('name', null, array('placeholder' => 'first name','class' => 'form-control','required')) !!}
             </div>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4">
@@ -31,7 +31,7 @@
         <div class="col-xs-4 col-sm-4 col-md-4">
             <div class="form-group">
                 <strong>Contact Number: <span class="required">*</span></strong>
-                {!! Form::text('contactnumber', null, array('placeholder' => 'contact number','class' => 'form-control','required')) !!}
+                {!! Form::text('phonenumber', null, array('placeholder' => 'contact number','class' => 'form-control','required')) !!}
             </div>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4">
