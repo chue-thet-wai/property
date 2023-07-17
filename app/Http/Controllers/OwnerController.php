@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TblOwner;
 use App\Models\TblProperty;
+use App\Models\PropertyRent;
 use Illuminate\Support\Facades\Log;
 use Auth;
 
@@ -111,6 +112,7 @@ class OwnerController extends Controller
         $owner_arr = array();
         $properties = array();
         $response = array();
+        $property_type_arr = get_all_propertytypes();
         $owner = TblOwner::select(
             'name',
             'lastname',
@@ -130,48 +132,69 @@ class OwnerController extends Controller
             }
         }
         $headers = array(
-            'id',
+            // 'id',
             'Title',
             'category',
             'Property Type',
-            'location',
+            // 'division',
+            // 'township',
+            // 'ward',
             'address',
             'price',
-            'square feet',
-            'story',
-            'bedroom',
-            'bathroom'
+            // 'square feet',
+            // 'story',
+            // 'bedroom',
+            // 'bathroom'
         );
-        $data = TblProperty::select(
-            'id',
-            'title',
-            'category',
-            'protype',
-            'location',
-            'address',
-            'price',
-            'squarefeet',
-            'story',
-            'bedroom',
-            'bathroom')
-            ->where('owner_id',$id)->orderBy('id','DESC');
+        $data = TblProperty::where('owner_id',$id)->orderBy('id','DESC')->get();
             if($data){
                 foreach($data as $row){
+                    if(isset($property_type_arr[$row->property_type])){
+                        $protype = $property_type_arr[$row->property_type];
+                    }else{
+                        $protype = '';
+                    }
                     $list = array();
-                    $list['id'] = $row->id;
+                    // $list['id'] = $row->id;
                     $list['title'] = $row->title;
                     $list['category'] = $row->category;
-                    $list['protype'] = $row->protype;
-                    $list['location'] = $row->location;
-                    $list['address'] = $row->address;
+                    $list['property_type'] = $protype;
+                    // $list['division'] = $row->division;
+                    $list['address'] = $row->detail_address;
                     $list['price'] = $row->price;
-                    $list['squarefeet'] = $row->squarefeet;
-                    $list['story'] = $row->story;
-                    $list['bedroom'] = $row->bedroom;
-                    $list['bathroom'] = $row->bathroom;    
+                    // $list['squarefeet'] = $row->squarefeet;
+                    // $list['story'] = $row->story;
+                    // $list['master_room'] = $row->bedroom;
+                    // $list['bedroom'] = $row->bedroom;
+                    // $list['bathroom'] = $row->bathroom;    
                     $properties[] = $list;
                 }  
-            }     
+            }
+        $data = PropertyRent::where('owner_id',$id)->orderBy('id','DESC')->get();
+            if($data){
+                foreach($data as $row){
+                    if(isset($property_type_arr[$row->property_type])){
+                        $protype = $property_type_arr[$row->property_type];
+                    }else{
+                        $protype = '';
+                    }
+                    $list = array();
+                    // $list['id'] = $row->id;
+                    $list['title'] = $row->title;
+                    $list['category'] = $row->category;
+                    $list['property_type'] = $protype;
+                    // $list['division'] = $row->division;
+                    $list['address'] = $row->detail_address;
+                    $list['price'] = $row->price;
+                    // $list['squarefeet'] = $row->squarefeet;
+                    // $list['story'] = $row->story;
+                    // $list['master_room'] = $row->bedroom;
+                    // $list['bedroom'] = $row->bedroom;
+                    // $list['bathroom'] = $row->bathroom;    
+                    $properties[] = $list;
+                }
+            }  
+        
         $response['owner'] = $owner_arr;
         $response['properties'] = $properties;
         $response['headers'] = $headers;

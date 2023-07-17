@@ -114,6 +114,13 @@ class PropertyController extends Controller
       
         $inputs = $request->all();
 
+        if(isset($inputs['bank_loan'])){
+            $inputs['bank_loan'] = 1;
+        }
+        if(isset($inputs['public_status'])){
+            $inputs['public_status'] = 1;
+        }
+
         $image = $request->feature_photo;
         $imageName = time().rand(1,99).'.'.$image->extension();
         $inputs['feature_photo'] = $imageName;
@@ -213,7 +220,26 @@ class PropertyController extends Controller
         ]);
 
         $inputs = $request->all();
+        
+        // if(isset($inputs['bank_loan'])){
+        //     if($inputs['bank_loan'] == 'ON'){
+        //         $inputs['bank_loan'] = 1;
+        //     }else{
+        //         $inputs['bank_loan'] = 0;
+        //     }
+        // }else{
+        //     $inputs['bank_loan'] = 0;
+        // }
 
+        // if(isset($inputs['public_status'])){
+        //     if($inputs['public_status'] == 'ON'){
+        //         $inputs['public_status'] = 1;
+        //     }else{
+        //         $inputs['public_status'] = 0;
+        //     }
+        // }else{
+        //     $inputs['public_status'] = 0;
+        // }
         if($request->feature_photo) {
             $image = $request->feature_photo;
             $imageName = time().rand(1,99).'.'.$image->extension();

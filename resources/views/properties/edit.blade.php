@@ -81,13 +81,13 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <strong>Bank Loan:</strong>
-                        {!! Form::checkbox('bank_loan', '1', false, array('class' => 'form-check-input mt-2', 'checked' => (1) ? 'checked' : '')) !!}
+                        {!! Form::checkbox('bank_loan', '1', false, array('class' => 'form-check-input mt-2',$response['property']->bank_loan ? 'checked' : '')) !!}
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <strong>Public Status:</strong>
-                        {!! Form::checkbox('public_status', '1', false, array('class' => 'form-check-input mt-2', 'checked' => (1) ? 'checked' : '')) !!}
+                        {!! Form::checkbox('public_status', '1', false, array('class' => 'form-check-input mt-2',$response['property']->public_status ? 'checked' : '')) !!}
                     </div>
                 </div>
 
