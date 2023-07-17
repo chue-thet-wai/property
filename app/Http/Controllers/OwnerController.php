@@ -15,20 +15,20 @@ class OwnerController extends Controller
         $owners = array();
         $headers = array(
             'id',
-            'firstname',
+            'name',
             'lastname',
             'companyname',
-            'contactnumber',
+            'phonenumber',
             'secondcontact',
             'email',
             'actions',
         );
         $data = TblOwner::select(
             'id',
-            'firstname',
+            'name',
             'lastname',
             'companyname',
-            'contactnumber',
+            'phonenumber',
             'secondcontact',
             'email',
             'id'
@@ -44,10 +44,10 @@ class OwnerController extends Controller
             foreach($data as $row){
                 $list = array();
                 $list['id'] = $row->id;
-                $list['firstname'] = $row->firstname;
+                $list['name'] = $row->name;
                 $list['lastname'] = $row->lastname;
                 $list['companynmae'] = $row->companyname;
-                $list['contactnumber'] = $row->contactnumber;
+                $list['phonenumber'] = $row->phonenumber;
                 $list['secondcontact'] = $row->secondcontact;
                 $list['email'] = $row->email;
                 $list['actions'] = $row->id;
@@ -65,8 +65,8 @@ class OwnerController extends Controller
     }
     public function store(Request $request){
         $this->validate($request, [
-            'firstname'=>'required',
-            'contactnumber'=>'required',           
+            'name'=>'required',
+            'phonenumber'=>'required',           
         ]);
         $inputs = $request->all();
         $inputs['created_by'] = Auth::user()->id;
@@ -85,8 +85,8 @@ class OwnerController extends Controller
     }
     public function update(Request $request, $id){
         $this->validate($request, [
-            'firstname'=>'required',
-            'contactnumber'=>'required',           
+            'name'=>'required',
+            'phonenumber'=>'required',           
         ]);
         $inputs = $request->all();        
         $inputs['updated_by'] = Auth::user()->id;
@@ -112,10 +112,10 @@ class OwnerController extends Controller
         $properties = array();
         $response = array();
         $owner = TblOwner::select(
-            'firstname',
+            'name',
             'lastname',
             'companyname',
-            'contactnumber',
+            'phonenumber',
             'secondcontact',
             'email',
             'address',
@@ -183,7 +183,7 @@ class OwnerController extends Controller
         $owners = TblOwner::get();
         if($owners){
             foreach($owners as $row){ 
-                $owner_arr[$row->id] = $row->name . ' (' .$row->phonenumber . ')';            
+                $owner_arr[$row->id] = $row->name . '(' .$row->phonenumber . ')';            
             }
         }
         return $owner_arr;
@@ -194,19 +194,27 @@ class OwnerController extends Controller
         $owner_phones = TblOwner::get();
         if($owner_phones){
             foreach($owner_phones as $row){ 
-                $owner_phone_arr[$row->id] = $row->phonenumber. ' (' .$row->name . ')';            
+                $owner_phone_arr[$row->id] = $row->phonenumber. '(' .$row->name . ')';            
             }
         }
         return $owner_phone_arr;
     }
 
     public function get_owner_details($owner){
-        $owner = TblOwner::where('name',$owner)->first();
+        // return $owner;
+        // $owner_arr = explode('(',$owner);
+        // $name = $owner_arr[0];
+        // // return $owner_arr;
+        // $phonenumber_arr = explode(')',$owner_arr[1]);
+        // $phonenumber = $phonenumber_arr[0];
+        $owner = TblOwner::where('name',trim($owner))
+        ->where('is_delete',0)
+        ->first();
         return $owner;
     }
 
     public function get_owner_details_with_phone($phonenumber){
-        $owner = TblOwner::where('phonenumber',$phonenumber)->first();
+        $owner = TblOwner::where('phonenumber',$phonenumber)->where('is_delete',0)->first();
         return $owner;
     }
 

@@ -9,10 +9,10 @@ class TblOwner extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'firstname',
+        'name',
         'lastname',
         'companyname',
-        'contactnumber',
+        'phonenumber',
         'secondcontact',
         'email',
         'address',
