@@ -260,7 +260,7 @@ class OwnerController extends Controller
         $owner = TblOwner::find($request->id);    
         if (!$owner) {
             abort(404);
-        }        
+        }     
         $owner->is_delete = 1;
         $owner->updated_by = auth()->user()->id;
         $owner->save();

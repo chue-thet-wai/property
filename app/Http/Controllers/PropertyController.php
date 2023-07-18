@@ -114,11 +114,11 @@ class PropertyController extends Controller
       
         $inputs = $request->all();
 
-        if(isset($inputs['bank_loan'])){
-            $inputs['bank_loan'] = 1;
+        if(!isset($inputs['bank_loan'])){
+            $inputs['bank_loan'] = 0;
         }
-        if(isset($inputs['public_status'])){
-            $inputs['public_status'] = 1;
+        if(!isset($inputs['public_status'])){
+            $inputs['public_status'] = 0;
         }
 
         $image = $request->feature_photo;
@@ -128,6 +128,16 @@ class PropertyController extends Controller
         $inputs['created_by'] = Auth::user()->id;
         try{            
             $property = TblProperty::create($inputs);
+            $floors = $request->floor;
+            if($floors){
+                PropertyFloor::where('property_id', $property->id)->delete();
+                foreach($floors as $floor){
+                    $floor_inputs = [];
+                    $floor_inputs['property_id'] = $property->id;
+                    $floor_inputs['floor_id'] = $floor;                
+                    PropertyFloor::create($floor_inputs);
+                }
+            }
             $image->storeAs('public/feature_images', $imageName);
             $images = [];
             $documents = [];
@@ -221,15 +231,15 @@ class PropertyController extends Controller
 
         $inputs = $request->all();
         
-        // if(isset($inputs['bank_loan'])){
-        //     if($inputs['bank_loan'] == 'ON'){
-        //         $inputs['bank_loan'] = 1;
-        //     }else{
-        //         $inputs['bank_loan'] = 0;
-        //     }
-        // }else{
-        //     $inputs['bank_loan'] = 0;
-        // }
+        if(!isset($inputs['bank_loan'])){
+            $inputs['bank_loan'] = 0;
+        }
+        if(!isset($inputs['public_status'])){
+            $inputs['public_status'] = 0;
+        }
+
+        // return $inputs;
+
 
         // if(isset($inputs['public_status'])){
         //     if($inputs['public_status'] == 'ON'){
