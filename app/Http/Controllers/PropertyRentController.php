@@ -9,6 +9,7 @@ use App\Models\Division;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class PropertyRentController extends Controller
 {
@@ -158,6 +159,15 @@ class PropertyRentController extends Controller
                 }
             }
             $image->storeAs('public/feature_images', $imageName);
+            // create thumbnail path
+            $thumbnailPath = public_path('/thumbnails/feature_images/');
+            
+            $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+
             $images = [];
             $documents = [];
             if ($request->other_photo){
@@ -166,7 +176,15 @@ class PropertyRentController extends Controller
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
                     $image->storeAs('public/property_images', $imageName);
-                    // $image->move(public_path('property_images'), $imageName);   
+                    // create thumbnail path
+                    $thumbnailPath = public_path('/thumbnails/property_images/');
+                    
+                    $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+
                     $images[]['image'] = $imageName;
                 }
             }
@@ -181,7 +199,7 @@ class PropertyRentController extends Controller
                     $documentName = time().rand(1,99).'.'.$document->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
                     $document->storeAs('public/confidential_documents', $documentName);
-                    // $image->move(public_path('property_images'), $imageName);   
+
                     $documents[]['confidential_documents'] = $documentName;
                 }
             }
@@ -260,6 +278,15 @@ class PropertyRentController extends Controller
             $image = $request->feature_photo;
             $imageName = time().rand(1,99).'.'.$image->extension();
             $image->storeAs('public/feature_images', $imageName);
+             // create thumbnail path
+            $thumbnailPath = public_path('/thumbnails/feature_images/');
+            
+            $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName); 
+
             $inputs['feature_photo'] = $imageName;
         }        
         
@@ -285,7 +312,14 @@ class PropertyRentController extends Controller
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
                     $image->storeAs('public/property_images', $imageName);
-                    // $image->move(public_path('property_images'), $imageName);   
+                     // create thumbnail path
+                    $thumbnailPath = public_path('/thumbnails/property_images/');
+                    
+                    $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);   
                     $images[]['image'] = $imageName;
                 }
             }
@@ -300,7 +334,7 @@ class PropertyRentController extends Controller
                     $documentName = time().rand(1,99).'.'.$document->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
                     $document->storeAs('public/confidential_documents', $documentName);
-                    // $image->move(public_path('property_images'), $imageName);   
+                         
                     $documents[]['confidential_documents'] = $documentName;
                 }
             }

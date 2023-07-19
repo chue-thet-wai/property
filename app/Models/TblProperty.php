@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 class TblProperty extends Model
 {
     use HasFactory;
@@ -51,6 +50,4 @@ class TblProperty extends Model
     {
         return $this->belongsTo(TblOwner::class, 'owner_id');
     }
-    
-
 }
