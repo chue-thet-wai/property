@@ -9,6 +9,7 @@ use App\Models\Division;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
  
 use Auth;
 
@@ -122,7 +123,7 @@ class PropertyController extends Controller
         }
 
         $image = $request->feature_photo;
-        $imageName = time().rand(1,99).'.'.$image->extension();
+        $imageName = time().rand(1,99).'.'.$image->extension();        
         $inputs['feature_photo'] = $imageName;
         $inputs['category'] = SALE;
         $inputs['created_by'] = Auth::user()->id;
@@ -138,7 +139,18 @@ class PropertyController extends Controller
                     PropertyFloor::create($floor_inputs);
                 }
             }
+            // save original images
             $image->storeAs('public/feature_images', $imageName);
+
+            // create thumbnail path
+            $thumbnailPath = public_path('/thumbnails/feature_images/');
+            
+            $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+            
             $images = [];
             $documents = [];
             if ($request->other_photo){
@@ -146,8 +158,15 @@ class PropertyController extends Controller
                 {   
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $image->storeAs('public/property_images', $imageName);
-                    // $image->move(public_path('property_images'), $imageName);   
+                    $image->storeAs('public/property_images', $imageName);   
+                    // thumbnails
+                    $thumbnailPath = public_path('/thumbnails/property_images/');
+            
+                    $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+
                     $images[]['image'] = $imageName;
                 }
             }
@@ -161,8 +180,9 @@ class PropertyController extends Controller
                 {   
                     $documentName = time().rand(1,99).'.'.$document->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
+                    //original img
                     $document->storeAs('public/confidential_documents', $documentName);
-                    // $image->move(public_path('property_images'), $imageName);   
+
                     $documents[]['confidential_documents'] = $documentName;
                 }
             }
@@ -238,23 +258,21 @@ class PropertyController extends Controller
             $inputs['public_status'] = 0;
         }
 
-        // return $inputs;
-
-
-        // if(isset($inputs['public_status'])){
-        //     if($inputs['public_status'] == 'ON'){
-        //         $inputs['public_status'] = 1;
-        //     }else{
-        //         $inputs['public_status'] = 0;
-        //     }
-        // }else{
-        //     $inputs['public_status'] = 0;
-        // }
         if($request->feature_photo) {
             $image = $request->feature_photo;
             $imageName = time().rand(1,99).'.'.$image->extension();
             $inputs['feature_photo'] = $imageName;
+
             $image->storeAs('public/feature_images', $imageName);
+
+            // create thumbnail path
+            $thumbnailPath = public_path('/thumbnails/feature_images/');
+            
+            $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
         }
 
         $inputs['category'] = SALE;
@@ -280,7 +298,14 @@ class PropertyController extends Controller
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
                     $image->storeAs('public/property_images', $imageName);
-                    // $image->move(public_path('property_images'), $imageName);   
+                    // thumbnails
+                    $thumbnailPath = public_path('/thumbnails/property_images/');
+            
+                    $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+
                     $images[]['image'] = $imageName;
                 }
             }
@@ -288,6 +313,7 @@ class PropertyController extends Controller
                 $image['property_id'] = $property->id;  
                 // return $image;              
                 TblPropertyImage::create($image);
+
             }
             if ($request->confidential_documents){
                 foreach($request->confidential_documents as $key => $document)
@@ -295,7 +321,7 @@ class PropertyController extends Controller
                     $documentName = time().rand(1,99).'.'.$document->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
                     $document->storeAs('public/confidential_documents', $documentName);
-                    // $image->move(public_path('property_images'), $imageName);   
+                    
                     $documents[]['confidential_documents'] = $documentName;
                 }
             }

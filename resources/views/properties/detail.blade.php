@@ -275,7 +275,7 @@
                     <div class="form-group">
                         <strong>Feature Photo:</strong>
                         <div class="featurePhotoBox w-50">
-                            <img src="{{ asset('storage/feature_images/'. $response['property']->feature_photo) }}" alt="feature_image">
+                            <img src="{{ asset('thumbnails/feature_images/'. $response['property']->feature_photo) }}" alt="feature_image">
                         </div>
                     </div>
                 </div>
@@ -286,7 +286,7 @@
                             <div class="otherPhotoBox d-flex gap-1 flex-wrap">
                                 @foreach ($response['images'] as $photo)
                                     <div class="position-relative mb-1 ">
-                                        <img class="showImage" src="{{ asset('storage/property_images/'. $photo->image) }}" alt="other_image">
+                                        <img class="showImage" src="{{ asset('thumbnails/property_images/'. $photo->image) }}" alt="other_image">
                                     </div>
                                 @endforeach
                             </div> 

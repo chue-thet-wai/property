@@ -252,7 +252,7 @@
                         <strong>Feature Photo:</strong>
                         {!! Form::file('feature_photo', array('placeholder' => 'Type Feature Photo','class' => 'form-control mt-2')) !!}
                         <div class="featurePhotoBox">
-                            <img src="{{ asset('storage/feature_images/'. $response['property']->feature_photo) }}" alt="feature_image">
+                            <img src="{{ asset('thumbnails/feature_images/'. $response['property']->feature_photo) }}" alt="feature_image">
                         </div>
                     </div>
                 </div>
@@ -264,7 +264,7 @@
                                 @foreach ($response['images'] as $photo)
                                     <div class="position-relative mb-1 ">
                                         <i class="fa-solid fa-circle-xmark position-absolute rent-img-delete-icon" data-id="{{$photo->id}}"></i>
-                                        <img class="showImage" src="{{ asset('storage/property_images/'. $photo->image) }}" alt="other_image">
+                                        <img class="showImage" src="{{ asset('thumbnails/property_images/'. $photo->image) }}" alt="other_image">
                                     </div>
                                 @endforeach
                             </div>
