@@ -1,6 +1,6 @@
 @extends('layouts.navbar')
 @section('cardtitle')
-<h4>User Management</h4>
+<h4>Agent Management</h4>
 @endsection
 
 @section('cardbody')
@@ -18,7 +18,7 @@
 
 
 
-{!! Form::open(array('route' => 'users.store','method'=>'POST','enctype' => 'multipart/form-data')) !!}
+{!! Form::open(array('route' => 'agents.store','method'=>'POST','enctype' => 'multipart/form-data')) !!}
 <div class="row g-2">
    
     <div class="col-xs-4 col-sm-4 col-md-4">
@@ -35,14 +35,21 @@
     </div>
     <div class="col-xs-4 col-sm-4 col-md-4">
         <div class="form-group">
-            <strong>User Name: <span class="required">*</span></strong>
-            {!! Form::text('username', null, array('placeholder' => 'User Name','class' => 'form-control')) !!}
+            <strong>Company Name:</strong>
+            {!! Form::text('company_name', null, array('placeholder' => 'Company Name','class' => 'form-control')) !!}
         </div>
     </div> 
 
     <div class="col-xs-4 col-sm-4 col-md-4">
         <div class="form-group">
-            <strong>Email: <span class="required">*</span></strong>
+            <strong>Website:</strong>
+            {!! Form::text('website', null, array('placeholder' => 'Website','class' => 'form-control')) !!}
+        </div>
+    </div> 
+
+    <div class="col-xs-4 col-sm-4 col-md-4">
+        <div class="form-group">
+            <strong>Email:</strong>
             {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
         </div>
     </div>
@@ -63,44 +70,11 @@
     
     <div class="col-xs-4 col-sm-4 col-md-4">
         <div class="form-group">
-            <strong>Password: <span class="required">*</span></strong>
-            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
-        </div>
-    </div>    
-    <div class="col-xs-4 col-sm-4 col-md-4">
-        <div class="form-group">
-            <strong>Confirm Password: <span class="required">*</span></strong>
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
-        </div>
-    </div>
-    
-    <div class="col-xs-4 col-sm-4 col-md-4">
-        <div class="form-group">
             <strong>Document:</strong>
             <input type="file" name="document" class="form-control">
         </div>
     </div>
 
-    <div class="col-xs-4 col-sm-4 col-md-4">
-        <div class="form-group">
-            <strong>Start Working Date:</strong>
-            <input type="date" name="start_working_date" class="form-control">
-        </div>
-    </div>
-
-    <div class="col-xs-4 col-sm-4 col-md-4">
-        <div class="form-group">
-            <strong>Resignation Date:</strong>
-            <input type="date" name="resignation_date" class="form-control">
-        </div>
-    </div>
-
-    <div class="col-xs-6 col-sm-6 col-md-6">
-        <div class="form-group">
-            <strong>About:</strong>
-            {!! Form::textarea('about', null, array('class' => 'form-control','rows' => 4)) !!}
-        </div>
-    </div>
 
     <div class="col-xs-6 col-sm-6 col-md-6">
         <div class="form-group">
@@ -116,15 +90,10 @@
         </div>
     </div>
 
-    <div class="col-xs-6 col-sm-6 col-md-6">
-        <div class="form-group">
-            <strong>Department:</strong>
-            {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
-        </div>
-    </div>
+    
 
     <div class="col-xs-12 col-sm-12 col-md-12 py-4">
-        <a class="btn btn-primary px-4 py-2" href="{{ route('users.index') }}"> Back</a>
+        <a class="btn btn-primary px-4 py-2" href="{{ route('agents.index') }}"> Back</a>
         <button type="submit" class="btn btn-primary px-4 py-2">Submit</button>
     </div>
 </div>

@@ -4,20 +4,21 @@ use Illuminate\Support\Facades\Route;
   
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PropertyController;
-use App\Http\Controllers\BannerController;
 use App\Http\Controllers\TempController;
-use App\Http\Controllers\OwnerController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\HelperController;
-use App\Http\Controllers\DivisionController;
-use App\Http\Controllers\TownshipController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WardController;
-use App\Http\Controllers\TenureController;
-use App\Http\Controllers\PropertyTypeController;
-use App\Http\Controllers\PropertyRentController;
+use App\Http\Controllers\AgentController;
 use App\Http\Controllers\FloorController;
+use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\HelperController;
+use App\Http\Controllers\TenureController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\TownshipController;
+use App\Http\Controllers\PropertyRentController;
+use App\Http\Controllers\PropertyTypeController;
   
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('tenures', TenureController::class);     
     Route::resource('property_types', PropertyTypeController::class);     
     Route::resource('floors', FloorController::class);     
-    Route::resource('property_rents', PropertyRentController::class);     
+    Route::resource('property_rents', PropertyRentController::class); 
+    Route::resource('agents', AgentController::class);    
 
     Route::post('/properties/img-delete', [PropertyController::class,'destory_img'])->name('property.img_delete');    
     Route::post('/properties/doc-delete', [PropertyController::class,'destory_doc'])->name('property.doc_delete');
