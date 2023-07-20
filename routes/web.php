@@ -55,6 +55,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('property_rents', PropertyRentController::class); 
     Route::resource('agents', AgentController::class);    
 
+
+    Route::post('users-disabled/{user_id}',[UserController::class, 'disabled'])->name('users.disabled');
     Route::post('/properties/img-delete', [PropertyController::class,'destory_img'])->name('property.img_delete');    
     Route::post('/properties/doc-delete', [PropertyController::class,'destory_doc'])->name('property.doc_delete');
     Route::post('/property-rent/img-delete', [PropertyRentController::class,'destory_img'])->name('property_rent.img_delete');    

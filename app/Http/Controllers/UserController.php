@@ -200,4 +200,21 @@ class UserController extends Controller
         return redirect()->route('users.index')
                         ->with('success','User deleted successfully');
     }
+
+
+    public function disabled($id){
+        $user = User::find($id);
+        if($user->status == 1){
+            $status = 'disabled';
+            $user->status = 0;
+        }else{
+            $status = 'activated';
+            $user->status = 1;
+
+        }
+
+        $user->update();
+        
+        return back()->with('success','User '. $status .' successfully');
+    }
 }
