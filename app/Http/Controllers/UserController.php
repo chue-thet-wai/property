@@ -2,14 +2,18 @@
     
 namespace App\Http\Controllers;
     
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
 use DB;
-use Hash;
-use Illuminate\Support\Arr;
 use Auth;
+use Hash;
+use App\Models\User;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+
     
 class UserController extends Controller
 {
@@ -43,19 +47,51 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
+        
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+            'phone_no' => 'required|unique:users,phone_no',
+            'roles' => 'required',
         ]);
-    
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-    
-        $user = User::create($input);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        $user = new User([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone_no' => $request->phone_no,
+            'about' => $request->about,
+            'remark' => $request->remark,
+            'start_working_date' => $request->start_working_date,
+            'resignation_date' => $request->resignation_date,
+            'address' => $request->address,
+        ]);
+
+        if ($request->hasFile('profile_photo')) {
+            $profile_photo = $request->profile_photo;
+            $imagePath = $profile_photo->store('user-photos','public');
+            $user->profile_photo = $imagePath;
+        }
+
+        if ($request->hasFile('document')) {
+            $document = $request->document;
+            $filePath = $document->store('user-documents','public');
+            $user->document = $filePath;
+        }
+
+        $user->save();
+
         $user->assignRole($request->input('roles'));
-    
+
+        
         return redirect()->route('users.index')
                 ->with('success','User created successfully');        
     }
@@ -98,23 +134,52 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'username' =>'required|max:10|alpha_num',
-            'name' => 'required',
+       
+
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'username' => 'required|unique:users,username,'.$id,
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
+            'phone_no' => 'required|unique:users,phone_no,'.$id,
+            'roles' => 'required',
         ]);
-    
-        $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = Arr::except($input,array('password'));    
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
         }
     
+        
+    
         $user = User::find($id);
-        $user->update($input);
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        if(!empty($request->password)){ 
+           $user->password = Hash::make($request->password);
+        }
+        $user->phone_no = $request->phone_no;
+        $user->about = $request->about;
+        $user->remark = $request->remark;
+        $user->start_working_date = $request->start_working_date;
+        $user->resignation_date = $request->resignation_date;
+        $user->address = $request->address;
+
+        if ($request->hasFile('profile_photo')) {
+            Storage::delete('public/' . $user->profile_photo);
+            $profile_photo = $request->profile_photo;
+            $imagePath = $profile_photo->store('user-photos','public');
+            $user->profile_photo = $imagePath;
+        }
+
+        if ($request->hasFile('document')) {
+            Storage::delete('public/' . $user->document);
+            $document = $request->document;
+            $filePath = $document->store('user-documents','public');
+            $user->document = $filePath;
+        }
+        $user->update();
+
         DB::table('model_has_roles')->where('model_id',$id)->delete();
     
         $user->assignRole($request->input('roles'));
@@ -134,5 +199,22 @@ class UserController extends Controller
         User::find($id)->delete();
         return redirect()->route('users.index')
                         ->with('success','User deleted successfully');
+    }
+
+
+    public function disabled($id){
+        $user = User::find($id);
+        if($user->status == 1){
+            $status = 'disabled';
+            $user->status = 0;
+        }else{
+            $status = 'activated';
+            $user->status = 1;
+
+        }
+
+        $user->update();
+        
+        return back()->with('success','User '. $status .' successfully');
     }
 }

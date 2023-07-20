@@ -34,6 +34,9 @@
             <a class="nav-link mx-2 {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link mx-2 {{ request()->routeIs('agents.*') ? 'active' : '' }}" href="{{ route('agents.index') }}">Agents</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index')}}">Roles & Permissions</a>
           </li>
           <!-- <li class="nav-item">
