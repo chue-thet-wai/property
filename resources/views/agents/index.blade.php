@@ -6,7 +6,6 @@
 @section('cardbody')
 <x-create-btn label="Create New Agent" route="agents"/>
 
-
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
   <p>{{ $message }}</p>
@@ -38,8 +37,7 @@
               <td>{{ $agent->phone_no }}</td>
               <td>{{ $agent->address }}</td>
               <td class="text-nowrap">
-                <a class="px-3 btn btn-primary" href="{{ route('agents.edit',$agent->id) }}"> Edit</a>    
-                
+                <a class="px-3 btn btn-primary" href="{{ route('agents.edit',$agent->id) }}"> Edit</a>                
                 {!! Form::open(['method' => 'DELETE','route' => ['agents.destroy', $agent->id],'style'=>'display:inline']) !!}
                       {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                   {!! Form::close() !!}

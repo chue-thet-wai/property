@@ -97,6 +97,13 @@
         </div>
     </div>
 
+    <div class="col-xs-12 col-sm-12 col-md-4">
+        <div class="form-group">
+            <strong>Department:</strong>
+            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control selectpicker','multiple')) !!}
+        </div>
+    </div>
+
     <div class="col-xs-6 col-sm-6 col-md-6">
         <div class="form-group">
             <strong>About:</strong>
@@ -111,17 +118,10 @@
         </div>
     </div>
 
-    <div class="col-xs-6 col-sm-6 col-md-6">
+    <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Remark:</strong>
             {!! Form::textarea('remark', $user->remark, array('class' => 'form-control','rows' => 4)) !!}
-        </div>
-    </div>
-
-    <div class="col-xs-6 col-sm-6 col-md-6">
-        <div class="form-group">
-            <strong>Department:</strong>
-            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
         </div>
     </div>
 
