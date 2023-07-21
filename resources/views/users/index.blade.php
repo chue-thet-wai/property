@@ -23,9 +23,9 @@
               <th class="text-nowrap">Email</th>
               <th class="text-nowrap">Department</th>
               <th class="text-nowrap">Phone Number</th>
-              <th class="text-nowrap">Status</th>
               <th class="text-nowrap">Start Working Date</th>
               <th class="text-nowrap">Resignation Date</th>
+              <th class="text-nowrap">Status</th>
               <th class="text-nowrap" width="280px">Action</th>
             </tr>
           </thead>
@@ -44,9 +44,9 @@
                 @endif
               </td>
               <td>{{ $user->phone_no }}</td>
-              <td class="fw-bold @if($user->status == 1) text-success @else text-danger @endif">{{ $user->status == 1 ? 'Active' : 'Disabled' }}</td>
               <td>{{ $user->start_working_date }}</td>
               <td>{{ $user->resignation_date }}</td>
+              <td class="fw-bold @if($user->status == 1) text-success @else text-danger @endif">{{ $user->status == 1 ? 'Active' : 'Disabled' }}</td>              
               <td class="text-nowrap">
                 <a class="px-3 btn btn-primary" href="{{ route('users.edit',$user->id) }}"> Edit</a>    
                 

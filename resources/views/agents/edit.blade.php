@@ -57,7 +57,7 @@
 
     <div class="col-xs-4 col-sm-4 col-md-4">
         <div class="form-group">
-            <strong>Phone Number: <span class="required">*</span></strong>
+            <strong>Contact Number: <span class="required">*</span></strong>
             {!! Form::text('phone_no', null, array('placeholder' => 'Phone Number','class' => 'form-control')) !!}
         </div>
     </div>
@@ -66,6 +66,9 @@
         <div class="form-group">
             <strong>Profile Photo:</strong>
             <input type="file" name="profile_photo" class="form-control">
+            <div class="featurePhotoBox">
+                <img src="{{ asset('thumbnails/agent-photos/'. $agent->profile_photo) }}" alt="profile img">
+            </div>
         </div>
     </div>
     
@@ -73,6 +76,9 @@
         <div class="form-group">
             <strong>Document:</strong>
             <input type="file" name="document" class="form-control">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>{{$agent->document}}</span>
+            </div>
         </div>
     </div>
 

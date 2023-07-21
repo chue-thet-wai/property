@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class AgentController extends Controller
 {
@@ -60,9 +61,18 @@ class AgentController extends Controller
         ]);
 
         if ($request->hasFile('profile_photo')) {
-            $profile_photo = $request->profile_photo;
-            $imagePath = $profile_photo->store('agent-photos','public');
-            $agent->profile_photo = $imagePath;
+            $profile_photo = $request->profile_photo;            
+            $imageName = time().rand(1,99).'.'.$profile_photo->extension();            
+            $agent->profile_photo = $imageName;
+            $profile_photo->storeAs('public/agent-photos', $imageName);
+            // create thumbnail path
+            $thumbnailPath = public_path('/thumbnails/agent-photos/');
+            
+            $thumbnailImage = Image::make($profile_photo)->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
         }
 
         if ($request->hasFile('document')) {
@@ -128,14 +138,20 @@ class AgentController extends Controller
         $agent->phone_no =  $request->phone_no;
         $agent->remark =  $request->remark;
         $agent->address =  $request->address;
-
-      
-
         if ($request->hasFile('profile_photo')) {
             Storage::delete('public/' . $agent->profile_photo);
-            $profile_photo = $request->profile_photo;
-            $imagePath = $profile_photo->store('agent-photos','public');
-            $agent->profile_photo = $imagePath;
+            $profile_photo = $request->profile_photo;            
+            $imageName = time().rand(1,99).'.'.$profile_photo->extension();            
+            $agent->profile_photo = $imageName;
+            $profile_photo->storeAs('public/agent-photos', $imageName);
+            // create thumbnail path
+            $thumbnailPath = public_path('/thumbnails/agent-photos/');
+            
+            $thumbnailImage = Image::make($profile_photo)->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
         }
 
         if ($request->hasFile('document')) {
