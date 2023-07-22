@@ -616,3 +616,15 @@ img {
   outline: none;
 }
 /* Floor select box end */
+
+/* table scroll start */
+.table-scroll table {
+  margin-bottom: 60px !important;
+}
+
+.table-scroll .bottom {
+  position: fixed;
+  bottom: 76px;
+  right: 125px;
+}
+/* table scroll end */

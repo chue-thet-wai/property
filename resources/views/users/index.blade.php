@@ -13,8 +13,8 @@
 </div>
 @endif
 <div class="card card-xxl-stretch p-3">
-  <div class="table-responsive">
-      <table class="table table-bordered" id="table_id">
+  <div class="table-responsive table-scroll">
+      <table class="table table-bordered table-scroll" id="table_id">
           <thead>
             <tr class="text-center bg-primary text-white text-uppercase">
               <th class="text-nowrap">First Name</th>
@@ -48,13 +48,13 @@
               <td>{{ $user->resignation_date }}</td>
               <td class="fw-bold @if($user->status == 1) text-success @else text-danger @endif">{{ $user->status == 1 ? 'Active' : 'Disabled' }}</td>              
               <td class="text-nowrap">
-                <a class="px-3 btn btn-primary" href="{{ route('users.edit',$user->id) }}"> Edit</a>    
+                <a class="btn btn-action-dark px-3" href="{{ route('users.edit',$user->id) }}"> Edit</a>    
                 
                 {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                      {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                      {!! Form::submit('Delete', ['class' => 'btn btn-action-danger text-white px-3']) !!}
                 {!! Form::close() !!}
                 {!! Form::open(['method' => 'POST','route' => ['users.disabled', $user->id],'style'=>'display:inline']) !!}
-                  {!! Form::submit($user->status == 1 ? 'Disabled' : 'Activate', ['class' => 'btn btn-danger']) !!}
+                  {!! Form::submit($user->status == 1 ? 'Disabled' : 'Activate', ['class' => 'btn btn-action-danger text-white px-3']) !!}
                 {!! Form::close() !!}
               </td>
             </tr>
