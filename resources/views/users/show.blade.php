@@ -13,14 +13,12 @@
     
     {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
         <div class="bg-white px-4 py-5 rounded mb-2">
+            <h2 class="mb-4 fw-bolder">User Information</h2>
             <div class="row g-3">
-                <div class="col-xs-2 col-sm-2 col-md-2 text-center">
-                    <div class="user-profile">
+                <div class="col-xs-2 col-sm-2 col-md-12 text-center d-flex justify-content-center">
+                    <div class="user-profile profileimg">
                         <img src="{{ asset('thumbnails/user-photos/'. $user->profile_photo) }}" alt="profile img">
                     </div>
-                </div>
-                <div class="col-xs-8 col-sm-8 col-md-8">
-                    <h2>User Information</h2>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">

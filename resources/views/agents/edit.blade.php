@@ -21,7 +21,11 @@
 
 {!! Form::model($agent, ['method' => 'PATCH','route' => ['agents.update', $agent->id],'enctype' => 'multipart/form-data']) !!}
 <div class="row g-2">
-   
+   <div class="col-xs-2 col-sm-2 col-md-12 text-center d-flex justify-content-center">
+        <div class="profileimg">
+            <img src="{{ asset('thumbnails/agent-photos/'. $agent->profile_photo) }}" alt="profile img">
+        </div>
+    </div>
     <div class="col-xs-4 col-sm-4 col-md-4">
         <div class="form-group">
             <strong>First Name: <span class="required">*</span></strong>
@@ -66,9 +70,6 @@
         <div class="form-group">
             <strong>Profile Photo:</strong>
             <input type="file" name="profile_photo" class="form-control">
-            <div class="featurePhotoBox">
-                <img src="{{ asset('thumbnails/agent-photos/'. $agent->profile_photo) }}" alt="profile img">
-            </div>
         </div>
     </div>
     
