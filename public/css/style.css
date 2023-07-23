@@ -628,3 +628,17 @@ img {
   right: 125px;
 }
 /* table scroll end */
+
+/* user profile page css start */
+.profileimg {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+}
+
+.profileimg img {
+  object-fit: cover;
+}
+/* user profile page css end */
