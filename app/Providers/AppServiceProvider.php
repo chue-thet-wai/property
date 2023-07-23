@@ -37,7 +37,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with('protypes',config('constants.protypes'));
             $view->with('features',config('constants.features'));
             $view->with('enquirytypes',config('constants.enquirytypes'));
-            // $view->with('propertylocation',config('constants.propertylocation'));
+            $view->with('status',config('constants.status'));            
+            $view->with('rent_status',config('constants.rent_status'));
         });
         
         view()->composer('customers.*',function($view){

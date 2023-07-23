@@ -365,6 +365,44 @@ $(".featurePhotoBox img").click(function () {
   $("#zoom-modal").modal("show");
 });
 
+$('#agent-fee').on('focusout', function () {
+  calculateTotal();
+});
+$('#discount').on('focusout', function () {
+  calculateTotal();
+});
+$('#tax').on('focusout', function () {
+  calculateTotal();
+});
+
+$('#partner-fee').on('focusout', function () {
+  calculateAgencyNetAmt();
+});
+
+$('#total').on('focusout', function () {
+  calculateAgencyNetAmt();
+});
+
+$('#property').on('change', function () {
+  var property_id = $(this).val();
+  var type = $('#invtype').val();
+  $.ajax({
+    type: "POST",
+    url: '/get-property-detail/',
+    data: {
+      property_id,
+      type
+    },
+    success: function (result) { 
+      console.log('result', result);
+      $('#deal-price').val(result.price);
+    },
+    error: function (msg) {
+      console.log(msg);
+    },
+  });  
+});
+
 function ConfirmDialog(delete_route,id) {
   Swal.fire({
       title: 'Are you sure want to delete?',
@@ -397,3 +435,18 @@ function ConfirmDialog(delete_route,id) {
       }
     });
 };
+
+function calculateTotal() {
+  var agent_fee = $('#agent-fee').val();
+  var discount = $('#discount').val();
+  var tax = $('#tax').val();
+  var total = agent_fee - discount - tax ;
+  $('#total').val(total);
+}
+
+function calculateAgencyNetAmt() {
+  var total = $('#total').val();
+  var partner_fee = $('#partner-fee').val();
+  var agency_net_amt = total - partner_fee;
+  $('#agency-net-amt').val(agency_net_amt);
+}

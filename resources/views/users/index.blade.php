@@ -2,21 +2,44 @@
 @section('cardtitle')
   <h4>Users Management</h4>
 @endsection
-
 @section('cardbody')
-<x-create-btn label="Create New User" route="users"/>
-
 
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
   <p>{{ $message }}</p>
 </div>
 @endif
+@php
+  $name = session()->get(USER_NAMEFILTER);
+  $phonenumber = session()->get(USER_PHONEFILTER);
+@endphp
+{!! Form::open(['method' => 'POST','route' => ['users.search']]) !!}
+<div class="row">          
+  <div class="col-xs-3 col-sm-3 col-md-3">
+      <div class="form-group">
+          <strong>Name</strong>                     
+          {!! Form::text('name', $name, array('placeholder' => '','class' => 'form-control mt-2')) !!}
+      </div>
+  </div>
+  <div class="col-xs-3 col-sm-3 col-md-3">
+      <div class="form-group">
+          <strong>Phone Number</strong>                     
+          {!! Form::text('phonenumber', $phonenumber, array('placeholder' => '','class' => 'form-control mt-2')) !!}
+      </div>
+  </div>
+         
+  <div class="col-xs-12 col-sm-12 col-md-12 py-4">                                
+      <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
+      <a class="btn btn-primary px-4 py-2" href="{{ route('users.search.reset') }}"> Reset</a>
+  </div>
+</div>
+{!! Form::close() !!}
+<x-create-btn label="Create New User" route="users"/>
 <div class="card card-xxl-stretch p-3">
   <div class="table-responsive table-scroll">
       <table class="table table-bordered table-scroll" id="table_id">
           <thead>
-            <tr class="text-center bg-primary text-white text-uppercase">
+            <tr class="bg-primary text-white text-uppercase">
               <th class="text-nowrap">First Name</th>
               <th class="text-nowrap">Last Name</th>
               <th class="text-nowrap">User Name</th>
@@ -31,7 +54,7 @@
           </thead>
           <tbody>
           @foreach ($data as $key => $user)
-            <tr class="text-center">
+            <tr>
               <td>{{ $user->first_name }}</td>
               <td>{{ $user->last_name }}</td>
               <td>{{ $user->username }}</td>

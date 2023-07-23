@@ -24,7 +24,14 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->get();
+        $data = User::orderBy('id','DESC');
+        if(session()->get(USER_NAMEFILTER)){
+            $data = $data->where('first_name','like','%'.session()->get(USER_NAMEFILTER).'%');
+        }
+        if(session()->get(USER_PHONEFILTER)){
+            $data = $data->where('phone_no',session()->get(USER_PHONEFILTER));
+        }
+        $data = $data->get();
         return view('users.index',compact('data'));
     }
     
@@ -233,5 +240,20 @@ class UserController extends Controller
         $user->update();
         
         return back()->with('success','User '. $status .' successfully');
+    }
+
+    public function search(Request $request){
+        session()->start();
+        session()->put(USER_NAMEFILTER, trim($request->name));
+        session()->put(USER_PHONEFILTER, trim($request->phonenumber));
+        return redirect()->route('users.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            USER_NAMEFILTER,
+            USER_PHONEFILTER,
+        ]);
+        return redirect()->route('users.index');
     }
 }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\InvoiceDocument;
 use App\Models\TblOwner;
+use App\Models\PropertyRent;
+use App\Models\TblProperty;
 
 class InvoiceController extends Controller
 {
@@ -77,7 +79,6 @@ class InvoiceController extends Controller
         $this->validate($request,[
             'type'=>'required',
             'contract_date' => 'required',
-            'rentout_date' => 'required',
             'contract_month' => 'required',
             'owner_id' => 'required',
             'property_id' => 'required',
@@ -104,6 +105,23 @@ class InvoiceController extends Controller
             // return $image;              
             InvoiceDocument::create($doc);
         }
+        $inputs = [];
+        if($invoice->type == RENT){
+            $rentout_date = $invoice->rentout_date;
+            $datetime = new \DateTime($rentout_date);
+            $contract_month = 'P'.$invoice->contract_month.'M';
+            $newDatetime = $datetime->add(new \DateInterval($contract_month))->format('Y-m-d');
+                        
+            $inputs['status'] = RENTOUT;
+            $inputs['rent_out_date'] = $invoice->rentout_date;
+            $inputs['available_date'] = $newDatetime;
+            $property = PropertyRent::find($invoice->property_id);
+            $property->update($inputs);
+        }else{
+            $inputs['status'] = SOLDOUT;
+            $property = TblProperty::find($invoice->property_id);
+            $property->update($inputs);
+        }       
         return redirect()->route('invoices.index');
     }
 
@@ -111,7 +129,6 @@ class InvoiceController extends Controller
         $this->validate($request,[
             'type'=>'required',
             'contract_date' => 'required',
-            'rentout_date' => 'required',
             'contract_month' => 'required',
             'owner_id' => 'required',
             'property_id' => 'required',
@@ -137,6 +154,23 @@ class InvoiceController extends Controller
         foreach ($docs as $key => $contract_doc) {
             $contract_doc['invoice_id'] = $invoice->id;            
             InvoiceDocument::create($contract_doc);
+        }
+        $inputs = [];
+        if($invoice->type == RENT){
+            $rentout_date = $invoice->rentout_date;
+            $datetime = new \DateTime($rentout_date);
+            $contract_month = 'P'.$invoice->contract_month.'M';
+            $newDatetime = $datetime->add(new \DateInterval($contract_month))->format('Y-m-d');
+
+            $inputs['status'] = RENTOUT;
+            $inputs['rent_out_date'] = $invoice->rentout_date;
+            $inputs['available_date'] = $newDatetime;
+            $property = PropertyRent::find($invoice->property_id);
+            $property->update($inputs);
+        }else{
+            $inputs['status'] = SOLDOUT;
+            $property = TblProperty::find($invoice->property_id);
+            $property->update($inputs);
         }
         return redirect()->route('invoices.index');
     }

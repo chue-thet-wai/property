@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\TblProperty;
+use App\Models\PropertyRent;
 use App\Models\TblPropertyImage;
 use App\Models\TblPropertyDocument;
 use App\Models\PropertyFloor;
@@ -25,10 +26,12 @@ class PropertyController extends Controller
         $headers = array(
             'Id',            
             'Title',
-            'category',
             'Owner',
-            'Build Year',
+            'Division',
+            'Township',
+            'Ward',
             'Price',
+            'Status',
             'Actions',
         );
         $data = TblProperty::select(
@@ -61,13 +64,30 @@ class PropertyController extends Controller
       
         if($data){
             foreach($data as $row){
+                if(isset($row->division, $division_arr)){
+                    $division = $division_arr[$row->division];
+                }else{
+                    $division ='';
+                }
+                if(isset($row->township, $township_arr)){
+                    $township = $township_arr[$row->township];
+                }else{
+                    $township ='';
+                }
+                if(isset($row->ward, $ward_arr)){
+                    $ward = $ward_arr[$row->ward];
+                }else{
+                    $ward ='';
+                }
                 $list = array();
                 $list['id'] = $row->id;
                 $list['title'] = $row->title;
-                $list['category'] = $row->category;
                 $list['name'] = $row->name;
-                $list['build_year'] = $row->build_year;
+                $list['division'] = $division;
+                $list['township'] = $township;
+                $list['ward'] = $ward;
                 $list['price'] = $row->price;
+                $list['status'] = $row->status;
                 $list['actions'] = $row->id;
                 $properties[] = $list;
             }
@@ -417,4 +437,14 @@ class PropertyController extends Controller
         $property->save();
         return redirect()->back(); 
     }
+
+    public function get_property_detail(Request $request){
+        if($request->type == RENT){
+            $property = PropertyRent::find($request->property_id);
+        }else{
+            $property = TblProperty::find($request->property_id);
+        }
+        return $property;
+    }
 }
+

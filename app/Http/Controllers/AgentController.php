@@ -18,7 +18,18 @@ class AgentController extends Controller
      */
     public function index()
     {
-        $data = TblAgent::orderBy('id','DESC')->get();
+        $data = TblAgent::orderBy('id','DESC');
+        if(session()->get(AGENT_NAMEFILTER)){
+            $data = $data->where('first_name','like','%'.session()->get(AGENT_NAMEFILTER).'%');
+        }
+        if(session()->get(AGENT_COMPANYFILTER)){
+            $data = $data->where('company_name','like','%'.session()->get(AGENT_COMPANYFILTER).'%');
+        }
+        if(session()->get(AGENT_PHONEFILTER)){
+            $data = $data->where('phone_no',session()->get(AGENT_PHONEFILTER));
+        }
+        $data = $data->get();
+
         return view('agents.index',compact('data'));
     }
 
@@ -211,5 +222,22 @@ class AgentController extends Controller
     public function get_agent_detail_phone($id){
         $agent = TblAgent::where('phone_no',$id)->first();
         return $agent;
+    }
+
+    public function search(Request $request){
+        session()->start();
+        session()->put(AGENT_NAMEFILTER, trim($request->name));
+        session()->put(AGENT_COMPANYFILTER, trim($request->company_name));
+        session()->put(AGENT_PHONEFILTER, trim($request->phonenumber));
+        return redirect()->route('agents.index');
+    }
+
+    public function reset(){
+        session()->forget([
+            AGENT_NAMEFILTER,
+            AGENT_PHONEFILTER,
+            AGENT_COMPANYFILTER
+        ]);
+        return redirect()->route('agents.index');
     }
 }

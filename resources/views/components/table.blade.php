@@ -59,11 +59,16 @@
                                         <span class="text-gray-800 fw-boldest">{{ $enquirytypes[$value] }}</span>
                                     </td>
                                     @break
-                                @case('leavestatus')
+                                @case('status')
                                     <td>
-                                        <span class="text-gray-800 fw-boldest">{{ $leavestatus[$value] }}</span>
+                                        <span class="text-gray-800 fw-boldest">{{ $status[$value] }}</span>
                                     </td>
                                     @break
+                                @case('rent_status')
+                                    <td>
+                                        <span class="text-gray-800 fw-boldest">{{ $rent_status[$value] }}</span>
+                                    </td>
+                                    @break                                
                                 @default
                                     <td>
                                         <span class="text-gray-800 fw-boldest">{{ $value }}</span>

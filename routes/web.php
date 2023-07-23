@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/profile', [UserController::class,'show'])->name('profile.index');    
     Route::post('/properties/search',[PropertyController::class,'search'])->name('properties.search');
     Route::get('/properties/search/reset',[PropertyController::class,'reset'])->name('properties.search.reset');
+    Route::post('/get-property-detail',[PropertyController::class,'get_property_detail'])->name('properties.get-property-detail');
     Route::post('/property_rents/search',[PropertyRentController::class,'search'])->name('property_rents.search');
     Route::get('/property_rents/search/reset',[PropertyRentController::class,'reset'])->name('property_rents.search.reset');
     Route::post('/owners/search',[OwnerController::class,'search'])->name('owners.search');
@@ -91,6 +92,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/property_types/search/reset',[PropertyTypeController::class,'reset'])->name('property_types.search.reset');
     Route::post('/invoices/search',[InvoiceController::class,'search'])->name('invoices.search');
     Route::get('/invoices/search/reset',[InvoiceController::class,'reset'])->name('invoices.search.reset');
+    Route::post('/users/search',[UserController::class,'search'])->name('users.search');
+    Route::get('/users/search/reset',[UserController::class,'reset'])->name('users.search.reset');
+    Route::post('/agents/search',[AgentController::class,'search'])->name('agents.search');
+    Route::get('/agents/search/reset',[AgentController::class,'reset'])->name('agents.search.reset');
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
     Route::get('get-townshipbydivision',[TownshipController::class,'townshipbydivision'])->name('get-townshipbydivision');
