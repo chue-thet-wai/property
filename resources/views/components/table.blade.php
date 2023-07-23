@@ -43,6 +43,11 @@
                                     <td>
                                         <span class="text-gray-800 fw-boldest">{{ $categories[$value] }}</span>
                                     </td>
+                                    @break 
+                                @case('type')
+                                    <td>
+                                        <span class="text-gray-800 fw-boldest">{{ $categories[$value] }}</span>
+                                    </td>
                                     @break                                    
                                 @case('protype')
                                     <td>

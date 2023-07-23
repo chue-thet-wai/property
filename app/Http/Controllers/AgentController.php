@@ -179,4 +179,36 @@ class AgentController extends Controller
         return redirect()->route('agents.index')
                         ->with('success','Agent deleted successfully');
     }
+
+    public function get_partners(){
+        $agent_arr = [];
+        $agents = TblAgent::all();
+        if($agents){
+            foreach($agents as $agent){
+                $agent_arr[$agent->id] = $agent->first_name . '(' . $agent->phone_no .')';
+            }
+        }
+        return $agent_arr;
+    }
+
+    public function get_partners_phone(){
+        $agent_arr = [];
+        $agents = TblAgent::all();
+        if($agents){
+            foreach($agents as $agent){
+                $agent_arr[$agent->id] = $agent->phone_no . '(' . $agent->first_name .')';
+            }
+        }
+        return $agent_arr;
+    }
+
+    public function get_agent_detail($id){
+        $agent = TblAgent::where('first_name',$id)->first();    
+        return $agent;
+    }
+    
+    public function get_agent_detail_phone($id){
+        $agent = TblAgent::where('phone_no',$id)->first();
+        return $agent;
+    }
 }

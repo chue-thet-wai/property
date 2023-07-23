@@ -9,12 +9,6 @@
       </button>    
       <div class=" collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ms-auto ">
-          <!-- <li class="nav-item">
-            <a class="nav-link mx-2 {{ request()->routeIs('home') ? 'active' : '' }}"  aria-current="page" href="{{route('home')}}">Home</a>
-          </li> -->          
-          <!-- <li class="nav-item">
-            <a class="nav-link mx-2 {{ request()->routeIs('properties.*') ? 'active' : '' }}" href="{{route('properties.index')}}">Properties</a>
-          </li> -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
               Property
@@ -23,6 +17,9 @@
               <li><a class="dropdown-item {{ request()->routeIs('properties.*') ? 'active' : '' }}" href="{{route('properties.index')}}">Sale</a></li>
               <li><a class="dropdown-item" href="{{ route('property_rents.index') }}">Rent</a></li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mx-2 {{ request()->routeIs('invoices.*') ? 'active' : '' }}" href="{{route('invoices.index')}}">Invoice</a>
           </li>
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('customers.*') ? 'active' : '' }}" href="{{route('customers.index')}}">Customers Enquiry</a>
@@ -39,28 +36,9 @@
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index')}}">Roles & Permissions</a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link mx-2 {{ request()->routeIs('posts.*') ? 'active' : '' }}" href="#">Post</a>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a class="nav-link mx-2 {{ request()->routeIs('sales.*') ? 'active' : '' }}" href="#">Sale ( Sell / Rent )</a>            
-          </li> -->
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('systemlogs.*') ? 'active' : '' }}" href="#">System Log (staff performance log)</a>            
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link mx-2 {{ request()->routeIs('banners.*') ? 'active' : '' }}" href="{{ route('banners.index' )}}">Banners</a>     
-          </li> -->
-          <!-- <li class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown button
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li> -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
               Setup
@@ -92,20 +70,7 @@
                 </a>     
               </li>
             </ul>
-          </li>    
-          
-          <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{ Config::get('languages')[App::getLocale()]['display'] }}
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                @foreach (Config::get('languages') as $lang => $language)
-                    @if ($lang != App::getLocale())
-                      <a class="dropdown-item" href="{{ route('lang.switch', $lang) }}"> {{$language['display']}}</a>
-                    @endif
-                @endforeach
-              </div>
-          </li> -->
+          </li>  
         </ul>
       </div>
     </div>

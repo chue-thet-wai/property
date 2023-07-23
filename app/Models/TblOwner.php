@@ -21,4 +21,11 @@ class TblOwner extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function property(){
+        return $this->hasMany(TblProperty::class, 'owner_id');
+    }
+    public function property_rent(){
+        return $this->hasMany(PropertyRent::class, 'owner_id');
+    }
 }

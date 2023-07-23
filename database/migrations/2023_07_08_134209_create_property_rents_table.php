@@ -40,7 +40,7 @@ return new class extends Migration
             $table->integer('master_bedroom');
             $table->integer('common_room');
             $table->integer('bathroom');
-            $table->year('build_year');
+            $table->year('build_year')->nullable();
             $table->text('building_facility')->nullable();
             $table->text('special_features')->nullable();
             $table->integer('view_count');
