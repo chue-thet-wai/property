@@ -158,10 +158,9 @@ class UserController extends Controller
         $user->last_name = $request->last_name;
         $user->username = $request->username;
         $user->email = $request->email;
+
         if(!empty($request->password)){
-           $old_password = $user->password;
-           $current_password = Hash::make($request->current_password);
-           if($old_password == $current_password){
+           if (Hash::check($request->current_password, $user->password)) {
                 $user->password = Hash::make($request->password);
            }else{
                 return Redirect::back()->withErrors(['Current Password is incorrect'])->withInput();
