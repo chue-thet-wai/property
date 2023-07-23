@@ -132,19 +132,11 @@ class OwnerController extends Controller
             }
         }
         $headers = array(
-            // 'id',
             'Title',
             'category',
             'Property Type',
-            // 'division',
-            // 'township',
-            // 'ward',
-            'address',
             'price',
-            // 'square feet',
-            // 'story',
-            // 'bedroom',
-            // 'bathroom'
+            'status'
         );
         $data = TblProperty::where('owner_id',$id)->orderBy('id','DESC')->get();
             if($data){
@@ -155,18 +147,11 @@ class OwnerController extends Controller
                         $protype = '';
                     }
                     $list = array();
-                    // $list['id'] = $row->id;
                     $list['title'] = $row->title;
                     $list['category'] = $row->category;
                     $list['property_type'] = $protype;
-                    // $list['division'] = $row->division;
-                    $list['address'] = $row->detail_address;
                     $list['price'] = $row->price;
-                    // $list['squarefeet'] = $row->squarefeet;
-                    // $list['story'] = $row->story;
-                    // $list['master_room'] = $row->bedroom;
-                    // $list['bedroom'] = $row->bedroom;
-                    // $list['bathroom'] = $row->bathroom;    
+                    $list['status'] = $row->status;   
                     $properties[] = $list;
                 }  
             }
@@ -179,18 +164,11 @@ class OwnerController extends Controller
                         $protype = '';
                     }
                     $list = array();
-                    // $list['id'] = $row->id;
                     $list['title'] = $row->title;
                     $list['category'] = $row->category;
                     $list['property_type'] = $protype;
-                    // $list['division'] = $row->division;
-                    $list['address'] = $row->detail_address;
                     $list['price'] = $row->price;
-                    // $list['squarefeet'] = $row->squarefeet;
-                    // $list['story'] = $row->story;
-                    // $list['master_room'] = $row->bedroom;
-                    // $list['bedroom'] = $row->bedroom;
-                    // $list['bathroom'] = $row->bathroom;    
+                    $list['rent_status'] = $row->status; 
                     $properties[] = $list;
                 }
             }  
@@ -223,13 +201,7 @@ class OwnerController extends Controller
         return $owner_phone_arr;
     }
 
-    public function get_owner_details($owner,$invtype){
-        // return $owner;
-        // $owner_arr = explode('(',$owner);
-        // $name = $owner_arr[0];
-        // // return $owner_arr;
-        // $phonenumber_arr = explode(')',$owner_arr[1]);
-        // $phonenumber = $phonenumber_arr[0];
+    public function get_owner_details($owner,$invtype = ''){
         $owner = TblOwner::where('name',trim($owner))
         ->where('is_delete',0);
         if($invtype == RENT){

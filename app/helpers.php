@@ -23,12 +23,6 @@
     define('RENTOUT', 'RO');
     define('CANCEL', 'CL');
     define('RENTOUTBYOTHERAGENCY', 'ROBOA');    
-
-    // property location
-    // define('STATE', 'S');
-    // define('CITY', 'C');
-    // define('TOWNSHIP', 'T');
-
     //property type
     define('APARTMENT', 'A');
     define('CONDO', 'C');
@@ -101,6 +95,15 @@
     define('INVOICE_RENTOUTDATEFILTER','INVOICE_RENTOUTDATEFILTER');
     define('INVOICE_TYPEFILTER','INVOICE_TYPEFILTER');
 
+    //user filter
+    define('USER_NAMEFILTER','USER_NAMEFILTER');
+    define('USER_PHONEFILTER','USER_PHONEFILTER');
+
+    //agent filter
+    define('AGENT_NAMEFILTER','AGENT_NAMEFILTER');
+    define('AGENT_PHONEFILTER','AGENT_PHONEFILTER');
+    define('AGENT_COMPANYFILTER','AGENT_COMPANYFILTER');
+    
     function get_all_divisions(){
         $division_arr = [];
         $divisions = Division::all();

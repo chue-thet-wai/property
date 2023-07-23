@@ -77,25 +77,26 @@
                     <div>{{ $response['property']->description_mm }}</div>
         
                 </div> 
-                <div class="col-md-6">
-                    
+                <div class="col-md-6">                    
                     <strong>Status:</strong>
-                    <div>{{ $status[$response['property']->status] }}</div>
-        
+                    <div>{{ $status[$response['property']->status] }}</div>        
                 </div>
-                <div class="col-md-6">
-                    
+                <div class="col-md-6">                    
+                    <strong>Rent Out Date:</strong>
+                    <div>{{ $response['property']->rent_out_date }}</div>        
+                </div>
+                <div class="col-md-6">                    
+                    <strong>Available Date:</strong>
+                    <div>{{ $response['property']->available_date }}</div>        
+                </div>
+                <div class="col-md-6">                    
                     <strong>Bank Loan:</strong>
-                    <div>{{ ($response['property']->bank_loan == 1) ? 'Yes' : 'No'  }}</div>
-        
+                    <div>{{ ($response['property']->bank_loan == 1) ? 'Yes' : 'No'  }}</div>        
                 </div>
-                <div class="col-md-6">
-                    
+                <div class="col-md-6">                    
                     <strong>Public Status:</strong>
-                    <div>{{ ($response['property']->public_status == 1) ? 'Yes' : 'No'  }}</div>
-        
+                    <div>{{ ($response['property']->public_status == 1) ? 'Yes' : 'No'  }}</div>        
                 </div>
-
             </div>
         
         </div> 

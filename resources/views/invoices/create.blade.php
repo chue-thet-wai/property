@@ -27,13 +27,13 @@
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Contract Date: <span class="required">*</span></strong>
-                        {!! Form::date('contract_date', null, array('placeholder' => '','class' => 'form-control mt-2','required')) !!}
+                        {!! Form::date('contract_date', date('Y-m-d'), array('placeholder' => '','class' => 'form-control mt-2','required')) !!}
                     </div>
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
-                        <strong>Rent Out Date: <span class="required">*</span></strong>
-                        {!! Form::date('rentout_date', null, array('placeholder' => '','class' => 'form-control mt-2','required')) !!}
+                        <strong>Rent Out Date:</strong>
+                        {!! Form::date('rentout_date', null, array('placeholder' => '','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
@@ -152,13 +152,13 @@
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Partner Fee:</strong>
-                        {!! Form::number('partner_fee', null, array('placeholder' => '','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('partner_fee', null, array('placeholder' => '','class' => 'form-control mt-2','id'=>'partner-fee')) !!}
                     </div>
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Agency Net Amount:</strong>
-                        {!! Form::number('agency_net_amt', null, array('placeholder' => '','class' => 'form-control mt-2')) !!}
+                        {!! Form::number('agency_net_amt', null, array('placeholder' => '','class' => 'form-control mt-2','id'=>'agency-net-amt')) !!}
                     </div>
                 </div>            
                 <div class="col-xs-12 col-sm-12 col-md-12">

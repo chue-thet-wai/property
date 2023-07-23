@@ -9,10 +9,9 @@
         <x-alert type="danger" message="{{$error}}" />
     @endforeach
 
-    <div class="card">
-        <div class="card-header">Owner Details</div>
-        <div class="card-body">
-        <div class="row">
+    <div class="bg-white px-4 py-5 rounded mb-2">
+        <div class="row g-3">
+        <h2>Owner Infromation</h2>
             @foreach($response['owner'] as $key=>$value)
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <strong class="detail-label">{{$key}}</strong> 
@@ -20,11 +19,10 @@
                 </div> 
             @endforeach
         </div>
-        </div>
     </div>
-    <div class="card">
-        <div class="card-header">Owner's Properties</div>
-        <div class="card-body">            
+    <div class="bg-white px-4 py-5 rounded mb-2">
+        <div class="row g-3">
+        <h2>Owner's Properties</h2>            
             <x-table :body="$response['properties']" :headers="$response['headers']" routename="properties" title="Properties"/>            
         </div>
     </div>

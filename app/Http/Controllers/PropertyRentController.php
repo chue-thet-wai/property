@@ -27,8 +27,8 @@ class PropertyRentController extends Controller
             'Division',
             'Township',
             'Ward',
-            'Build Year',
             'Price',
+            'Status',
             'Actions',
         );
         $data = PropertyRent::select(
@@ -82,8 +82,8 @@ class PropertyRentController extends Controller
                 $list['division'] = $division;
                 $list['township'] = $township;
                 $list['ward'] = $ward;
-                $list['build_year'] = $row->build_year;
                 $list['price'] = $row->price;
+                $list['rent_status'] = $row->status;
                 $list['actions'] = $row->id;
                 $property_rents[] = $list;
             }
