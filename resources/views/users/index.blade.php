@@ -48,8 +48,7 @@
               <td>{{ $user->resignation_date }}</td>
               <td class="fw-bold @if($user->status == 1) text-success @else text-danger @endif">{{ $user->status == 1 ? 'Active' : 'Disabled' }}</td>              
               <td class="text-nowrap">
-                <a class="btn btn-action-dark px-3" href="{{ route('users.edit',$user->id) }}"> Edit</a>    
-                
+                <a class="btn btn-action-dark px-3" href="{{ route('users.edit',$user->id) }}"> Edit</a>
                 {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
                       {!! Form::submit('Delete', ['class' => 'btn btn-action-danger text-white px-3']) !!}
                 {!! Form::close() !!}

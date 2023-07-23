@@ -19,6 +19,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\TownshipController;
 use App\Http\Controllers\PropertyRentController;
 use App\Http\Controllers\PropertyTypeController;
+use App\Http\Controllers\InvoiceController;
   
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('floors', FloorController::class);     
     Route::resource('property_rents', PropertyRentController::class); 
     Route::resource('agents', AgentController::class);    
+    Route::resource('invoices', InvoiceController::class);    
 
 
     Route::post('users-disabled/{user_id}',[UserController::class, 'disabled'])->name('users.disabled');
@@ -61,8 +63,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/properties/doc-delete', [PropertyController::class,'destory_doc'])->name('property.doc_delete');
     Route::post('/property-rent/img-delete', [PropertyRentController::class,'destory_img'])->name('property_rent.img_delete');    
     Route::post('/property-rent/doc-delete', [PropertyRentController::class,'destory_doc'])->name('property_rent.doc_delete');    
+    Route::post('/invoices/doc-delete', [InvoiceController::class,'destory_doc'])->name('invoices.doc_delete');    
     Route::get('/auto-complete/get-owners', [OwnerController::class,'get_owners'])->name('owners.get-owners');    
-    Route::get('/owners-detail/{owner}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');  
+    Route::get('/owners-detail/{owner}/{invtype?}', [OwnerController::class,'get_owner_details'])->name('owners.get-owners-details');  
     Route::get('/get-owners-phone', [OwnerController::class,'get_owners_with_phone'])->name('owners.get-owners-phone');    
     Route::get('/owners-detail-phone/{phonenumber}', [OwnerController::class,'get_owner_details_with_phone'])->name('owners.get-owners-details-phone');    
     Route::get('/profile', [UserController::class,'show'])->name('profile.index');    
@@ -86,6 +89,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/tenures/search/reset',[TenureController::class,'reset'])->name('tenures.search.reset');
     Route::post('/property_types/search',[PropertyTypeController::class,'search'])->name('property_types.search');
     Route::get('/property_types/search/reset',[PropertyTypeController::class,'reset'])->name('property_types.search.reset');
+    Route::post('/invoices/search',[InvoiceController::class,'search'])->name('invoices.search');
+    Route::get('/invoices/search/reset',[InvoiceController::class,'reset'])->name('invoices.search.reset');
     // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
     // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
     Route::get('get-townshipbydivision',[TownshipController::class,'townshipbydivision'])->name('get-townshipbydivision');
@@ -93,6 +98,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/properties/softdelete',[PropertyController::class,'softdelete'])->name('properties.softdelete');
     Route::post('/property_rents/softdelete',[PropertyRentController::class,'softdelete'])->name('property_rents.softdelete');
     Route::post('/owners/delete/softdelete',[OwnerController::class,'softdelete'])->name('owners.softdelete');
+    Route::post('/invoices/delete/softdelete',[InvoiceController::class,'softdelete'])->name('invoices.softdelete');
+    Route::get('/auto-complete/get-partners',[AgentController::class,'get_partners'])->name('auto-complete.get-partners');
+    Route::get('/auto-complete/get-partners-phone',[AgentController::class,'get_partners_phone'])->name('auto-complete.get-partners-phone');
+    Route::get('/partner-detail/{id}',[AgentController::class,'get_agent_detail'])->name('get-partners-detail');
+    Route::get('/partner-detail-phone/{id}',[AgentController::class,'get_agent_detail_phone'])->name('get-partners-detail-phone');
+    
 });
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 Route::get('/download',function(){
