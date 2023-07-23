@@ -76,17 +76,11 @@
     </div>
     </nav>
     <div class="container my-4">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-              <div class="container">
-                  @if (session('status'))
-                      <div class="alert alert-success" role="alert">
-                          {{ session('status') }}
-                      </div>
-                  @endif
-                  @yield('cardbody')                        
-              </div>
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
             </div>
-        </div>
+        @endif
+        @yield('cardbody')
     </div>
 @endsection
