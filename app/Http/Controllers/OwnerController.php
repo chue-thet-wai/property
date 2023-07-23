@@ -223,7 +223,7 @@ class OwnerController extends Controller
         return $owner_phone_arr;
     }
 
-    public function get_owner_details($owner){
+    public function get_owner_details($owner,$invtype){
         // return $owner;
         // $owner_arr = explode('(',$owner);
         // $name = $owner_arr[0];
@@ -231,8 +231,13 @@ class OwnerController extends Controller
         // $phonenumber_arr = explode(')',$owner_arr[1]);
         // $phonenumber = $phonenumber_arr[0];
         $owner = TblOwner::where('name',trim($owner))
-        ->where('is_delete',0)
-        ->first();
+        ->where('is_delete',0);
+        if($invtype == RENT){
+            $owner = $owner->with('property_rent');
+        }else{
+            $owner = $owner->with('property');
+        }
+        $owner = $owner->first();
         return $owner;
     }
 

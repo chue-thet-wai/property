@@ -7,6 +7,7 @@
     use App\Models\Floor;
     use App\Models\PropertyFloor;
     use App\Models\PropertyRentFloor;
+    use App\Models\Invoice;
     // category
     define('RENT', 'R');
     define('SALE', 'S');
@@ -93,6 +94,12 @@
 
     //tenure filter
     define('TENURE_NAMEFILTER', 'TENURE_NAMEFILTER');
+
+    //invoice filter
+    define('INVOICE_INVOICEIDFILTER','INVOICE_INVOICEIDFILTER');
+    define('INVOICE_CONTRACTDATEFILTER','INVOICE_CONTRACTDATEFILTER');
+    define('INVOICE_RENTOUTDATEFILTER','INVOICE_RENTOUTDATEFILTER');
+    define('INVOICE_TYPEFILTER','INVOICE_TYPEFILTER');
 
     function get_all_divisions(){
         $division_arr = [];
@@ -203,6 +210,27 @@
             }
         }
         return $property_rent_floor_arr;
+    }
+
+    function generate_invoice_id(){
+        $length = 16;
+        $characters = '0123456789'; // You can add more characters if needed
+        $invoice_id = '';
+        $charactersLength = strlen($characters);
+        
+        do {
+            $found = false;
+            $invoice_id = '';
+            for ($i = 0; $i < $length; $i++) {
+                $invoice_id .= $characters[mt_rand(0, $charactersLength - 1)];
+            }
+            $invoice = Invoice::where('invoice_id', $invoice_id)->first();
+            if ($invoice) {
+                $found = true;
+            }
+        } while ($found);
+
+        return $invoice_id;        
     }
     
     

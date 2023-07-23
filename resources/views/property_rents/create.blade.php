@@ -34,8 +34,7 @@
         <div class="bg-white px-4 py-5 rounded mb-2">
             <h2 class="mb-4 fw-bolder">Property Info</h2>
 
-            <div class="row g-3">
-                
+            <div class="row g-3">                
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong> {{__('messages.title')}}: <span class="required">*</span></strong>

@@ -120,6 +120,7 @@ $(document).ready(function () {
       },
     });
   });
+  
 });
 
 var deleteButtons = document.querySelectorAll(".img-delete-icon");
@@ -128,22 +129,38 @@ deleteButtons.forEach(function (button) {
   button.addEventListener("click", function () {
     // Get the parent element (list item) of the button
     var listItem = this.parentNode;
-
-    // Remove the list item from the DOM
-    listItem.remove();
-
-    var id = $(this).attr("data-id");
-    console.log(id);
-    $.ajax({
-      type: "POST",
-      url: "/properties/img-delete",
-      data: { id: id },
-      success: function (status) {
-        console.log(status);
-      },
-      error: function (msg) {
-        console.log(msg);
-      },
+    Swal.fire({
+      title: 'Are you sure want to delete?',
+      text: 'You will not be able to recover this item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Remove the list item from the DOM
+        listItem.remove();
+        var id = $(this).attr("data-id");
+        console.log(id);
+        $.ajax({
+          type: "POST",
+          url: "/properties/img-delete",
+          data: { id: id },
+          success: function (status) {
+            console.log(status);
+          },
+          error: function (msg) {
+            Swal.fire(
+              'Error!',
+              'An error occurred while deleting the item.',
+              'error'
+            );
+          },
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // User cancelled, do nothing or handle accordingly        
+      }
     });
   });
 });
@@ -154,22 +171,39 @@ deleteButtons.forEach(function (button) {
   button.addEventListener("click", function () {
     // Get the parent element (list item) of the button
     var listItem = this.parentNode;
+    Swal.fire({
+      title: 'Are you sure want to delete?',
+      text: 'You will not be able to recover this item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Remove the list item from the DOM
+        listItem.remove();
 
-    // Remove the list item from the DOM
-    listItem.remove();
-
-    var id = $(this).attr("data-id");
-    console.log(id);
-    $.ajax({
-      type: "POST",
-      url: "/properties/doc-delete",
-      data: { id: id },
-      success: function (status) {
-        console.log(status);
-      },
-      error: function (msg) {
-        console.log(msg);
-      },
+        var id = $(this).attr("data-id");
+        console.log(id);
+        $.ajax({
+          type: "POST",
+          url: "/properties/doc-delete",
+          data: { id: id },
+          success: function (status) {
+            console.log(status);
+          },
+          error: function (msg) {
+            Swal.fire(
+              'Error!',
+              'An error occurred while deleting the item.',
+              'error'
+            );
+          },
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // User cancelled, do nothing or handle accordingly        
+      }
     });
   });
 });
@@ -180,21 +214,37 @@ deleteButtons.forEach(function (button) {
   button.addEventListener("click", function () {
     // Get the parent element (list item) of the button
     var listItem = this.parentNode;
-
-    // Remove the list item from the DOM
-    listItem.remove();
-
-    var id = $(this).attr("data-id");
-    $.ajax({
-      type: "POST",
-      url: "/property-rent/img-delete",
-      data: { id: id },
-      success: function (status) {
-        console.log(status);
-      },
-      error: function (msg) {
-        console.log(msg);
-      },
+    Swal.fire({
+      title: 'Are you sure want to delete?',
+      text: 'You will not be able to recover this item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Remove the list item from the DOM
+        listItem.remove();
+        var id = $(this).attr("data-id");
+        $.ajax({
+          type: "POST",
+          url: "/property-rent/img-delete",
+          data: { id: id },
+          success: function (status) {
+            console.log(status);
+          },
+          error: function (msg) {
+            Swal.fire(
+              'Error!',
+              'An error occurred while deleting the item.',
+              'error'
+            );
+          },
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // User cancelled, do nothing or handle accordingly        
+      }
     });
   });
 });
@@ -205,22 +255,79 @@ deleteButtons.forEach(function (button) {
   button.addEventListener("click", function () {
     // Get the parent element (list item) of the button
     var listItem = this.parentNode;
+    Swal.fire({
+      title: 'Are you sure want to delete?',
+      text: 'You will not be able to recover this item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Remove the list item from the DOM
+        listItem.remove();
+        var id = $(this).attr("data-id");
+        $.ajax({
+          type: "POST",
+          url: "/property-rent/doc-delete",
+          data: { id: id },
+          success: function (status) {
+            console.log(status);
+          },
+          error: function (msg) {
+            Swal.fire(
+              'Error!',
+              'An error occurred while deleting the item.',
+              'error'
+            );
+          },
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // User cancelled, do nothing or handle accordingly        
+      }
+    });    
+  });
+});
 
-    // Remove the list item from the DOM
-    listItem.remove();
-
-    var id = $(this).attr("data-id");
-    console.log(id);
-    $.ajax({
-      type: "POST",
-      url: "/property-rent/doc-delete",
-      data: { id: id },
-      success: function (status) {
-        console.log(status);
-      },
-      error: function (msg) {
-        console.log(msg);
-      },
+//contract doc delete in invoice edit
+var deleteButtons = document.querySelectorAll(".contract-doc-delete-icon");
+// Attach event listener to each delete button
+deleteButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    // Get the parent element (list item) of the button
+    var listItem = this.parentNode;
+    Swal.fire({
+      title: 'Are you sure want to delete?',
+      text: 'You will not be able to recover this item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Remove the list item from the DOM
+        listItem.remove();
+        var id = $(this).attr("data-id");
+        $.ajax({
+          type: "POST",
+          url: "/invoices/doc-delete",
+          data: { id: id },
+          success: function (status) {
+            console.log(status);
+          },
+          error: function (msg) {
+            Swal.fire(
+              'Error!',
+              'An error occurred while deleting the item.',
+              'error'
+            );
+          },
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // User cancelled, do nothing or handle accordingly        
+      }
     });
   });
 });
@@ -259,9 +366,6 @@ $(".featurePhotoBox img").click(function () {
 });
 
 function ConfirmDialog(delete_route,id) {
-  console.log(delete_route);
-  console.log(id);
-  
   Swal.fire({
       title: 'Are you sure want to delete?',
       text: 'You will not be able to recover this item!',
