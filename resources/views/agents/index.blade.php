@@ -15,7 +15,7 @@
   <div class="table-responsive">
       <table class="table table-bordered" id="table_id">
           <thead>
-            <tr class="text-center bg-primary text-white text-uppercase">
+            <tr class="bg-primary text-white text-uppercase">
               <th class="text-nowrap">First Name</th>
               <th class="text-nowrap">Last Name</th>
               <th class="text-nowrap">Company Name</th>
@@ -28,7 +28,7 @@
           </thead>
           <tbody>
           @foreach ($data as $key => $agent)
-            <tr class="text-center">
+            <tr class="">
               <td>{{ $agent->first_name }}</td>
               <td>{{ $agent->last_name }}</td>
               <td>{{ $agent->company_name }}</td>
@@ -37,9 +37,9 @@
               <td>{{ $agent->phone_no }}</td>
               <td>{{ $agent->address }}</td>
               <td class="text-nowrap">
-                <a class="px-3 btn btn-primary" href="{{ route('agents.edit',$agent->id) }}"> Edit</a>                
+                <a class="btn btn-action-dark px-3" href="{{ route('agents.edit',$agent->id) }}"> Edit</a>                
                 {!! Form::open(['method' => 'DELETE','route' => ['agents.destroy', $agent->id],'style'=>'display:inline']) !!}
-                      {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                      {!! Form::submit('Delete', ['class' => 'btn btn-action-danger text-white px-3']) !!}
                   {!! Form::close() !!}
               </td>
             </tr>

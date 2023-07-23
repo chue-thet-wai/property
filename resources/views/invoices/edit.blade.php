@@ -182,7 +182,7 @@
                                     <span>{{$document->contract_doc}}</span>
                                     <i class="fa-solid fa-circle-xmark contract-doc-delete-icon" data-id="{{$document->id}}"></i>
                                 </div>
-                                @endforeach
+                            @endforeach
                         </div>
                     </div>
                 </div>

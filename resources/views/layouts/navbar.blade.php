@@ -21,9 +21,9 @@
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('invoices.*') ? 'active' : '' }}" href="{{route('invoices.index')}}">Invoice</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('customers.*') ? 'active' : '' }}" href="{{route('customers.index')}}">Customers Enquiry</a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('owners.*') ? 'active' : '' }}" href="{{route('owners.index')}}">Contacts</a>
           </li>
@@ -36,9 +36,9 @@
           <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index')}}">Roles & Permissions</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link mx-2 {{ request()->routeIs('systemlogs.*') ? 'active' : '' }}" href="#">System Log (staff performance log)</a>            
-          </li>
+          </li> -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
               Setup

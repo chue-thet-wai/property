@@ -15,12 +15,10 @@
     </ul>
   </div>
 @endif
-
-
     {!! Form::open(array('route' => 'agents.store','method'=>'POST','enctype' => 'multipart/form-data')) !!}
     <div class="bg-white px-4 py-5 rounded mb-2">
         <div class="row g-3">
-        
+            <h2>Agent Information</h2>
             <div class="col-xs-4 col-sm-4 col-md-6">
                 <div class="form-group">
                     <strong>First Name: <span class="required">*</span></strong>
@@ -39,14 +37,12 @@
                     {!! Form::text('company_name', null, array('placeholder' => 'Company Name','class' => 'form-control mt-2')) !!}
                 </div>
             </div> 
-
             <div class="col-xs-4 col-sm-4 col-md-6">
                 <div class="form-group">
                     <strong>Website:</strong>
                     {!! Form::text('website', null, array('placeholder' => 'Website','class' => 'form-control mt-2')) !!}
                 </div>
-            </div> 
-
+            </div>
             <div class="col-xs-4 col-sm-4 col-md-6">
                 <div class="form-group">
                     <strong>Email:</strong>
@@ -74,29 +70,24 @@
                     <input type="file" name="document" class="form-control mt-2">
                 </div>
             </div>
-
-
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <strong>Address:</strong>
                     {!! Form::textarea('address', null, array('class' => 'form-control mt-2','rows' => 4)) !!}
                 </div>
             </div>
-
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <strong>Remark:</strong>
                     {!! Form::textarea('remark', null, array('class' => 'form-control mt-2','rows' => 4)) !!}
                 </div>
             </div>
-
         </div>
     </div>
-
     <div class="col-xs-12 col-sm-12 col-md-12 py-4">
-            <a class="btn btn-primary px-4 py-2" href="{{ route('agents.index') }}"> Back</a>
-            <button type="submit" class="btn btn-primary px-4 py-2">Submit</button>
-        </div>
+        <a class="btn btn-primary px-4 py-2" href="{{ route('agents.index') }}"> Back</a>
+        <button type="submit" class="btn btn-primary px-4 py-2">Submit</button>
+    </div>
     {!! Form::close() !!}
 
 @endsection

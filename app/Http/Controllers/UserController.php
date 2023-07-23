@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-
+use Intervention\Image\Facades\Image;
     
 class UserController extends Controller
 {
@@ -77,21 +77,28 @@ class UserController extends Controller
 
         if ($request->hasFile('profile_photo')) {
             $profile_photo = $request->profile_photo;
-            $imagePath = $profile_photo->store('user-photos','public');
-            $user->profile_photo = $imagePath;
+            $imageName = time().rand(1,99).'.'.$profile_photo->extension();            
+            $user->profile_photo = $imageName;
+            $profile_photo->storeAs('public/user-photos', $imageName);
+            // create thumbnail path
+            $thumbnailPath = public_path('/thumbnails/user-photos/');
+            
+            $thumbnailImage = Image::make($profile_photo)->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
         }
 
         if ($request->hasFile('document')) {
             $document = $request->document;
-            $filePath = $document->store('user-documents','public');
-            $user->document = $filePath;
+            $docName = time().rand(1,99).'.'.$document->extension();            
+            $user->document = $docName;
+            $document->storeAs('public/user-documents', $docName);
         }
-
         $user->save();
 
-        $user->assignRole($request->input('roles'));
-
-        
+        $user->assignRole($request->input('roles'));        
         return redirect()->route('users.index')
                 ->with('success','User created successfully');        
     }
@@ -134,29 +141,31 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
-
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'username' => 'required|unique:users,username,'.$id,
             'email' => 'required|email|unique:users,email,'.$id,
             'phone_no' => 'required|unique:users,phone_no,'.$id,
             'roles' => 'required',
+            'password' => 'same:confirm-password'
         ]);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
-    
-        
-    
         $user = User::find($id);
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->username = $request->username;
         $user->email = $request->email;
-        if(!empty($request->password)){ 
-           $user->password = Hash::make($request->password);
+        if(!empty($request->password)){
+           $old_password = $user->password;
+           $current_password = Hash::make($request->current_password);
+           if($old_password == $current_password){
+                $user->password = Hash::make($request->password);
+           }else{
+                return Redirect::back()->withErrors(['Current Password is incorrect'])->withInput();
+           }
         }
         $user->phone_no = $request->phone_no;
         $user->about = $request->about;
@@ -168,15 +177,25 @@ class UserController extends Controller
         if ($request->hasFile('profile_photo')) {
             Storage::delete('public/' . $user->profile_photo);
             $profile_photo = $request->profile_photo;
-            $imagePath = $profile_photo->store('user-photos','public');
-            $user->profile_photo = $imagePath;
+            $imageName = time().rand(1,99).'.'.$profile_photo->extension();            
+            $user->profile_photo = $imageName;
+            $profile_photo->storeAs('public/user-photos', $imageName);
+            // create thumbnail path
+            $thumbnailPath = public_path('/thumbnails/user-photos/');
+            
+            $thumbnailImage = Image::make($profile_photo)->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
         }
 
         if ($request->hasFile('document')) {
             Storage::delete('public/' . $user->document);
             $document = $request->document;
-            $filePath = $document->store('user-documents','public');
-            $user->document = $filePath;
+            $docName = time().rand(1,99).'.'.$document->extension();            
+            $user->document = $docName;
+            $document->storeAs('public/user-documents', $docName);
         }
         $user->update();
 
@@ -184,8 +203,7 @@ class UserController extends Controller
     
         $user->assignRole($request->input('roles'));
     
-        return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+        return redirect()->back()->with('success','User updated successfully');
     }
     
     /**

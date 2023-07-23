@@ -77,14 +77,14 @@ class AgentController extends Controller
 
         if ($request->hasFile('document')) {
             $document = $request->document;
-            $filePath = $document->store('agent-documents','public');
-            $agent->document = $filePath;
+            $docName = time().rand(1,99).'.'.$document->extension();            
+            $agent->document = $docName;
+            $document->storeAs('public/agent-documents', $docName);
         }
-
+        
         $agent->save();
-
         return redirect()->route('agents.index')
-                ->with('success','Agent created successfully');        
+                ->with('success','Agent created successfully');       
     
     }
 
@@ -157,8 +157,9 @@ class AgentController extends Controller
         if ($request->hasFile('document')) {
             Storage::delete('public/' . $agent->document);
             $document = $request->document;
-            $filePath = $document->store('agent-documents','public');
-            $agent->document = $filePath;
+            $docName = time().rand(1,99).'.'.$document->extension();            
+            $agent->document = $docName;
+            $document->storeAs('public/agent-documents', $docName);
         }
 
         $agent->save();
