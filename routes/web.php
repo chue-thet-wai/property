@@ -20,6 +20,7 @@ use App\Http\Controllers\TownshipController;
 use App\Http\Controllers\PropertyRentController;
 use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MainAgencyInfoController;
   
 /*
 |--------------------------------------------------------------------------
@@ -56,8 +57,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('property_rents', PropertyRentController::class); 
     Route::resource('agents', AgentController::class);    
     Route::resource('invoices', InvoiceController::class);    
-
-
+    Route::resource('informations', MainAgencyInfoController::class);
     Route::post('users-disabled/{user_id}',[UserController::class, 'disabled'])->name('users.disabled');
     Route::post('/properties/img-delete', [PropertyController::class,'destory_img'])->name('property.img_delete');    
     Route::post('/properties/doc-delete', [PropertyController::class,'destory_doc'])->name('property.doc_delete');
@@ -96,19 +96,20 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/users/search/reset',[UserController::class,'reset'])->name('users.search.reset');
     Route::post('/agents/search',[AgentController::class,'search'])->name('agents.search');
     Route::get('/agents/search/reset',[AgentController::class,'reset'])->name('agents.search.reset');
-    // Route::post('/temp/img-delete', [TempController::class,'destory'])->name('temp.img_delete');    
-    // Route::post('/temp/img-add',[TempController::class,'add'])->name('temp.img_add');
+    Route::post('/informations/search',[MainAgencyInfoController::class,'search'])->name('informations.search');
+    Route::get('/informations/search/reset',[MainAgencyInfoController::class,'reset'])->name('informations.search.reset');
+
     Route::get('get-townshipbydivision',[TownshipController::class,'townshipbydivision'])->name('get-townshipbydivision');
     Route::get('get-wardbytownship',[WardController::class,'wardbytownship'])->name('get-wardbytownship');
     Route::post('/properties/softdelete',[PropertyController::class,'softdelete'])->name('properties.softdelete');
     Route::post('/property_rents/softdelete',[PropertyRentController::class,'softdelete'])->name('property_rents.softdelete');
     Route::post('/owners/delete/softdelete',[OwnerController::class,'softdelete'])->name('owners.softdelete');
     Route::post('/invoices/delete/softdelete',[InvoiceController::class,'softdelete'])->name('invoices.softdelete');
+    Route::post('/informations/delete/softdelete',[MainAgencyInfoController::class,'softdelete'])->name('informations.softdelete');
     Route::get('/auto-complete/get-partners',[AgentController::class,'get_partners'])->name('auto-complete.get-partners');
     Route::get('/auto-complete/get-partners-phone',[AgentController::class,'get_partners_phone'])->name('auto-complete.get-partners-phone');
     Route::get('/partner-detail/{id}',[AgentController::class,'get_agent_detail'])->name('get-partners-detail');
-    Route::get('/partner-detail-phone/{id}',[AgentController::class,'get_agent_detail_phone'])->name('get-partners-detail-phone');
-    
+    Route::get('/partner-detail-phone/{id}',[AgentController::class,'get_agent_detail_phone'])->name('get-partners-detail-phone');    
 });
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 Route::get('/download',function(){

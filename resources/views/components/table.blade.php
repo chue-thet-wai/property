@@ -68,6 +68,11 @@
                                     <td>
                                         <span class="text-gray-800 fw-boldest">{{ $rent_status[$value] }}</span>
                                     </td>
+                                    @break 
+                                @case('logo')
+                                    <td>
+                                        <img class="w-25" src="{{asset('thumbnails/information-logos/'.$value)}}" alt="logo">
+                                    </td>
                                     @break                                
                                 @default
                                     <td>

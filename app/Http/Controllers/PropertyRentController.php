@@ -158,7 +158,6 @@ class PropertyRentController extends Controller
                     PropertyRentFloor::create($floor_inputs);
                 }
             }
-            $image->storeAs('public/feature_images', $imageName);
             // create thumbnail path
             $thumbnailPath = public_path('/thumbnails/feature_images/');
             

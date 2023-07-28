@@ -11,11 +11,6 @@ use Intervention\Image\Facades\Image;
 
 class AgentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $data = TblAgent::orderBy('id','DESC');
@@ -29,26 +24,14 @@ class AgentController extends Controller
             $data = $data->where('phone_no',session()->get(AGENT_PHONEFILTER));
         }
         $data = $data->get();
-
         return view('agents.index',compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('agents.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
