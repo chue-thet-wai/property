@@ -103,6 +103,10 @@
     define('AGENT_NAMEFILTER','AGENT_NAMEFILTER');
     define('AGENT_PHONEFILTER','AGENT_PHONEFILTER');
     define('AGENT_COMPANYFILTER','AGENT_COMPANYFILTER');
+
+    //agency filter  
+    define('AGENCYINFO_NAMEFILTER','AGENCYINFO_NAMEFILTER');
+    define('AGENCYINFO_PHONEFILTER','AGENCYINFO_PHONEFILTER');
     
     function get_all_divisions(){
         $division_arr = [];
