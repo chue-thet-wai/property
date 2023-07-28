@@ -160,7 +160,18 @@ class PropertyController extends Controller
                 }
             }
             // save original images
-            $image->storeAs('public/feature_images', $imageName);
+            $imgFile = Image::make($image->getRealPath());
+            $imgFile->text('© 2016-2020 positronX.io - All Rights Reserved', 120, 100, function($font) { 
+                $font->size(35);  
+                $font->color('#ffffff');  
+                $font->align('center');  
+                $font->valign('bottom');  
+                $font->angle(90);  
+            });
+
+            Storage::disk('public')->put('feature_images/' . $imageName, $imgFile->stream());
+
+            // $imgFile->storeAs('public/feature_images', $imageName);
 
             // create thumbnail path
             $thumbnailPath = public_path('/thumbnails/feature_images/');
@@ -169,7 +180,13 @@ class PropertyController extends Controller
                 $constraint->aspectRatio();
             });
 
-            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+            $thumbnailImage->text('© 2016-2020 positronX.io - All Rights Reserved', 120, 100, function($font) { 
+                $font->size(35);  
+                $font->color('#ffffff');  
+                $font->align('center');  
+                $font->valign('bottom');  
+                $font->angle(90);  
+            })->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
             
             $images = [];
             $documents = [];
@@ -283,7 +300,17 @@ class PropertyController extends Controller
             $imageName = time().rand(1,99).'.'.$image->extension();
             $inputs['feature_photo'] = $imageName;
 
-            $image->storeAs('public/feature_images', $imageName);
+            $imgFile = Image::make($image->getRealPath());
+            $imgFile->text('© 2016-2020 positronX.io - All Rights Reserved', 120, 100, function($font) { 
+                $font->size(35);  
+                $font->color('#ffffff');  
+                $font->align('center');  
+                $font->valign('bottom');  
+                $font->angle(90);  
+            });
+
+            Storage::disk('public')->put('feature_images/' . $imageName, $imgFile->stream());
+            // $image->storeAs('public/feature_images', $imageName);
 
             // create thumbnail path
             $thumbnailPath = public_path('/thumbnails/feature_images/');
@@ -292,7 +319,13 @@ class PropertyController extends Controller
                 $constraint->aspectRatio();
             });
 
-            $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+            $thumbnailImage->text('© 2016-2020 positronX.io - All Rights Reserved', 120, 100, function($font) { 
+                $font->size(35);  
+                $font->color('#ffffff');  
+                $font->align('center');  
+                $font->valign('bottom');  
+                $font->angle(90);  
+            })->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
         }
 
         $inputs['category'] = SALE;
