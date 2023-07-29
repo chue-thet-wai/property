@@ -59,6 +59,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li><a class="dropdown-item" href="{{route('profile.index')}}">My Account</a></li>
+              <li><a class="dropdown-item" href="{{route('informations.edit',1)}}">Site Profile</a></li>
               <li>
                   <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
