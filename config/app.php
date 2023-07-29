@@ -232,10 +232,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
-<<<<<<< HEAD
-        // 'Helper' => App\Helpers,
-=======
->>>>>>> 0079089165823f2adf0c370b412296ea2903a299
     ],
 
 ];

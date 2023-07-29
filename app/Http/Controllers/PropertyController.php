@@ -181,6 +181,10 @@ class PropertyController extends Controller
 
             Storage::disk('public')->put('feature_images/' . $imageName, $imgFile->stream());
 
+            $waterMarkUrl = public_path('thumbnails/information-watermark-imgs/169029728947.png');
+            /* insert watermark at bottom-left corner with 5px offset */
+            $imgFile->insert($waterMarkUrl, 'bottom-left', 5, 5);
+
             // create thumbnail path
             $thumbnailPath = public_path('/thumbnails/feature_images/');
             
