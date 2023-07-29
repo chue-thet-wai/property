@@ -179,11 +179,11 @@ class PropertyController extends Controller
                 $font->angle(90);  
             });
 
-            Storage::disk('public')->put('feature_images/' . $imageName, $imgFile->stream());
-
             $waterMarkUrl = public_path('thumbnails/information-watermark-imgs/169029728947.png');
             /* insert watermark at bottom-left corner with 5px offset */
             $imgFile->insert($waterMarkUrl, 'bottom-left', 5, 5);
+
+            Storage::disk('public')->put('feature_images/' . $imageName, $imgFile->stream());
 
             // create thumbnail path
             $thumbnailPath = public_path('/thumbnails/feature_images/');
@@ -192,6 +192,7 @@ class PropertyController extends Controller
                 $constraint->aspectRatio();
             });
 
+            $thumbnailImage->insert($waterMarkUrl, 'bottom-left', 5, 5);
             $thumbnailImage->text($text, 120, 100, function($font) { 
                 $font->size(35);  
                 $font->color('#ffffff');  
@@ -343,6 +344,10 @@ class PropertyController extends Controller
                 $font->angle(90);  
             });
 
+            $waterMarkUrl = public_path('thumbnails/information-watermark-imgs/169029728947.png');
+            /* insert watermark at bottom-left corner with 5px offset */
+            $imgFile->insert($waterMarkUrl, 'bottom-left', 5, 5);
+
             Storage::disk('public')->put('feature_images/' . $imageName, $imgFile->stream());
             // $image->storeAs('public/feature_images', $imageName);
 
@@ -352,6 +357,8 @@ class PropertyController extends Controller
             $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
             });
+
+            $thumbnailImage->insert($waterMarkUrl, 'bottom-left', 5, 5);
 
             $thumbnailImage->text($text, 120, 100, function($font) { 
                 $font->size(35);  
