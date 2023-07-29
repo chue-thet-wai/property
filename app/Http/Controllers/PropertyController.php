@@ -320,7 +320,7 @@ class PropertyController extends Controller
         //water mark
         $information = MainagencyInformation::first();
         if($information){
-            $text = $information->watermark_txt;
+            $text = $information->watermark_txt;            
         }else{
             $text = '';
         }
