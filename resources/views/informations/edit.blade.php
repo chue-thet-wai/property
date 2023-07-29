@@ -4,17 +4,21 @@
 @endsection
 
 @section('cardbody')
-
-@if (count($errors) > 0)
-  <div class="alert alert-danger">
-    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-    <ul>
-       @foreach ($errors->all() as $error)
-         <li>{{ $error }}</li>
-       @endforeach
-    </ul>
-  </div>
-@endif
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+    @if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+        <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+    </div>
+    @endif
     {!! Form::model($information,array('method'=>'PATCH','enctype'=>'multipart/form-data','route'=>['informations.update',$information->id])) !!}
     <div class="bg-white px-4 py-5 rounded mb-2">
         <div class="row g-3">

@@ -7,6 +7,7 @@ use App\Models\TblPropertyImage;
 use App\Models\TblPropertyDocument;
 use App\Models\PropertyFloor;
 use App\Models\Division;
+use App\Models\MainAgencyInformation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -142,6 +143,15 @@ class PropertyController extends Controller
             $inputs['public_status'] = 0;
         }
 
+        //get water mark
+        $information = MainAgencyInformation::first();
+
+        if($information){
+            $text = $information->watermark_txt;
+        }else{
+            $text = '';
+        }
+
         $image = $request->feature_photo;
         $imageName = time().rand(1,99).'.'.$image->extension();        
         $inputs['feature_photo'] = $imageName;
@@ -161,7 +171,7 @@ class PropertyController extends Controller
             }
             // save original images
             $imgFile = Image::make($image->getRealPath());
-            $imgFile->text('© 2016-2020 positronX.io - All Rights Reserved', 120, 100, function($font) { 
+            $imgFile->text($text, 120, 100, function($font) { 
                 $font->size(35);  
                 $font->color('#ffffff');  
                 $font->align('center');  
@@ -171,8 +181,6 @@ class PropertyController extends Controller
 
             Storage::disk('public')->put('feature_images/' . $imageName, $imgFile->stream());
 
-            // $imgFile->storeAs('public/feature_images', $imageName);
-
             // create thumbnail path
             $thumbnailPath = public_path('/thumbnails/feature_images/');
             
@@ -180,7 +188,7 @@ class PropertyController extends Controller
                 $constraint->aspectRatio();
             });
 
-            $thumbnailImage->text('© 2016-2020 positronX.io - All Rights Reserved', 120, 100, function($font) { 
+            $thumbnailImage->text($text, 120, 100, function($font) { 
                 $font->size(35);  
                 $font->color('#ffffff');  
                 $font->align('center');  
@@ -195,14 +203,31 @@ class PropertyController extends Controller
                 {   
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $image->storeAs('public/property_images', $imageName);   
+                    // $image->storeAs('public/property_images', $imageName);
+                    $imgFile = Image::make($image->getRealPath());
+                    $imgFile->text($text, 120, 100, function($font) { 
+                        $font->size(35);  
+                        $font->color('#ffffff');  
+                        $font->align('center');  
+                        $font->valign('bottom');  
+                        $font->angle(90);  
+                    });
+
+                    Storage::disk('public')->put('property_images/' . $imageName, $imgFile->stream());   
                     // thumbnails
                     $thumbnailPath = public_path('/thumbnails/property_images/');
             
                     $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
                         $constraint->aspectRatio();
                     });
-                    $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+
+                    $thumbnailImage->text($text, 120, 100, function($font) { 
+                        $font->size(35);  
+                        $font->color('#ffffff');  
+                        $font->align('center');  
+                        $font->valign('bottom');
+                        $font->angle(90);  
+                    })->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
 
                     $images[]['image'] = $imageName;
                 }
@@ -216,7 +241,6 @@ class PropertyController extends Controller
                 foreach($request->confidential_documents as $key => $document)
                 {   
                     $documentName = time().rand(1,99).'.'.$document->extension();
-                    // $image->storeAs('property_images', $imageName, 's3');
                     //original img
                     $document->storeAs('public/confidential_documents', $documentName);
 
@@ -245,7 +269,7 @@ class PropertyController extends Controller
         $wards = get_all_wards();
         $property_floors = get_property_floor_id($id); 
 
-        $setup = [];          
+        $setup = [];
         $setup['divisions'] = $divisions; 
         $setup['tenures'] = $tenures; 
         $setup['propertytypes'] = $propertytypes; 
@@ -262,8 +286,6 @@ class PropertyController extends Controller
         $response['images'] = $images;
         $response['document'] = $documents;
         $response['property_floors'] = $property_floors;
-
-        // return $property;
 
         return view('properties.edit',compact('response', 'setup'));
     }
@@ -295,13 +317,21 @@ class PropertyController extends Controller
             $inputs['public_status'] = 0;
         }
 
+        //water mark
+        $information = MainagencyInformation::first();
+        if($information){
+            $text = $information->watermark_txt;
+        }else{
+            $text = '';
+        }
+
         if($request->feature_photo) {
             $image = $request->feature_photo;
             $imageName = time().rand(1,99).'.'.$image->extension();
             $inputs['feature_photo'] = $imageName;
 
             $imgFile = Image::make($image->getRealPath());
-            $imgFile->text('© 2016-2020 positronX.io - All Rights Reserved', 120, 100, function($font) { 
+            $imgFile->text($text, 120, 100, function($font) { 
                 $font->size(35);  
                 $font->color('#ffffff');  
                 $font->align('center');  
@@ -319,7 +349,7 @@ class PropertyController extends Controller
                 $constraint->aspectRatio();
             });
 
-            $thumbnailImage->text('© 2016-2020 positronX.io - All Rights Reserved', 120, 100, function($font) { 
+            $thumbnailImage->text($text, 120, 100, function($font) { 
                 $font->size(35);  
                 $font->color('#ffffff');  
                 $font->align('center');  
@@ -350,14 +380,30 @@ class PropertyController extends Controller
                 {   
                     $imageName = time().rand(1,99).'.'.$image->extension();
                     // $image->storeAs('property_images', $imageName, 's3');
-                    $image->storeAs('public/property_images', $imageName);
+                    // $image->storeAs('public/property_images', $imageName);
+                    $imgFile = Image::make($image->getRealPath());
+                    $imgFile->text($text, 120, 100, function($font) { 
+                        $font->size(35);  
+                        $font->color('#ffffff');  
+                        $font->align('center');  
+                        $font->valign('bottom');  
+                        $font->angle(90);  
+                    });
+
+                    Storage::disk('public')->put('property_images/' . $imageName, $imgFile->stream());
                     // thumbnails
                     $thumbnailPath = public_path('/thumbnails/property_images/');
             
                     $thumbnailImage = Image::make($image)->resize(200, 200, function ($constraint) {
                         $constraint->aspectRatio();
                     });
-                    $thumbnailImage->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
+                    $thumbnailImage->text($text, 120, 100, function($font) { 
+                        $font->size(35);  
+                        $font->color('#ffffff');  
+                        $font->align('center');  
+                        $font->valign('bottom');  
+                        $font->angle(90);  
+                    })->save($thumbnailPath . DIRECTORY_SEPARATOR . $imageName);
 
                     $images[]['image'] = $imageName;
                 }

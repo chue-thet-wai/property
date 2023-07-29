@@ -8,40 +8,40 @@ use App\Models\MainAgencyInformation;
 
 class MainAgencyInfoController extends Controller
 {
-    public function index()
-    {
-        $response = [];
-        $info_arr = [];
-        $headers = [
-            'name',
-            'logo',
-            'contact',
-            'email',
-            'action',
-        ];
-        $informations = MainAgencyInformation::where('is_delete',0);
-        if(session()->get(AGENCYINFO_NAMEFILTER)){
-            $informations = $informations->where('name','like','%'.session()->get(AGENCYINFO_NAMEFILTER).'%');
-        }
-        if(session()->get(AGENCYINFO_PHONEFILTER)){
-            $informations = $informations->where('contact',session()->get(AGENCYINFO_PHONEFILTER));
-        }
-        $informations = $informations->get();
-        if($informations){
-            foreach($informations as $info){
-                $list = [];
-                $list['name'] = $info->name;
-                $list['logo'] = $info->logo;
-                $list['contact'] = $info->contact;
-                $list['email'] = $info->email;
-                $list['actions'] = $info->id;
-                $info_arr[] = $list;
-            }
-        }
-        $response['headers'] = $headers;
-        $response['informations'] = $info_arr;
-        return view('informations.index',compact('response'));
-    }
+    // public function index()
+    // {
+    //     $response = [];
+    //     $info_arr = [];
+    //     $headers = [
+    //         'name',
+    //         'logo',
+    //         'contact',
+    //         'email',
+    //         'action',
+    //     ];
+    //     $informations = MainAgencyInformation::where('is_delete',0);
+    //     if(session()->get(AGENCYINFO_NAMEFILTER)){
+    //         $informations = $informations->where('name','like','%'.session()->get(AGENCYINFO_NAMEFILTER).'%');
+    //     }
+    //     if(session()->get(AGENCYINFO_PHONEFILTER)){
+    //         $informations = $informations->where('contact',session()->get(AGENCYINFO_PHONEFILTER));
+    //     }
+    //     $informations = $informations->get();
+    //     if($informations){
+    //         foreach($informations as $info){
+    //             $list = [];
+    //             $list['name'] = $info->name;
+    //             $list['logo'] = $info->logo;
+    //             $list['contact'] = $info->contact;
+    //             $list['email'] = $info->email;
+    //             $list['actions'] = $info->id;
+    //             $info_arr[] = $list;
+    //         }
+    //     }
+    //     $response['headers'] = $headers;
+    //     $response['informations'] = $info_arr;
+    //     return view('informations.index',compact('response'));
+    // }
 
     public function create(Request $request)
     {
@@ -196,7 +196,7 @@ class MainAgencyInfoController extends Controller
         
         $information->update($inputs);
 
-        return redirect()->route('informations.index')->with('success','Information is updated successfully');
+        return redirect()->back()->with('success','Information is updated successfully');
     }
     public function softdelete(Request $request)
     {
