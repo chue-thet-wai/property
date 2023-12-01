@@ -34,11 +34,8 @@
           {!! Form::text('phonenumber', $phonenumber, array('placeholder' => '','class' => 'form-control mt-2')) !!}
       </div>
   </div>         
-  <div class="col-xs-12 col-sm-12 col-md-12 py-4">                                
-      <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-      <a class="btn btn-primary px-4 py-2" href="{{ route('agents.search.reset') }}"> Reset</a>
-  </div>
 </div>
+<x-filter-btn resetRoute="agents.search.reset"/>
 {!! Form::close() !!}
 <x-create-btn label="Create New Agent" route="agents"/>
 <div class="card card-xxl-stretch p-3">

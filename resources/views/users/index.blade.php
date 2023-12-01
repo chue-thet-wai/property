@@ -27,12 +27,8 @@
           {!! Form::text('phonenumber', $phonenumber, array('placeholder' => '','class' => 'form-control mt-2')) !!}
       </div>
   </div>
-         
-  <div class="col-xs-12 col-sm-12 col-md-12 py-4">                                
-      <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-      <a class="btn btn-primary px-4 py-2" href="{{ route('users.search.reset') }}"> Reset</a>
-  </div>
 </div>
+<x-filter-btn resetRoute="users.search.reset"/>
 {!! Form::close() !!}
 <x-create-btn label="Create New User" route="users"/>
 <div class="card card-xxl-stretch p-3">
@@ -60,8 +56,8 @@
               <td>{{ $user->username }}</td>
               <td>{{ $user->email }}</td>
               <td>
-                @if(!empty($user->getRoleNames()))
-                  @foreach($user->getRoleNames() as $v)
+                @if(!empty($roles) && count($roles) > 0)
+                  @foreach($roles as $v)
                     <label class="badge badge-success bg-warning text-dark">{{ $v }}</label>
                   @endforeach
                 @endif

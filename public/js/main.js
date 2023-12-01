@@ -6,7 +6,9 @@ $.ajaxSetup({
 
 $("#table_id").DataTable({
   lengthChange: false, // Disable "Show entries"
-  dom:'<"top"i>rt<"bottom"lp><"clear">'
+  dom:'<"top"i>rt<"bottom"lp><"clear">',
+  paging: false,
+  info: false,
 });
 
 $('#floor').selectpicker();

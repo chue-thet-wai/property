@@ -642,3 +642,55 @@ img {
   object-fit: cover;
 }
 /* user profile page css end */
+
+/*start table paginate */
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%; /* Make the container stretch to full width */
+}
+
+.pagination {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.page-item {
+  margin-left: 5px; /* Adjust spacing between pagination items */
+}
+
+.page-link {
+  color: black;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 3px;
+}
+
+.page-link:hover {
+  background-color: var(--bs-body-color);
+  color: #fff;
+  border: 1px solid var(--bs-body-color);
+}
+
+.pagination .active .page-link {
+  background-color: var(--bs-body-color);
+  color: #fff;
+  border: 1px solid var(--bs-body-color);
+}
+
+.pagination .disabled .page-link {
+  color: #ccc;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+/*End table paginate */
+
+/*navbar hover color change*/
+.navbar a:hover {
+  background-color: var(--bs-body-color);
+  color:#ffffff;
+}

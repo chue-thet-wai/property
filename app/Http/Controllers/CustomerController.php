@@ -51,7 +51,7 @@ class CustomerController extends Controller
         if(session()->get(CUST_ENQUIRYPROPERTYFILTER)){
             $data = $data->where('tbl_customers.enquiry_property',session()->get(CUST_ENQUIRYPROPERTYFILTER));
         }
-        $data = $data->orderBy('id','DESC')->get();
+        $data = $data->orderBy('id','DESC')->paginate(config('number.paginate'));
         if($data){
             foreach($data as $row){
                 $list = array();

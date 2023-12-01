@@ -17,14 +17,11 @@
                         {!! Form::text('tenure', $tenure, array('placeholder' => '','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>         
-                <div class="col-xs-12 col-sm-12 col-md-12 py-4">                                
-                    <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-                    <a class="btn btn-primary px-4 py-2" href="{{ route('tenures.search.reset') }}"> Reset</a>
-                </div>
             </div>
+            <x-filter-btn resetRoute="tenures.search.reset"/>
         {!! Form::close() !!}
     </div>
     <x-create-btn label="Create New Tenure" route="tenures"/>
-    <x-table :body="$response['tenures']" :headers="$response['headers']" routename="tenures" title="tenures"/>
+    <x-table :maindata="$response['data']" :body="$response['tenures']" :headers="$response['headers']" routename="tenures" title="tenures"/>
     
 @endsection

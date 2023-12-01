@@ -18,14 +18,11 @@
                         {!! Form::text('property_type', $property_type, array('placeholder' => '','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>         
-                <div class="col-xs-12 col-sm-12 col-md-12 py-4">                                
-                    <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-                    <a class="btn btn-primary px-4 py-2" href="{{ route('property_types.search.reset') }}"> Reset</a>
-                </div>
             </div>
+            <x-filter-btn resetRoute="property_types.search.reset"/>
         {!! Form::close() !!}
     </div>   
     <x-create-btn label="Create New Property Type" route="property_types"/>
-    <x-table :body="$response['property_types']" :headers="$response['headers']" routename="property_types" title="property_types"/>
+    <x-table :maindata="$response['data']" :body="$response['property_types']" :headers="$response['headers']" routename="property_types" title="property_types"/>
     
 @endsection

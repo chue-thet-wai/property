@@ -38,13 +38,10 @@
                         {!! Form::date('rentout_date', $rentout_date ,array('placeholder' => '','class' => 'form-control mt-2')) !!}
                     </div>
                 </div>       
-                <div class="col-xs-12 col-sm-12 col-md-12 py-4">                                
-                    <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-                    <a class="btn btn-primary px-4 py-2" href="{{ route('invoices.search.reset') }}"> Reset</a>
-                </div>
             </div>
+            <x-filter-btn resetRoute='invoices.search.reset' />
         {!! Form::close() !!}
     </div>
     <x-create-btn label="Create New Invoice" route="invoices"/>
-    <x-table :body="$response['invoices']" :headers="$response['headers']" routename="invoices" title="invoices"/>   
+    <x-table :maindata="$response['data']" :body="$response['invoices']" :headers="$response['headers']" routename="invoices" title="invoices"/>   
 @endsection

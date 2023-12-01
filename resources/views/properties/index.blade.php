@@ -17,7 +17,7 @@
     @endif
     <div class="row p-2">
         {!! Form::open(['method' => 'POST','route' => ['properties.search']]) !!}
-        <div class="row">
+            <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     <div class="form-group">
                         <strong>Property ID</strong>                        
@@ -67,15 +67,12 @@
                         {!! Form::select('ward', $setup['wards'], $ward, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'ward-dropdown')) !!}
                     </div>
                 </div>              
-                <div class="col-xs-2 col-sm-2 col-md-2 py-4">                                
-                    <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-                    <a class="btn btn-primary px-4 py-2" href="{{ route('properties.search.reset') }}"> Reset</a>
-                </div>
             </div>
+            <x-filter-btn resetRoute="properties.search.reset"/>
         {!! Form::close() !!}
     </div>
     <x-create-btn label="Create New Property" route="properties"/>
-    <x-table :body="$response['properties']" :headers="$response['headers']" routename="properties" title="Properties"/>
+    <x-table :maindata="$response['data']" :body="$response['properties']" :headers="$response['headers']" routename="properties" title="Properties"/>
 @endsection
 
 

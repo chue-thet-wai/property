@@ -28,12 +28,9 @@
           {!! Form::text('phonenumber', $phonenumber, array('placeholder' => '','class' => 'form-control mt-2')) !!}
       </div>
   </div>         
-  <div class="col-xs-12 col-sm-12 col-md-12 py-4">                                
-      <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-      <a class="btn btn-primary px-4 py-2" href="{{ route('informations.search.reset') }}"> Reset</a>
-  </div>
 </div>
+<x-filter-btn resetRoute='informations.search.reset' />
 {!! Form::close() !!}
 <x-create-btn label="Create New Agency Information" route="informations"/>
-<x-table :body="$response['informations']" :headers="$response['headers']" routename="informations" title="Main Agency Information"/>  
+<x-table :maindata="$response['data']" :body="$response['informations']" :headers="$response['headers']" routename="informations" title="Main Agency Information"/>  
 @endsection

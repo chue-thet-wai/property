@@ -40,7 +40,7 @@ class OwnerController extends Controller
         if(session()->get(OWNER_NAMEFILTER)){
             $data = $data->where('tbl_owners.name','like','%'.session()->get(OWNER_NAMEFILTER).'%');
         }
-        $data = $data->where('is_delete',0)->orderBy('id','DESC')->get();
+        $data = $data->where('is_delete',0)->orderBy('id','DESC')->paginate(config('number.paginate'));
         if($data){
             foreach($data as $row){
                 $list = array();

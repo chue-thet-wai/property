@@ -45,15 +45,12 @@
                         {!! Form::text('property', $property, array('placeholder' => "Property ID",'class' => 'form-control')) !!}
                     </div>
                 </div>            
-                <div class="col-xs-2 col-sm-2 col-md-2 py-4">                                
-                    <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-                    <a class="btn btn-primary px-4 py-2" href="{{ route('customers.search.reset') }}"> Reset</a>
-                </div>
             </div>
+            <x-filter-btn resetRoute="customers.search.reset"/>
         {!! Form::close() !!}
     </div>
     <x-create-btn label="Create New Customer" route="customers"/>
-    <x-table :body="$response['customers']" :headers="$response['headers']" routename="customers" title="customers"/>
+    <x-table :maindata="$response['data']" :body="$response['customers']" :headers="$response['headers']" routename="customers" title="customers"/>
     
 @endsection
 

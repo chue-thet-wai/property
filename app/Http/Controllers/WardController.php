@@ -27,7 +27,7 @@ class WardController extends Controller
                 ->orWhere('ward_mm','like','%'.session()->get(WARD_NAMEFILTER).'%');
             });
         }
-        $data = $data->orderBy('wards.created_at','DESC')->get();
+        $data = $data->orderBy('wards.created_at','DESC')->paginate(config('number.paginate'));
         $township_arr = get_all_townships();
         $division_arr = get_all_divisions();
         if($data){
@@ -41,6 +41,7 @@ class WardController extends Controller
                 $wards[] = $list;
             }
         }
+        $response['data'] = $data;
         $response['townships'] = $township_arr;
         $response['divisions'] = $division_arr;
         $response['wards'] = $wards;

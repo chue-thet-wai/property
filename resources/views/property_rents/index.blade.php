@@ -66,15 +66,12 @@
                         {!! Form::select('ward', $setup['wards'], $ward, array('placeholder' => 'Choose...','class' => 'form-control mt-2', 'id' => 'ward-dropdown')) !!}
                     </div>
                 </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 py-4">                                
-                    <button type="submit" class="btn btn-primary px-4 py-2">Search</button>
-                    <a class="btn btn-primary px-4 py-2" href="{{ route('property_rents.search.reset') }}"> Reset</a>
-                </div>
             </div>
+            <x-filter-btn resetRoute="property_rents.search.reset"/>
         {!! Form::close() !!}
     </div>
     <x-create-btn label="Create New Property" route="property_rents"/>
-    <x-table :body="$response['property_rents']" :headers="$response['headers']" routename="property_rents" title="Rent"/>
+    <x-table :maindata="$response['data']" :body="$response['property_rents']" :headers="$response['headers']" routename="property_rents" title="Rent"/>
     
 @endsection
 

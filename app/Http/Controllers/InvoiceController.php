@@ -37,7 +37,7 @@ class InvoiceController extends Controller
         if(session()->get(INVOICE_TYPEFILTER)){
             $invoices = $invoices->where('type',session()->get(INVOICE_TYPEFILTER));
         }
-        $invoices = $invoices->where('is_delete',0)->get();
+        $invoices = $invoices->where('is_delete',0)->paginate(config('number.paginate'));
         if($invoices){
             foreach($invoices as $invoice){
                 $list = array();
@@ -52,6 +52,7 @@ class InvoiceController extends Controller
                 $invoice_arr[] = $list;
             }
         }
+        $response['data']     = $invoices;
         $response['invoices'] = $invoice_arr;
         $response['headers'] = $headers;
         return view('invoices.index',compact('response'));

@@ -61,7 +61,7 @@ class PropertyController extends Controller
         if(session()->get(PROPERTY_WARDFILTER)){
             $data = $data->where('tbl_properties.ward',trim(session()->get(PROPERTY_WARDFILTER)));
         }
-        $data = $data->where('tbl_properties.is_delete',0)->orderBy('id','DESC')->get();
+        $data = $data->where('tbl_properties.is_delete',0)->orderBy('id','DESC')->paginate(config('number.paginate'));
       
         if($data){
             foreach($data as $row){
@@ -91,7 +91,7 @@ class PropertyController extends Controller
                 $list['status'] = $row->status;
                 $list['actions'] = $row->id;
                 $properties[] = $list;
-            }
+        }
         $response['data'] = $data;
         $response['properties'] = $properties;
         $response['headers'] = $headers;
@@ -498,7 +498,7 @@ class PropertyController extends Controller
         session()->start();
         session()->put(PROPERTY_IDFILTER, trim($request->id));
         session()->put(PROPERTY_NAMEFILTER, trim($request->name));
-        session()->put(PROPERTY_LOCATIONFILTER, trim($request->location));
+        //session()->put(PROPERTY_LOCATIONFILTER, trim($request->location));
         session()->put(PROPERTY_BUILDYEARFILTER, trim($request->build_year));
         session()->put(PROPERTY_MINPRICEFILTER, trim($request->min_price));
         session()->put(PROPERTY_MAXPRICEFILTER, trim($request->max_price));

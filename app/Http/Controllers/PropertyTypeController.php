@@ -19,7 +19,7 @@ class PropertyTypeController extends Controller
                 ->orWhere('property_type_mm','like','%'.session()->get(PROPERTY_TYPE_NAMEFILTER).'%');
             });
         }
-        $data = $data->get();
+        $data = $data->paginate(config('number.paginate'));
         if($data){
             foreach($data as $row){
                 $list['property_type'] = $row->property_type;

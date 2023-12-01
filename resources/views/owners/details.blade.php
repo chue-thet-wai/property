@@ -23,7 +23,7 @@
     <div class="bg-white px-4 py-5 rounded mb-2">
         <div class="row g-3">
         <h2>Owner's Properties</h2>            
-            <x-table :body="$response['properties']" :headers="$response['headers']" routename="properties" title="Properties"/>            
+            <x-table :maindata="$response['data']" :body="$response['properties']" :headers="$response['headers']" routename="properties" title="Properties"/>            
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 py-4">

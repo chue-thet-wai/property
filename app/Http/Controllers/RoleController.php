@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+//use Spatie\Permission\Models\Role;
+//use Spatie\Permission\Models\Permission;
+use App\Models\Permissions;
+use App\Models\Roles;
+use App\Models\RolesPermissions;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use DB;
     
 class RoleController extends Controller
@@ -18,10 +23,10 @@ class RoleController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+        /* $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
          $this->middleware('permission:role-create', ['only' => ['create','store']]);
          $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);*/
     }
     
     /**
@@ -31,7 +36,7 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::orderBy('id','DESC')->get();
+        $roles = Roles::orderBy('id','DESC')->get();
         return view('roles.index',compact('roles'));
     }
     
@@ -42,8 +47,15 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::get();
-        return view('roles.create',compact('permission'));
+        $menu       =  DB::table('menu')->get();
+
+        $permission=[];
+        $permissions_list = Permissions::get();
+        foreach($permissions_list as $per) {
+            $permission[$per->menu_id][$per->action] = $per->id;
+        }
+       
+        return view('roles.create',compact('menu','permission'));
     }
     
     /**
@@ -54,16 +66,47 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        $login_id = Auth::user()->id;
+        $nowDate  = date('Y-m-d H:i:s', time());
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
-    
-        $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
-    
-        return redirect()->route('roles.index')
-                        ->with('success','Role created successfully');
+
+        $role_insert = array(
+            'name'          => $request->name,
+            'created_by'    => $login_id,
+            'updated_by'    => $login_id,
+            'created_at'    =>$nowDate,
+            'updated_at'    =>$nowDate
+        );
+        $role_id=DB::table('roles')->insertGetId($role_insert);
+ 
+        if ($role_id !== null) {
+            $permission = $request->permission;
+            for ($i=0;$i<count($permission);$i++) {
+                $permission_insert[] = array(
+                    'role_id'       =>$role_id,
+                    'permission_id' =>$permission[$i],
+                    'created_by'    =>$login_id,
+                    'updated_by'    =>$login_id,
+                    'created_at'    =>$nowDate,
+                    'updated_at'    =>$nowDate
+                );
+            }
+            $permission=RolesPermissions::insert($permission_insert);
+            if ($permission) {
+                return redirect()->route('roles.index')
+                    ->with('success','Role created successfully');
+            } else {
+                return redirect()->route('roles.index')
+                    ->with('success','Fail in Created Role.');
+            }
+        }  else {
+            return redirect()->route('roles.index')
+                    ->with('success','Fail in Created Role.');
+        }      
+       
     }
     /**
      * Display the specified resource.
@@ -89,13 +132,22 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::find($id);
-        $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+        $menu       =  DB::table('menu')->get();
+
+        $permission=[];
+        $permissions_list = Permissions::get();
+        foreach($permissions_list as $per) {
+            $permission[$per->menu_id][$per->action] = $per->id;
+        }
+
+        $role = Roles::find($id);
+
+        $rolepermissions = RolesPermissions::where("role_id",$id)
+            ->whereNull('deleted_at')
+            ->pluck('permission_id')
             ->all();
-    
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+        
+        return view('roles.edit',compact('role','menu','permission','rolepermissions'));
     }
     
     /**
@@ -107,19 +159,61 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $login_id = Auth::user()->id;
+        $nowDate  = date('Y-m-d H:i:s', time());
         $this->validate($request, [
             'name' => 'required',
             'permission' => 'required',
         ]);
     
-        $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->save();
-    
-        $role->syncPermissions($request->input('permission'));
-    
-        return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+        $role = Roles::find($id);
+        $role->name       = $request->input('name');
+        $role->updated_by = $login_id;
+        $role->updated_at = $nowDate;
+        $res = $role->save();
+ 
+        if ($res !== null) {
+            $old_permissions = RolesPermissions::where("role_id",$id)
+                                ->whereNull('deleted_at')
+                                ->pluck('permission_id')
+                                ->all();
+            $permission = $request->permission;
+
+            $del_permission    = array_values(array_diff($old_permissions,$permission));
+            $insert_permission = array_values(array_diff($permission,$old_permissions));
+            
+            if (!empty($del_permission)) {
+                $del_permissions_res = RolesPermissions::where("role_id", $id)
+                                ->whereIn("permission_id", $del_permission)
+                                ->delete();
+            }
+
+            if (!empty($insert_permission)) {
+                for ($i=0;$i<count($insert_permission);$i++) {
+                    $permission_insert[] = array(
+                        'role_id'       =>$id,
+                        'permission_id' =>$insert_permission[$i],
+                        'created_by'    =>$login_id,
+                        'updated_by'    =>$login_id,
+                        'created_at'    =>$nowDate,
+                        'updated_at'    =>$nowDate
+                    );
+                }
+
+                $permission=RolesPermissions::insert($permission_insert);
+                if (!$permission) {
+                    return redirect()->route('roles.index')
+                            ->with('success','Role updated Fail');
+                }
+            } 
+            return redirect()->route('roles.index')
+                            ->with('success','Role updated successfully');
+
+        }  else {
+            return redirect()->route('roles.index')
+                        ->with('success','Role updated Fail');
+        }    
+
     }
     /**
      * Remove the specified resource from storage.
@@ -129,7 +223,8 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        DB::table("roles")->where('id',$id)->delete();
+        Roles::where('id',$id)->delete();
+        RolesPermissions::where('role_id',$id)->delete();
         return redirect()->route('roles.index')
                         ->with('success','Role deleted successfully');
     }

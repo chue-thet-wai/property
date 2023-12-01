@@ -11,11 +11,13 @@ class Table extends Component
      *
      * @return void
      */
+    public $maindata;
     public $body;
     public $headers;
     public $routename;
-    public function __construct($body,$headers,$routename)
+    public function __construct($maindata,$body,$headers,$routename)
     {
+        $this->maindata = $maindata;
         $this->body = $body;
         $this->headers = $headers;
         $this->routename = $routename;

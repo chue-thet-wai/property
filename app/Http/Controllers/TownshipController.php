@@ -21,7 +21,7 @@ class TownshipController extends Controller
                 ->orWhere('township_mm','like','%'.session()->get(TOWNSHIP_NAMEFILTER).'%');
             });
         }
-        $data = $data->get();
+        $data = $data->paginate(config('number.paginate'));
         $division_arr = get_all_divisions();
         if($data){
             foreach($data as $row){
@@ -33,6 +33,7 @@ class TownshipController extends Controller
                 $townships[] = $list;
             }
         }
+        $response['data'] = $data;
         $response['townships'] = $townships;
         $response['divisions'] = $division_arr;
         $response['headers'] = $headers;

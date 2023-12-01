@@ -57,7 +57,7 @@ class PropertyRentController extends Controller
         if(session()->get(PROPERTY_RENT_WARDFILTER)){
             $data = $data->where('property_rents.ward',trim(session()->get(PROPERTY_RENT_WARDILTER)));
         }
-        $data = $data->where('property_rents.is_delete',0)->orderBy('id','DESC')->get();
+        $data = $data->where('property_rents.is_delete',0)->orderBy('id','DESC')->paginate(config('number.paginate'));
         if($data){
             foreach($data as $row){
                 if(isset($row->division, $division_arr)){

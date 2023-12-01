@@ -8,7 +8,8 @@ use Hash;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
+use App\Models\Roles;
+//use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
@@ -31,8 +32,9 @@ class UserController extends Controller
         if(session()->get(USER_PHONEFILTER)){
             $data = $data->where('phone_no',session()->get(USER_PHONEFILTER));
         }
-        $data = $data->get();
-        return view('users.index',compact('data'));
+        $data = $data->paginate(config('number.paginate'));
+        $roles = Roles::pluck('name','name')->all();
+        return view('users.index',compact('data','roles'));
     }
     
     /**
@@ -42,7 +44,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Roles::pluck('name','name')->all();
         return view('users.create',compact('roles'));
     }
     
@@ -104,8 +106,9 @@ class UserController extends Controller
             $document->storeAs('public/user-documents', $docName);
         }
         $user->save();
-
-        $user->assignRole($request->input('roles'));        
+        log::info('user role');
+        log::info($request->input('roles'));
+        //$user->assignRole($request->input('roles'));        
         return redirect()->route('users.index')
                 ->with('success','User created successfully');        
     }
@@ -119,7 +122,7 @@ class UserController extends Controller
     public function show()
     {
         $user = Auth::user();
-        $roles = Role::pluck('name','name')->all();
+        $roles = Roles::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
         return view('users.show',compact('user','roles','userRole'));
     }
@@ -133,7 +136,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
+        $roles = Roles::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
     
         return view('users.edit',compact('user','roles','userRole'));
@@ -205,9 +208,9 @@ class UserController extends Controller
         }
         $user->update();
 
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        //DB::table('model_has_roles')->where('model_id',$id)->delete();
     
-        $user->assignRole($request->input('roles'));
+        //$user->assignRole($request->input('roles'));
     
         return redirect()->back()->with('success','User updated successfully');
     }

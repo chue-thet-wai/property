@@ -19,7 +19,7 @@ class TenureController extends Controller
                 ->orWhere('tenure_mm','like','%'.session()->get(TENURE_NAMEFILTER).'%');
             });
         }
-        $data = $data->get();
+        $data = $data->paginate(config('number.paginate'));
         if($data){
             foreach($data as $row){
                 $list['tenure'] = $row->tenure;

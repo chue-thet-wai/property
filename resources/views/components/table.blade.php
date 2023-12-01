@@ -1,5 +1,10 @@
-<div class="card card-xxl-stretch">
+<div class="card p-2 card-xxl-stretch">
     <div class="table-responsive">
+        <div class="d-flex justify-content-between">
+            <div>
+                Showing {{ $maindata->firstItem() }} to {{ $maindata->lastItem() }} of {{ $maindata->total() }} records
+            </div>
+        </div>
         <table class="table table-bordered" id="table_id">
             <thead>
                 <tr class="text-start bg-primary text-white text-uppercase">
@@ -23,7 +28,7 @@
                                         $edit_route = $routename .'.edit'; 
                                         $delete_route = $routename .'.softdelete';
                                     ?>
-                                    <td>
+                                    <td style="white-space: nowrap;">
                                         <a href="{{ route($show_route,$value) }}" class="btn btn-action-dark px-3">View</a>
                                         <a class="btn btn-action-dark px-3"  href="{{ route($edit_route,$value) }}">Edit</a>
                                         {!! Form::open(['method' => 'POST', 'style' => 'display:inline']) !!}
@@ -85,4 +90,12 @@
             </tbody>
         </table>
     </div>
+    <div class="d-flex p-3 pagination-container">
+        <nav>
+            <ul class="pagination">
+                {{ $maindata->links() }}
+            </ul>
+        </nav>
+    </div>
+
 </div>

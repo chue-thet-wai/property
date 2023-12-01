@@ -23,7 +23,7 @@ class AgentController extends Controller
         if(session()->get(AGENT_PHONEFILTER)){
             $data = $data->where('phone_no',session()->get(AGENT_PHONEFILTER));
         }
-        $data = $data->get();
+        $data = $data->paginate(config('number.paginate'));
         return view('agents.index',compact('data'));
     }
 
